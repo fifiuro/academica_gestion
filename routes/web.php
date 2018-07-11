@@ -87,5 +87,3 @@ Route::get('confirmInstructor/{id}','InstructorController@confirmation');
 // Eliminar los datos del Instructor
 Route::post('destroyInstructor','InstructorController@destroy');
 /* ACCIONES  */
-
-Route::post('destroyInstructor','InstructorController@destroy');
