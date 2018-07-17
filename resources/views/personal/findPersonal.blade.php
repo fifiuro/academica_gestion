@@ -41,7 +41,6 @@
               <th>Nombre</th>
               <th>ci</th>
               <th>Teléfono Domicilio</th>
-              <th>Teléfono Trabajo</th>
               <th>Celular</th>
               <th>Email</th>
               <th>Cargo</th>
@@ -53,7 +52,6 @@
               <td>{{ $p->nombre }} {{ $p->apellidos }}</td>
               <td>{{ $p->ci }}</td>
               <td>{{ $p->tel_dom }}</td>
-              <td>{{ $p->tel_of }}</td>
               <td>{{ $p->celular }}</td>
               <td>{{ $p->email }}</td>
               <td>

@@ -85,7 +85,6 @@ class PersonalController extends Controller
         $p1->ci = $request->ci;
         $p1->expedido = $request->dep;
         $p1->tel_dom = $request->td;
-        $p1->tel_of = $request->to;
         $p1->celular = $request->cel;
         $p1->email = $request->email;
         $p1->save();
@@ -149,7 +148,6 @@ class PersonalController extends Controller
         $p1->ci = $request->ci;
         $p1->expedido = $request->dep;
         $p1->tel_dom = $request->td;
-        $p1->tel_of = $request->to;
         $p1->celular = $request->cel;
         $p1->email = $request->email;
         $p1->save();

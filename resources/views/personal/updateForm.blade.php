@@ -39,33 +39,33 @@
                     <label for="exampleInputEmail1">Apellidos *:</label>
                     <input class="form-control" name="ape" id="ape" placeholder="Apellidos" type="text" value="{{ $p->apellidos }}" required>
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Carnet de Identidad:</label>
-                    <input class="form-control" name="ci" id="ci" placeholder="C.I." type="text" value="{{ $p->ci }}">
+                <div class="row">
+                    <div class="form-group col-md-8">
+                        <label for="exampleInputEmail1">Carnet de Identidad:</label>
+                        <input class="form-control" name="ci" id="ci" placeholder="C.I." type="text" value="{{ $p->ci }}">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="exampleInputEmail1">Expedido en:</label>
+                        <select class="form-control" name="depto" id="depto">
+                            @foreach ($depto as $key => $d)
+                                @if ($p->expedido == $d->id_dep)
+                                    <option value="{{ $d->id_dep }}" selected>{{ $d->nombre }}</option>
+                                @else
+                                    <option value="{{ $d->id_dep }}">{{ $d->nombre }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Expedido en:</label>
-                    <select class="form-control" name="depto" id="depto">
-                        @foreach ($depto as $key => $d)
-                            @if ($p->expedido == $d->id_dep)
-                                <option value="{{ $d->id_dep }}" selected>{{ $d->nombre }}</option>
-                            @else
-                                <option value="{{ $d->id_dep }}">{{ $d->nombre }}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Teléfono de Domicilio:</label>
-                    <input class="form-control" name="td" id="td" placeholder="Teléfono" type="text" value="{{ $p->tel_dom }}">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Teléfono de Oficina:</label>
-                    <input class="form-control" name="to" id="to" placeholder="Teléfono" type="text" value="{{ $p->tel_of }}">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Número de Celular *:</label>
-                    <input class="form-control" name="cel" id="cel" placeholder="Celular" type="text" value="{{ $p->celular }}" required>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="exampleInputEmail1">Teléfono de Domicilio:</label>
+                        <input class="form-control" name="td" id="td" placeholder="Teléfono" type="text" value="{{ $p->tel_dom }}">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="exampleInputEmail1">Número de Celular *:</label>
+                        <input class="form-control" name="cel" id="cel" placeholder="Celular" type="text" value="{{ $p->celular }}" required>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Email *:</label>

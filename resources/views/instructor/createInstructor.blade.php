@@ -36,45 +36,59 @@
                     <label for="ape">Apellidos *:</label>
                     <input class="form-control" name="ape" id="ape" placeholder="Apellidos" type="text" required>
                 </div>
-                <div class="form-group">
-                    <label for="ci">Carnet de Identidad:</label>
-                    <input class="form-control" name="ci" id="ci" placeholder="C.I." type="text">
-                </div>
-                <div class="form-group">
-                    <label for="dep">Exsperido en:</label>
-                    <select class="form-control" name="dep" id="dep">
-                        @foreach ($depto as $ke => $d)
-                            <option value="{{ $d->id_dep }}">{{ $d->nombre }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="td">Teléfono de Domicilio:</label>
-                    <input class="form-control" name="td" id="td" placeholder="Teléfono" type="text">
-                </div>
-                <div class="form-group">
-                        <label for="to">Teléfono de Oficina:</label>
-                        <input class="form-control" name="to" id="to" placeholder="Teléfono" type="text">
+                <div class="row">
+                    <div class="form-group col-md-8">
+                        <label for="ci">Carnet de Identidad:</label>
+                        <input class="form-control" name="ci" id="ci" placeholder="C.I." type="text">
                     </div>
-                <div class="form-group">
-                    <label for="cel">Número de Celular *:</label>
-                    <input class="form-control" name="cel" id="cel" placeholder="Celular" type="text" required>
+                    <div class="form-group col-md-4">
+                        <label for="dep">Exspedido en:</label>
+                        <select class="form-control" name="dep" id="dep">
+                            @foreach ($depto as $ke => $d)
+                                <option value="{{ $d->id_dep }}">{{ $d->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email *:</label>
-                    <input class="form-control" name="email" id="email" placeholder="Email" type="text" required>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="td">Teléfono de Domicilio:</label>
+                        <input class="form-control" name="td" id="td" placeholder="Teléfono" type="text">
+                    </div>
+                    <div class="form-group col-md-6">
+                            <label for="to">Teléfono de Oficina:</label>
+                            <input class="form-control" name="to" id="to" placeholder="Teléfono" type="text">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="cel">Número de Celular *:</label>
+                        <input class="form-control" name="cel" id="cel" placeholder="Celular" type="text" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="email">Email *:</label>
+                        <input class="form-control" name="email" id="email" placeholder="Email" type="text" required>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="obs">Observaciones:</label>
                     <textarea class="form-control" name="obs" id="obs" cols="30" rows="5"></textarea>
                 </div>
-                <div class="form-group">
-                    <label for="obs">Hoja de Vida Original:</label>
-                    <input class="form-control" type="file" name="cvc" id="cvc">
+                <div class="row">
+                    <div class="form-group col-md-3">
+                        <label for="cvc">CV Original:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="file" name="cvc" id="cvc">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="obs">Hoja de Vida Modificado:</label>
-                    <input class="form-control" type="file" name="cvm" id="cvm">
+                <div class="row">
+                    <div class="form-group col-md-3">
+                        <label for="cvm">CV Modificado:</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input type="file" name="cvm" id="cvm">
+                    </div>
                 </div>
             </div>
             <!-- /.box-body -->
