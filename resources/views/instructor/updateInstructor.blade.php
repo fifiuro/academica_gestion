@@ -26,7 +26,7 @@
     <div class="box box-primary">
         <!-- /.box-header -->
         <!-- form start -->
-        <form name="form" id="form" role="form" method="POST" action="{{ url('updateInstructor') }}">
+        <form name="form" id="form" role="form" method="POST" action="{{ url('updateInstructor') }}" enctype="multipart/form-data">
             {{ csrf_field() }}
             @foreach ($ins as $key => $i)
             <div class="box-body">
@@ -83,21 +83,23 @@
                     <textarea class="form-control" name="obs" id="obs" cols="30" rows="5">{{ $i->obs }}</textarea>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-3">
-                        <label>CV Original: </label>{{ $i->cvc }}
+                    <div class="form-group col-md-6">
+                        <label>CV Original Actual:</label> {{ $i->cvc }}
                         <input type="hidden" name="cvc" value="{{ $i->cvc }}">
                     </div>
-                    <div class="col-md-9">
-                        <input type="file" name="cv[]" id="cvc">
+                    <div class="col-md-6">
+                        <label>Reemplazar por:</label>
+                        <input type="file" name="cv[]">
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-3">
-                        <label>CV Modificado: </label>{{ $i->cvm }}
+                    <div class="form-group col-md-6">
+                        <label>CV Modificado Actual:</label> {{ $i->cvm }}
                         <input type="hidden" name="cvm" value="{{ $i->cvm }}">
                     </div>
-                    <div class="col-md-9">
-                        <input type="file" name="cv[]" id="cvm">
+                    <div class="col-md-6">
+                        <label>Reemplazar por:</label>
+                        <input type="file" name="cv[]">
                     </div>
                 </div>
             </div>
