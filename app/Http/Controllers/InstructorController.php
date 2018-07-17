@@ -6,6 +6,7 @@ use App\Persona;
 use App\Instructor;
 use App\Departamento;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadFile;
 use Illuminate\Support\Facades\DB;
 use Notification;
 
@@ -93,8 +94,25 @@ class InstructorController extends Controller
 
         $insertId = $p1->id_pe;
 
+        $cont = 0;
+        $files = $request->file('cv');
+
+        foreach($files as $file){
+            $nom_file = $file->getClientOriginalName();
+            \Storage::disk('local')->put($nom_file, \File::get($file));
+            if($cont == 0){
+                $nom_cvc = $nom_file;
+                $cont++;
+            }else{
+                $nom_cvm = $nom_file;
+            }
+        }
+
         $p2->id_pe = $insertId;
         $p2->obs = $request->obs;
+        $p2->cvc = $nom_cvc;
+        $p2->cvm = $nom_cvm;
+
         $p2->save();
 
         Notification::success("El registro se realizó correctamente.");
@@ -127,7 +145,8 @@ class InstructorController extends Controller
      */
     public function update(Request $request)
     {
-        $p1 = Persona::find($request->id_pe);
+        //dd($request->cv);
+        /*$p1 = Persona::find($request->id_pe);
         $p2 = Instructor::find($request->id_ins);
 
         $v = \Validator::make($request->all(), [
@@ -150,13 +169,49 @@ class InstructorController extends Controller
         $p1->tel_of = $request->to;
         $p1->celular = $request->cel;
         $p1->email = $request->email;
-        $p1->save();
+        $p1->save();*/
 
-        $p2->obs = $request->obs;
+        $cont = 0;
+        $files = $request->file('cv');
+
+        dd($files);
+
+        foreach($files as $file){
+            //dd($file);
+            /*if(!is_null($file)){
+                if($cont == 0){
+                    if(\File::exist(public_path('almacen/'.$request->cvc))){
+                        \File::delete(public_path('almacen/'.$request->cvc));
+                    }
+                    $nom_cvc = $nom_file;
+                    $cont++;
+                }elseif($cont == 1){
+                    if(\File::exist(public_path('almacen/'.$request->cvm))){
+                        \File::delete(public_path('almacen/'.$request->cvm));
+                    }
+                    $nom_cvm = $nom_file;
+                }
+
+                $nom_file = $file->getClientOriginalName();
+                \Storage::disk('local')->put($nom_file, \File::get($file));
+            }*/
+            /*$nom_file = $file->getClientOriginalName();
+            \Storage::disk('local')->put($nom_file, \File::get($file));
+            if($cont == 0){
+                $nom_cvc = $nom_file;
+                $cont++;
+            }else{
+                $nom_cvm = $nom_file;
+            }*/
+        }
+
+        /*$p2->obs = $request->obs;
+        $p2->cvc = $nom_cvc;
+        $p2->cvm = $nom_cvm;
         $p2->save();
 
         Notification::success("La modificación se realizó correctamente.");
-        return redirect('findInstructor');
+        return redirect('findInstructor');*/
     }
 
     /**

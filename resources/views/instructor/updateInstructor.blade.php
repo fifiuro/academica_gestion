@@ -84,18 +84,20 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-md-3">
-                        <label for="cvc">CV Original:</label>
+                        <label>CV Original: </label>{{ $i->cvc }}
+                        <input type="hidden" name="cvc" value="{{ $i->cvc }}">
                     </div>
                     <div class="col-md-9">
-                        <input type="file" name="cvc" id="cvc">
+                        <input type="file" name="cv[]" id="cvc">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-3">
-                        <label for="cvm">CV Modificado:</label>
+                        <label>CV Modificado: </label>{{ $i->cvm }}
+                        <input type="hidden" name="cvm" value="{{ $i->cvm }}">
                     </div>
                     <div class="col-md-9">
-                        <input type="file" name="cvm" id="cvm">
+                        <input type="file" name="cv[]" id="cvm">
                     </div>
                 </div>
             </div>

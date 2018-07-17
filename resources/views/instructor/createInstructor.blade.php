@@ -25,7 +25,7 @@
     <div class="box box-primary">
         <!-- /.box-header -->
         <!-- form start -->
-        <form name="form" id="form" role="form" method="POST" action="{{ url('storeInstructor') }}" enctype="multipart/form-data"
+        <form name="form" id="form" role="form" method="POST" action="{{ url('storeInstructor') }}" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="box-body">
                 <div class="form-group">
@@ -79,7 +79,7 @@
                         <label for="cvc">CV Original:</label>
                     </div>
                     <div class="col-md-9">
-                        <input type="file" name="cvc" id="cvc">
+                        <input type="file" name="cv[]" id="cvc">
                     </div>
                 </div>
                 <div class="row">
@@ -87,7 +87,7 @@
                         <label for="cvm">CV Modificado:</label>
                     </div>
                     <div class="col-md-9">
-                        <input type="file" name="cvm" id="cvm">
+                        <input type="file" name="cv[]" id="cvm">
                     </div>
                 </div>
             </div>
