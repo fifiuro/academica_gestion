@@ -15,7 +15,25 @@ Route::get('/', function () {
     return view('inicio');
 });
 
-/* ACCIONES REGISTRO DE DEPARTAMENTO */
+/* ACCIONES A FERIADOS */
+// Formulario de busqueda de Feriado
+Route::get('findFeriado','FeriadoController@index');
+// Resultado de la busqueda de Feriado
+Route::post('findFeriado','FeriadoController@show');
+// Formulario de Nuevo Feriado
+Route::get('createFeriado','FeriadoController@create');
+// Datos del Formulario con los datos del Nuevo Feriado
+Route::post('storeFeriado','FeriadoController@store');
+// Formulario con los Datos a Modificar
+Route::get('editFeriado/{id}','FeriadoController@edit');
+// datos del Formulario con los datos a modificar Feriado
+Route::post('updateFeriado','FeriadoController@update');
+// Pregunta de eliminacion del registro del Feriado
+Route::get('confirmFeriado/{id}','FeriadoController@confirmation');
+// Eliminar los datos del Feriado
+Route::post('destroyFeriado','FeriadoController@destroy');
+
+/* ACCIONES A LOS DEPARTAMENTOS */
 // Formulario de busqueda de Departamento
 Route::get('findDepartamento','DepartamentoController@index');
 // Resultado de la busqueda de Departamento
@@ -33,7 +51,7 @@ Route::get('confirmDepartamento/{id}','DepartamentoController@confirmation');
 // Eliminar los datos del Departamento
 Route::post('destroyDepartamento','DepartamentoController@destroy');
 
-/* ACCIONES DE LA TABLA CARGO */
+/* ACCIONES A LOS CARGOS */
 // Formulario de busqueda de los Cargos
 Route::get('findCargo', 'cargoController@findForm');
 // Resultado de la busqueda de Cargos
@@ -51,7 +69,7 @@ Route::get('deleteCargo/{id}', 'cargoController@destroyForm');
 // Eliminar los datos del Cargo
 Route::post('deleteCargo', 'cargoController@destroy');
 
-/* ACCIONES REGISTRO DE PERSONAL COGNOS */
+/* ACCIONES AL PERSONAL COGNOS */
 // Formulario de busqueda de Personal
 Route::get('findPersonal','PersonalController@index');
 // Resultado de la busqueda de Personal
@@ -69,7 +87,7 @@ Route::get('confirmPersonal/{id}','PersonalController@confirmation');
 // Eliminar los datos del Personal
 Route::post('destroyPersonal','PersonalController@destroy');
 
-/* ACCIONES REGISTRO DE INSTRUCTOR COGNOS */
+/* ACCIONES A INSTRUCTOR COGNOS */
 // Formulario de busqueda de Instructor
 Route::get('findInstructor','InstructorController@index');
 // Resultado de la busqueda de Instructor

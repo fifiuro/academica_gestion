@@ -12,7 +12,7 @@
                 <i class="fa fa-circle-o"></i> Departamento</a>
         </li>
         <li>
-            <a href="{{ url('findFeriados') }}">
+            <a href="{{ url('findFeriado') }}">
                 <i class="fa fa-circle-o"></i> Feriados</a>
         </li>
         <li>

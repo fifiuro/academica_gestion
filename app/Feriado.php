@@ -9,4 +9,5 @@ class Feriado extends Model
     protected $fillable = ['nombre'];
     protected $table = 'feriado';
     protected $primaryKey = 'id_fer';
+    public $timestamps = false;
 }
