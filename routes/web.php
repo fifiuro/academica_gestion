@@ -15,23 +15,23 @@ Route::get('/', function () {
     return view('inicio');
 });
 
-/* ACCIONES A FERIADOS */
-// Formulario de busqueda de Feriado
-Route::get('findFeriado','FeriadoController@index');
-// Resultado de la busqueda de Feriado
-Route::post('findFeriado','FeriadoController@show');
-// Formulario de Nuevo Feriado
-Route::get('createFeriado','FeriadoController@create');
-// Datos del Formulario con los datos del Nuevo Feriado
-Route::post('storeFeriado','FeriadoController@store');
+/* ACCIONES A LOS CARGOS */
+// Formulario de busqueda de los Cargos
+Route::get('findCargo', 'cargoController@findForm');
+// Resultado de la busqueda de Cargos
+Route::post('findCargo', 'cargoController@findCargo');
+// Formulario de Nuevo Cargo
+Route::get('createCargo', 'cargoController@createForm');
+// Datos del Formulario con el Nuevo Cargo
+Route::post('createCargo', 'cargoController@createCargo');
 // Formulario con los Datos a Modificar
-Route::get('editFeriado/{id}','FeriadoController@edit');
-// datos del Formulario con los datos a modificar Feriado
-Route::post('updateFeriado','FeriadoController@update');
-// Pregunta de eliminacion del registro del Feriado
-Route::get('confirmFeriado/{id}','FeriadoController@confirmation');
-// Eliminar los datos del Feriado
-Route::post('destroyFeriado','FeriadoController@destroy');
+Route::get('updateCargo/{id}', 'cargoController@updateForm');
+// Datos del Formulario con los datos a modificar de Cargo
+Route::post('updateCargo', 'cargoController@update');
+// Pregunta de eliminacion del Registro Cargo
+Route::get('deleteCargo/{id}', 'cargoController@destroyForm');
+// Eliminar los datos del Cargo
+Route::post('deleteCargo', 'cargoController@destroy');
 
 /* ACCIONES A LOS DEPARTAMENTOS */
 // Formulario de busqueda de Departamento
@@ -51,23 +51,41 @@ Route::get('confirmDepartamento/{id}','DepartamentoController@confirmation');
 // Eliminar los datos del Departamento
 Route::post('destroyDepartamento','DepartamentoController@destroy');
 
-/* ACCIONES A LOS CARGOS */
-// Formulario de busqueda de los Cargos
-Route::get('findCargo', 'cargoController@findForm');
-// Resultado de la busqueda de Cargos
-Route::post('findCargo', 'cargoController@findCargo');
-// Formulario de Nuevo Cargo
-Route::get('createCargo', 'cargoController@createForm');
-// Datos del Formulario con el Nuevo Cargo
-Route::post('createCargo', 'cargoController@createCargo');
+/* ACCIONES A FERIADOS */
+// Formulario de busqueda de Feriado
+Route::get('findFeriado','FeriadoController@index');
+// Resultado de la busqueda de Feriado
+Route::post('findFeriado','FeriadoController@show');
+// Formulario de Nuevo Feriado
+Route::get('createFeriado','FeriadoController@create');
+// Datos del Formulario con los datos del Nuevo Feriado
+Route::post('storeFeriado','FeriadoController@store');
 // Formulario con los Datos a Modificar
-Route::get('updateCargo/{id}', 'cargoController@updateForm');
-// Datos del Formulario con los datos a modificar de Cargo
-Route::post('updateCargo', 'cargoController@update');
-// Pregunta de eliminacion del Registro Cargo
-Route::get('deleteCargo/{id}', 'cargoController@destroyForm');
-// Eliminar los datos del Cargo
-Route::post('deleteCargo', 'cargoController@destroy');
+Route::get('editFeriado/{id}','FeriadoController@edit');
+// datos del Formulario con los datos a modificar Feriado
+Route::post('updateFeriado','FeriadoController@update');
+// Pregunta de eliminacion del registro del Feriado
+Route::get('confirmFeriado/{id}','FeriadoController@confirmation');
+// Eliminar los datos del Feriado
+Route::post('destroyFeriado','FeriadoController@destroy');
+
+/* ACCIONES A CATEGORIA */
+// Formulario de busqueda de Categoria
+Route::get('findCategoria','CategoriaController@index');
+// Resultado de la busqueda de Categoria
+Route::post('findCategoria','CategoriaController@show');
+// Formulario de Nuevo Categoria
+Route::get('createCategoria','CategoriaController@create');
+// Datos del Formulario con los datos del Nuevo Categoria
+Route::post('storeCategoria','CategoriaController@store');
+// Formulario con los Datos a Modificar
+Route::get('editCategoria/{id}','CategoriaController@edit');
+// datos del Formulario con los datos a modificar Categoria
+Route::post('updateCategoria','CategoriaController@update');
+// Pregunta de eliminacion del registro del Categoria
+Route::get('confirmCategoria/{id}','CategoriaController@confirmation');
+// Eliminar los datos del Categoria
+Route::post('destroyCategoria','CategoriaController@destroy');
 
 /* ACCIONES AL PERSONAL COGNOS */
 // Formulario de busqueda de Personal
@@ -104,4 +122,23 @@ Route::post('updateInstructor','InstructorController@update');
 Route::get('confirmInstructor/{id}','InstructorController@confirmation');
 // Eliminar los datos del Instructor
 Route::post('destroyInstructor','InstructorController@destroy');
+
+/* ACCIONES A CURSOS */
+// Formulario de busqueda de Curso
+Route::get('findCurso','CursoController@index');
+// Resultado de la busqueda de Curso
+Route::post('findCurso','CursoController@show');
+// Formulario de Nuevo Curso
+Route::get('createCurso','CursoController@create');
+// Datos del Formulario con los datos del Nuevo Curso
+Route::post('storeCurso','CursoController@store');
+// Formulario con los Datos a Modificar
+Route::get('editCurso/{id}','CursoController@edit');
+// datos del Formulario con los datos a modificar Curso
+Route::post('updateCurso','CursoController@update');
+// Pregunta de eliminacion del registro del Curso
+Route::get('confirmCurso/{id}','CursoController@confirmation');
+// Eliminar los datos del Curso
+Route::post('destroyCurso','CursoController@destroy');
+
 /* ACCIONES  */
