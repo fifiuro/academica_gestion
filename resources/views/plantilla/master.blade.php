@@ -191,6 +191,10 @@
     <script src="{{ asset('assets/dist/js/pages/dashboard.js') }}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('assets/dist/js/demo.js') }}"></script>
+    <!-- InputMask -->
+    <script src="{{ asset('assets/bower_components/input-mask/jquery.inputmask.js') }}"></script>
+    <script src="{{ asset('assets/bower_components/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
+    <script src="{{ asset('assets/bower_components/input-mask/jquery.inputmask.extensions.js') }}"></script>
 
     <script type="text/javascript">
         $(document).ready(function() {

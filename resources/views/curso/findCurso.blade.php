@@ -16,49 +16,45 @@
 @notification()
 <div class="box box-primary">
   <div class="box-body">
-    <form class="form-horizontal" name="form" id="form" role="form" method="POST" action="{{ url('findCategoria') }}">
+    <form class="form-horizontal" name="form" id="form" role="form" method="POST" action="{{ url('findCurso') }}">
       {{ csrf_field() }}
       <div class="row">
         <div class="col-xs-10">
-          <label for="exampleInputEmail1">Nombre de Categoria:</label>
+          <label for="exampleInputEmail1">Nombre de Curso:</label>
           <input class="form-control" id="nom" name="nom" placeholder="Nombre" type="text">
         </div>
         <div class="col-xs-2">
           {{-- Boton Buscar --}}
           <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i></button>
           {{-- Boton Nuevo --}}
-          <a href="{{ url('createCategoria') }}" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i></a>
+          <a href="{{ url('createCurso') }}" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i></a>
         </div>
       </div>
     </form>
   </div>
-  @if(isset($categoria))
+  @if(isset($curso))
     @if($estado)
       <div class="box-footer">
         <table class="table">
           <tbody>
             <tr>
-              <th>Num.</th>
-              <th>Nombre Ctegoria</th>
-              <th>Nivel</th>
-              <th>Pertenece</th>
+              <th>Código</th>
+              <th>Nombre Curso</th>
+              <th>Duración</th>
+              <th>Precio</th>
+              <th>Categoria</th>
               <th>Estado</th>
               <th>Acciones</th>
             </tr>
-            @foreach($categoria as $key => $c)
+            @foreach($curso as $key => $c)
             <tr>
-              <td>{{ $c->id_cat }}</td>
+              <td>{{ $c->codigo }}</td>
               <td>{{ $c->nombre }}</td>
+              <td>{{ $c->duracion }}</td>
+              <td>{{ $c->precio }}</td>
+              <td>{{ $c->categoria }}</td>
               <td>
-                @if($c->nivel == 0)
-                  Principal
-                @else
-                  Sub Categoria
-                @endif
-              </td>
-              <td>{{ $c->nomOtro }}</td>
-              <td>
-                @if ($c->estado)
+                @if ($c->estado == 1)
                   <i class="glyphicon glyphicon-ok btn-lg" style="color:green;"></i>
                 @else
                   <i class="glyphicon glyphicon-remove" style="color:red;"></i>  
@@ -66,11 +62,11 @@
               </td>
               <td>
                 {{-- Boton Editar --}}
-                <a href="{{ url('editCategoria/'.$c->id_cat) }}" class="btn btn-warning">
+                <a href="{{ url('editCurso/'.$c->id_cu) }}" class="btn btn-warning">
                   <i class="glyphicon glyphicon-pencil"></i>
                 </a>
                 {{-- Boton Eliminar --}}
-                <a href="{{ url('confirmCategoria/'.$c->id_cat) }}" class="btn btn-danger">
+                <a href="{{ url('confirmCurso/'.$c->id_cu) }}" class="btn btn-danger">
                   <i class="glyphicon glyphicon-trash"></i>
                 </a>
               </td>

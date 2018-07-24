@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Curso;
+use App\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Notification;
 
 class CursoController extends Controller
@@ -26,14 +28,17 @@ class CursoController extends Controller
      */
     public function show(Request $request)
     {
-        $cu = Curso::join("categoria","categoria.id_cat","=","curso.categoria")
-                   ->where("nombre","like","%".$request->nom."%")
-                   ->get();
+        $cu = DB::select("
+        select c.id_cu, c.codigo, c.nombre, c.duracion, c.nom_corto, c.precio, ca.nombre as categoria, c.estado 
+        from curso as c
+            inner join categoria as ca on c.categoria = ca.id_cat
+        where c.nombre like '%".$request->nom."%'
+        ");
         
-        if($cu->idEmpty()){
+        if(count($cu)<0){
             return view('curso.findCurso', array('curso' => '',
                                                  'estado' => false,
-                                                 'mensaje' => 'No se tuvieron xoincidencias con: '.$request->nom));
+                                                 'mensaje' => 'No se tuvieron coincidencias con: '.$request->nom));
         }else{
             return view('curso.findCurso', array('curso' => $cu,
                                                  'estado' => true));
@@ -60,8 +65,6 @@ class CursoController extends Controller
      */
     public function store(Request $request)
     {
-        $cu = new Curso;
-
         $v = \Validator::make($request->all(), [
             'cod' => 'required',
             'nom' => 'required',
@@ -74,11 +77,23 @@ class CursoController extends Controller
             return redirect()->back()->withInput()->withErrors($v->errors());
         }
 
+        $cu = new Curso;
+
+        $dur = str_replace("_","",$request->dur);
+        if($dur == ""){
+            $dur = 0;
+        }
+
+        $pre = str_replace("_","",$request->pre);
+        if($pre == ""){
+            $pre = 0;
+        }
+
         $cu->codigo = $request->cod;
         $cu->nombre = $request->nom;
-        $cu->duracion = $request->dur;
+        $cu->duracion = $dur;
         $cu->nom_corto = $request->nom_corto;
-        $cu->precio = $request->pre;
+        $cu->precio = $pre;
         $cu->categoria = $request->cat;
         $cu->estado = 1;
         $cu-> save();
@@ -108,11 +123,10 @@ class CursoController extends Controller
      * @param  \App\Curso  $curso
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Curso $curso)
+    public function update(Request $request)
     {
-        $cu = Curso::find($request->id_cu);
-
         $v = \Validator::make($request->all(), [
+            'id_cu' => 'required',
             'cod' => 'required',
             'nom' => 'required',
             'dur' => 'required',
@@ -123,14 +137,26 @@ class CursoController extends Controller
         if($v->fails()){
             return redirect()->back()->withInput()->withErrors($v->errors());
         }
+        
+        $cu = Curso::find($request->id_cu);
+
+        $dur = str_replace("_","",$request->dur);
+        if($dur == ""){
+            $dur = 0;
+        }
+
+        $pre = str_replace("_","",$request->pre);
+        if($pre == ""){
+            $pre = 0;
+        }
 
         $cu->codigo = $request->cod;
         $cu->nombre = $request->nom;
-        $cu->duracion = $request->dur;
+        $cu->duracion = $dur;
         $cu->nom_corto = $request->nom_corto;
-        $cu->precio = $request->pre;
+        $cu->precio = $pre;
         $cu->categoria = $request->cat;
-        $cu->estado = 1;
+        $cu->estado = $request->estado;
         $cu-> save();
 
         Notification::success("La modificación se realizó correctamente.");
@@ -154,7 +180,7 @@ class CursoController extends Controller
      * @param  \App\Curso  $curso
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Curso $curso)
+    public function destroy(Request $request)
     {
         $cu = Curso::find($request->id);
 
