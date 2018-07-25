@@ -71,6 +71,15 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="cat">Especialidad *:</label>
+                    <select class="form-control select2" multiple="multiple" data-placeholder="Seleccione Curso" style="width: 100%;">
+                        <option></option>
+                        @foreach($curso as $key => $cu)
+                            <option value="{{ $cu->id_cu }}">{{ $cu->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="obs">Observaciones:</label>
                     <textarea class="form-control" name="obs" id="obs" cols="30" rows="5"></textarea>
                 </div>
@@ -114,4 +123,6 @@ $('#form input[type=text]').on('change invalid', function() {
       campotexto.setCustomValidity('Esta información es requerida');  
     }
 });
+
+$(".select2").select2();
 @endsection

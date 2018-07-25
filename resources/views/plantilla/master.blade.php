@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="{{ asset('assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
     <!-- Daterange picker -->
     <link rel="stylesheet" href="{{ asset('assets/bower_components/bootstrap-daterangepicker/daterangepicker.css') }}">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/select2/select2.min.css') }}">
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
 
@@ -164,6 +166,8 @@
     </script>
     <!-- Bootstrap 3.3.7 -->
     <script src="{{ asset('assets/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <!-- Select2 -->
+    <script src="{{ asset('assets/bower_components/select2/dist/js/select2.full.min.js') }}"></script>
     <!-- Morris.js charts -->
     <script src="{{ asset('assets/bower_components/raphael/raphael.min.js') }}"></script>
     <script src="{{ asset('assets/bower_components/morris.js/morris.min.js') }}"></script>

@@ -41,22 +41,20 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label for="nom_corto">Nombre Corto Cursos *:</label>
                         <input class="form-control" name="nom_corto" id="nom_corto" placeholder="Nombre corto" type="text" value="{{ $c->nom_corto }}" required>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label for="dur">Duración *:</label>
                         <div class="input-group">
                             <input class="form-control focus.inputmask" name="dur" id="dur" placeholder="Duración" type="text" data-inputmask="'mask' : ['999']" data-mask="" value="{{ $c->duracion }}" required>
                             <div class="input-group-addon">
-                                <i class="fa fa-clock-o"></i>
+                                <strong>Hrs.</strong>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-4">
                         <label for="pre">Precio *:</label>
                         <div class="input-group">
                             <input class="form-control focus.inputmask" name="pre" id="pre" placeholder="Precio" type="text" data-inputmask="'mask' : ['99999']" data-mask="" value="{{ $c->precio }}" required>
@@ -65,6 +63,8 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="form-group col-md-6">
                         <label for="cat">Categoria *:</label>
                         <select class="form-control" name="cat" id="cat" required>
@@ -78,18 +78,18 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="estado">Estado *:</label>
-                    <select class="form-control" name="estado" id="estado">
-                        @if($c->estado == 1)
-                            <option value="1" selected>Activo</option>
-                            <option value="2">Desactivado</option>
-                        @elseif($c->estado == 2)
-                            <option value="1">Activo</option>
-                            <option value="2" selected>Desactivado</option>
-                        @endif
-                    </select>
+                    <div class="form-group col-md-6">
+                        <label for="estado">Estado *:</label>
+                        <select class="form-control" name="estado" id="estado">
+                            @if($c->estado == 1)
+                                <option value="1" selected>Activo</option>
+                                <option value="2">Desactivado</option>
+                            @elseif($c->estado == 2)
+                                <option value="1">Activo</option>
+                                <option value="2" selected>Desactivado</option>
+                            @endif
+                        </select>
+                    </div>
                 </div>
             </div>
             @endforeach

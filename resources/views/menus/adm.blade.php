@@ -1,7 +1,7 @@
 <li class="treeview">
     <a href="#">
         <i class="fa fa-gears"></i>
-        <span>Configuraciones</span>
+        <span>CONFIGURACIONES</span>
         <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
         </span>
@@ -51,7 +51,7 @@
 <li class="treeview">
     <a href="#">
         <i class="fa fa-group"></i>
-        <span>Clientes</span>
+        <span>CLIENTES</span>
         <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
         </span>

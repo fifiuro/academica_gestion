@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Persona;
 use App\Instructor;
 use App\Departamento;
+use App\Curso;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadFile;
 use Illuminate\Support\Facades\DB;
@@ -52,7 +53,8 @@ class InstructorController extends Controller
     public function create()
     {
         $depto = Departamento::all();
-        return view('instructor.createInstructor', array("depto" => $depto));
+        $curso = Curso::all();
+        return view('instructor.createInstructor', array("depto" => $depto, 'curso' => $curso));
     }
 
     /**
