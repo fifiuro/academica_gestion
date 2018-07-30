@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAlumnoTable extends Migration
+class CreatePersonalTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,13 @@ class CreateAlumnoTable extends Migration
      */
     public function up()
     {
-        Schema::create('alumno', function (Blueprint $table) {
-            $table->increments('id_alu');
+        Schema::create('personal', function (Blueprint $table) {
+            $table->increments('id_per');
             $table->integer('id_pe')->unsigned();
             $table->foreign('id_pe')->references('id_pe')->on('persona')->onDelete('cascade');
-            $table->string('dir_dom', 255);
-            $table->string('tel_tra', 40);
-            $table->string('dir_tra', 255);
-            $table->string('nombre_ref', 50);
-            $table->string('tel_ref', 40);
+            $table->integer('id_ca')->unsigned();
+            $table->foreign('id_ca')->references('id_ca')->on('cargo');
+            $table->boolean('estado')->default(1);
             $table->timestamps();
         });
     }
@@ -33,6 +31,6 @@ class CreateAlumnoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('alumno');
+        Schema::dropIfExists('personal');
     }
 }

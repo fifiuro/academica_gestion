@@ -33,7 +33,7 @@ class CategoriaController extends Controller
         where c.nombre like '%".$request->nom."%'
         ");
 
-        if(count($cat)<0){
+        if(count($cat)<=0){
             return view('categoria.findCategoria', array('categoria' => '',
                                                          'estado' => false,
                                                          'mensaje' => 'No se tuvieron coincidencias con: '.$request->nom));
@@ -78,9 +78,12 @@ class CategoriaController extends Controller
 
         $cat->nombre = $request->nom;
         $cat->nivel = $request->nivel;
-        $cat->id_cate = $request->n;
+        if(isset($request->n)){
+            $cat->id_cate = $request->n;
+        }else{
+            $cat->id_cate = 0;
+        }
         $cat->orden = 0;
-        $cat->estado = 1;
         $cat->save();
 
         Notification::success("El registro se realizó correctamente.");
@@ -124,7 +127,9 @@ class CategoriaController extends Controller
 
         $cat->nombre = $request->nom;
         $cat->nivel = $request->nivel;
-        $cat->id_cate = $request->n;
+        if(isset($request->n)){
+            $cat->id_cate = $request->n;
+        }
         $cat->estado = $request->estado;
         $cat->save();
 

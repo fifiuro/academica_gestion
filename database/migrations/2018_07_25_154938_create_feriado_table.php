@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFeriadosTable extends Migration
+class CreateFeriadoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateFeriadosTable extends Migration
      */
     public function up()
     {
-        Schema::create('feriados', function (Blueprint $table) {
+        Schema::create('feriado', function (Blueprint $table) {
             $table->increments('id_fer');
             $table->string('nombre',255);
             $table->date('fecha');
-            $table->boolean('estado')->default(true);
+            $table->boolean('estado')->default(1);
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateFeriadosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('feriados');
+        Schema::dropIfExists('feriado');
     }
 }
