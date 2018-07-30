@@ -17,12 +17,12 @@ class CreateCursoTable extends Migration
             $table->increments('id_cu');
             $table->string('codigo',12);
             $table->string('nombre',255);
-            $table->integer('duracion',3);
+            $table->integer('duracion');
             $table->string('nom_corto',20);
-            $table->integer('precio',5)->nullable();
+            $table->integer('precio')->nullable();
             $table->integer('categoria')->unsigned();
             $table->foreign('categoria')->references('id_cat')->on('categoria');
-            $table->boolean('estado')->default(1);
+            $table->boolean('estado')->default(true);
             $table->timestamps();
         });
     }
