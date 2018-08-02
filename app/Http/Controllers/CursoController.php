@@ -35,7 +35,7 @@ class CursoController extends Controller
         where c.nombre like '%".$request->nom."%'
         ");
         
-        if(count($cu)<0){
+        if(count($cu)<=0){
             return view('curso.findCurso', array('curso' => '',
                                                  'estado' => false,
                                                  'mensaje' => 'No se tuvieron coincidencias con: '.$request->nom));

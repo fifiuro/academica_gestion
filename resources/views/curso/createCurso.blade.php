@@ -55,7 +55,7 @@
                     <div class="form-group col-md-4">
                         <label for="pre">Precio *:</label>
                         <div class="input-group">
-                            <input class="form-control focus.inputmask" name="pre" id="pre" placeholder="Precio" type="text" data-inputmask="'mask' : ['99999']" data-mask="" required>
+                            <input class="form-control focus.inputmask" name="pre" id="pre" placeholder="Precio" type="text" data-inputmask="'mask' : ['99999']" data-mask="" value="0">
                             <div class="input-group-addon">
                                 <strong>Bs.</strong>
                             </div>
