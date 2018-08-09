@@ -39,12 +39,12 @@
                 <i class="fa fa-circle-o"></i> Personal Cognos</a>
         </li>
         <li>
-            <a href="{{ url('findInstructor') }}">
-                <i class="fa fa-circle-o"></i> Instructores</a>
-        </li>
-        <li>
             <a href="{{ url('findCurso') }}">
                 <i class="fa fa-circle-o"></i> Cursos</a>
+        </li>
+        <li>
+            <a href="{{ url('findInstructor') }}">
+                <i class="fa fa-circle-o"></i> Instructores</a>
         </li>
     </ul>
 </li>
