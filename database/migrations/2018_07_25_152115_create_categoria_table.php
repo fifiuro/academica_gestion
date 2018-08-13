@@ -18,7 +18,7 @@ class CreateCategoriaTable extends Migration
             $table->string('nombre',150);
             $table->integer('nivel');
             $table->integer('id_cate');
-            $table->integer('orden')->nullable();
+            $table->integer('orden')->nullable()->default('0');
             $table->boolean('estado')->default(1);
             $table->timestamps();
         });

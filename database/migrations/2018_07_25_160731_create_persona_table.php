@@ -20,10 +20,10 @@ class CreatePersonaTable extends Migration
             $table->string('ci',15);
             $table->integer('expedido')->unsigned();
             $table->foreign('expedido')->references('id_dep')->on('departamento');
-            $table->string('tel_dom',40)->nullable;
-            $table->string('tel_of',40)->nullable;
-            $table->string('celular',40)->nullable;
-            $table->string('email',100)->nullable;
+            $table->string('tel_dom',40)->nullable();
+            $table->string('tel_of',40)->nullable();
+            $table->string('celular',40)->nullable();
+            $table->string('email',100)->nullable();
             $table->timestamps();
         });
     }
