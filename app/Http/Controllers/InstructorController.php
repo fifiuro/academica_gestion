@@ -6,6 +6,7 @@ use App\Persona;
 use App\Instructor;
 use App\Departamento;
 use App\Curso;
+use App\Especialidad;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadFile;
 use Illuminate\Support\Facades\DB;
@@ -32,7 +33,9 @@ class InstructorController extends Controller
     public function show(Request $request)
     {
         $ins = Persona::join("instructor","persona.id_pe","=","instructor.id_pe")
+                      ->join("departamento","persona.expedido","=","departamento.id_dep")
                       ->where(DB::raw("concat(persona.nombre,' ',persona.apellidos)"),"like","%".$request->nom."%")
+                      ->select("persona.id_pe","persona.nombre","persona.ci","departamento.sigla","persona.tel_dom","persona.tel_of","persona.celular","persona.email")
                       ->get();
         
         if($ins->isEmpty()){
@@ -67,6 +70,7 @@ class InstructorController extends Controller
     {
         $p1 = new Persona;
         $p2 = new Instructor;
+        $e = new Especialidad;
 
         $v = \Validator::make($request->all(), [
             'nom' => 'required',
@@ -86,7 +90,7 @@ class InstructorController extends Controller
             $p1->expedido = $request->dep;
         }else{
             $p1->ci = "";
-            $p1->expedido = "";
+            $p1->expedido = $request->dep;
         }
         $p1->tel_dom = $request->td;
         $p1->tel_of = $request->to;
@@ -97,17 +101,24 @@ class InstructorController extends Controller
         $insertId = $p1->id_pe;
 
         $cont = 0;
-        $files = $request->file('cv');
 
-        foreach($files as $file){
-            $nom_file = $file->getClientOriginalName();
-            \Storage::disk('local')->put($nom_file, \File::get($file));
-            if($cont == 0){
-                $nom_cvc = $nom_file;
-                $cont++;
-            }else{
-                $nom_cvm = $nom_file;
+        if($request->file('cv') != null)
+        {
+            $files = $request->file('cv');
+
+            foreach($files as $file){
+                $nom_file = $file->getClientOriginalName();
+                \Storage::disk('local')->put($nom_file, \File::get($file));
+                if($cont == 0){
+                    $nom_cvc = $nom_file;
+                    $cont++;
+                }else{
+                    $nom_cvm = $nom_file;
+                }
             }
+        }else{
+            $nom_cvc = "";
+            $nom_cvm = "";
         }
 
         $p2->id_pe = $insertId;
@@ -116,6 +127,20 @@ class InstructorController extends Controller
         $p2->cvm = $nom_cvm;
 
         $p2->save();
+
+        $insertInstructor = $p2->id_ins;
+
+        foreach($request->espe as $key => $es){
+            $dataSet[] = [
+                "id_cu" => $es,
+                "id_ins" => $insertInstructor,
+                "certificacion" => false
+            ];
+        }
+
+        if(count($dataSet) > 0){
+            $e->insert($dataSet);
+        }
 
         Notification::success("El registro se realizó correctamente.");
         return redirect('findInstructor');
@@ -133,9 +158,13 @@ class InstructorController extends Controller
                       ->where("persona.id_pe","=",$id)
                       ->get();
 
+        $esp = Instructor::join("especialidad","instructor.id_ins","=","especialidad.id_ins")
+                         ->where("instructor.id_pe","=",$id)
+                         ->get();
+
         $depto = Departamento::all();
 
-        return view('instructor.updateInstructor', array("ins" => $ins, "depto" => $depto));
+        return view('instructor.updateInstructor', array("ins" => $ins, "depto" => $depto, "espe" => $esp));
     }
 
     /**
@@ -208,6 +237,18 @@ class InstructorController extends Controller
             $p2->cvm = $nom_cvm;
         }
         $p2->save();
+
+        foreach($request->espe as $key => $es){
+            $dataSet[] = [
+                "id_cu" => $es,
+                "id_ins" => $insertInstructor,
+                "certificacion" => false
+            ];
+        }
+
+        if(count($dataSet) > 0){
+            $e->insert($dataSet);
+        }
 
         Notification::success("La modificación se realizó correctamente.");
         return redirect('findInstructor');

@@ -71,8 +71,8 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="cat">Especialidad *:</label>
-                    <select class="form-control select2" multiple="multiple" data-placeholder="Seleccione Curso" style="width: 100%;">
+                    <label for="espe">Especialidad *:</label>
+                    <select multiple name="espe[]" id="espe" class="form-control select2" data-placeholder="Seleccione Curso">
                         <option></option>
                         @foreach($curso as $key => $cu)
                             <option value="{{ $cu->id_cu }}">{{ $cu->nombre }}</option>

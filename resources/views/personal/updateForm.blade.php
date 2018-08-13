@@ -46,7 +46,7 @@
                     </div>
                     <div class="form-group col-md-4">
                         <label for="exampleInputEmail1">Expedido en:</label>
-                        <select class="form-control" name="depto" id="depto">
+                        <select class="form-control" name="dep" id="dep">
                             @foreach ($depto as $key => $d)
                                 @if ($p->expedido == $d->id_dep)
                                     <option value="{{ $d->id_dep }}" selected>{{ $d->nombre }}</option>

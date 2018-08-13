@@ -50,7 +50,7 @@
             @foreach($personal as $key => $p)
             <tr>
               <td>{{ $p->nombre }} {{ $p->apellidos }}</td>
-              <td>{{ $p->ci }}</td>
+              <td>{{ $p->ci }} {{ $p->sigla }}</td>
               <td>{{ $p->tel_dom }}</td>
               <td>{{ $p->celular }}</td>
               <td>{{ $p->email }}</td>
@@ -70,11 +70,11 @@
               </td>
               <td>
                 {{-- Boton Editar --}}
-                <a href="{{ url('editPersonal/'.$p->id_per) }}" class="btn btn-warning">
+                <a href="{{ url('editPersonal/'.$p->id_pe) }}" class="btn btn-warning">
                   <i class="glyphicon glyphicon-pencil"></i>
                 </a>
                 {{-- Boton Eliminar --}}
-                <a href="{{ url('confirmPersonal/'.$p->id_per) }}" class="btn btn-danger">
+                <a href="{{ url('confirmPersonal/'.$p->id_pe) }}" class="btn btn-danger">
                   <i class="glyphicon glyphicon-trash"></i>
                 </a>
               </td>

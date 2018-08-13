@@ -15,7 +15,7 @@ class CreateInstructorTable extends Migration
     {
         Schema::create('instructor', function (Blueprint $table) {
             $table->increments('id_ins');
-            $table->string('cv',45)->nullable();
+            $table->string('cvc',45)->nullable();
             $table->string('cvm',45)->nullable();
             $table->integer('id_pe')->unsigned();
             $table->foreign('id_pe')->references('id_pe')->on('persona')->onDelete('cascade');

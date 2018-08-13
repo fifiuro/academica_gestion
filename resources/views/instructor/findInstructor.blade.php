@@ -49,7 +49,13 @@
             @foreach($instructor as $key => $i)
             <tr>
               <td>{{ $i->nombre }} {{ $i->apellidos }}</td>
-              <td>{{ $i->ci }}</td>
+              <td>
+                @if($i->ci == "")
+                  
+                @else
+                  {{ $i->ci }} {{ $i->sigla }}
+                @endif
+              </td>
               <td>{{ $i->tel_dom }}</td>
               <td>{{ $i->tel_of }}</td>
               <td>{{ $i->celular }}</td>

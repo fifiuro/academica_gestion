@@ -31,7 +31,9 @@ class PersonalController extends Controller
     public function show(Request $request)
     {
         $per = Persona::join("personal","persona.id_pe","=","personal.id_pe")
+                      ->join("departamento","persona.expedido","=","departamento.id_dep")
                       ->where(DB::raw("concat(persona.nombre,' ',persona.apellidos)"),"like","%".$request->nom."%")
+                      ->select("personal.id_pe","persona.nombre","persona.apellidos","persona.ci","departamento.sigla","persona.tel_dom","persona.celular","persona.email","personal.id_ca","personal.estado")
                       ->get();
         
         $cargo = cargo::where("estado","=",1)->get();
