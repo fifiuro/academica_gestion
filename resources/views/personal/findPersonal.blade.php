@@ -50,7 +50,13 @@
             @foreach($personal as $key => $p)
             <tr>
               <td>{{ $p->nombre }} {{ $p->apellidos }}</td>
-              <td>{{ $p->ci }} {{ $p->sigla }}</td>
+              <td>
+                @if($p->ci != "")
+                  {{ $p->ci }} {{ $p->sigla }}
+                @else
+
+                @endif
+              </td>
               <td>{{ $p->tel_dom }}</td>
               <td>{{ $p->celular }}</td>
               <td>{{ $p->email }}</td>

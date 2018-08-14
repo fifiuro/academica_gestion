@@ -17,7 +17,7 @@ class CreatePersonaTable extends Migration
             $table->increments('id_pe');
             $table->string('nombre',50);
             $table->string('apellidos',80);
-            $table->string('ci',15);
+            $table->string('ci',15)->nullable();
             $table->integer('expedido')->unsigned();
             $table->foreign('expedido')->references('id_dep')->on('departamento');
             $table->string('tel_dom',40)->nullable();

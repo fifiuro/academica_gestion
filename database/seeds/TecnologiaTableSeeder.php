@@ -18,28 +18,28 @@ class TecnologiaTableSeeder extends Seeder
         //Añadimos una entrada a esta tabla
         Categoria::create(array(
             'nombre' => 'Microsoft',
-            'nivel' => '1',
+            'nivel' => '0',
             'id_cate' => '0',
             'orden' => '0',
             'estado' => '1',
         ));
         Categoria::create(array(
             'nombre' => 'Ofimática',
-            'nivel' => '1',
+            'nivel' => '0',
             'id_cate' => '0',
             'orden' => '0',
             'estado' => '1',
         ));
         Categoria::create(array(
             'nombre' => 'Microsoft Excel 2013',
-            'nivel' => '2',
+            'nivel' => '1',
             'id_cate' => '2',
             'orden' => '0',
             'estado' => '1',
         ));
         Categoria::create(array(
-            'nombre' => 'Microsoft',
-            'nivel' => '2',
+            'nombre' => 'Microsoft Word 2013',
+            'nivel' => '1',
             'id_cate' => '2',
             'orden' => '0',
             'estado' => '1',

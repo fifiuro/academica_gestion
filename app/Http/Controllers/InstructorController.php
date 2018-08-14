@@ -158,13 +158,21 @@ class InstructorController extends Controller
                       ->where("persona.id_pe","=",$id)
                       ->get();
 
-        $esp = Instructor::join("especialidad","instructor.id_ins","=","especialidad.id_ins")
-                         ->where("instructor.id_pe","=",$id)
-                         ->get();
-
         $depto = Departamento::all();
 
-        return view('instructor.updateInstructor', array("ins" => $ins, "depto" => $depto, "espe" => $esp));
+        /*$esp = Instructor::join("especialidad","instructor.id_ins","=","especialidad.id_ins")
+                         ->where("instructor.id_pe","=",$id)
+                         ->get();*/
+        $esp = DB::statement("select * 
+                                from curso as c
+                                    left join (select e.id_cu, e.id_ins 
+                                            from especialidad as e 
+                                                    inner join instructor as i on (e.id_ins = i.id_ins) 
+                                            where i.id_pe = '".$id."') as ei on (c.id_cu = ei.id_cu)");
+
+        /*return view('instructor.updateInstructor', array("ins" => $ins, 
+                                                         "depto" => $depto, 
+                                                         "espe" => $esp));*/
     }
 
     /**
