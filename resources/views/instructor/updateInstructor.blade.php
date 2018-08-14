@@ -83,7 +83,11 @@
                     <select multiple name="espe[]" id="espe" class="form-control select2" data-placeholder="Seleccione Curso">
                         <option></option>
                         @foreach($espe as $key => $cu)
-                            <option value="{{ $cu->id_cu }}">{{ $cu->nombre }}</option>
+                            @if($cu->id_ins != null)
+                                <option value="{{ $cu->id_cu }}" selected>{{ $cu->nombre }}</option>
+                            @else
+                                <option value="{{ $cu->id_cu }}">{{ $cu->nombre }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>

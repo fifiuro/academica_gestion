@@ -160,19 +160,16 @@ class InstructorController extends Controller
 
         $depto = Departamento::all();
 
-        /*$esp = Instructor::join("especialidad","instructor.id_ins","=","especialidad.id_ins")
-                         ->where("instructor.id_pe","=",$id)
-                         ->get();*/
-        $esp = DB::statement("select * 
+        $esp = DB::select("select c.id_cu, c.nombre, ei.id_ins 
                                 from curso as c
                                     left join (select e.id_cu, e.id_ins 
                                             from especialidad as e 
                                                     inner join instructor as i on (e.id_ins = i.id_ins) 
                                             where i.id_pe = '".$id."') as ei on (c.id_cu = ei.id_cu)");
-
-        /*return view('instructor.updateInstructor', array("ins" => $ins, 
+        //dd($esp);
+        return view('instructor.updateInstructor', array("ins" => $ins, 
                                                          "depto" => $depto, 
-                                                         "espe" => $esp));*/
+                                                         "espe" => $esp));
     }
 
     /**
@@ -189,6 +186,7 @@ class InstructorController extends Controller
 
         $p1 = Persona::find($request->id_pe);
         $p2 = Instructor::find($request->id_ins);
+        $e = Especialidad::find($request->id_ins);
 
         $v = \Validator::make($request->all(), [
             'nom' => 'required',
@@ -245,21 +243,59 @@ class InstructorController extends Controller
             $p2->cvm = $nom_cvm;
         }
         $p2->save();
-
-        foreach($request->espe as $key => $es){
-            $dataSet[] = [
-                "id_cu" => $es,
-                "id_ins" => $insertInstructor,
-                "certificacion" => false
-            ];
-        }
-
-        if(count($dataSet) > 0){
-            $e->insert($dataSet);
-        }
+        
+        $this->agregarCurso($request->id_ins,$request->espe);
+        $this->eliminarCurso($request->id_ins,$request->espe);
 
         Notification::success("La modificación se realizó correctamente.");
         return redirect('findInstructor');
+    }
+    public function agregarCurso($id,$esp){
+        $dataSet;
+        $le = Especialidad::where("id_ins","=",$id)->get();
+
+        foreach($le as $key => $lista){
+            $cursoG[] = $lista->id_cu;
+        }
+
+        for($i=0; $i<count($esp); $i++){
+            if(in_array($esp[$i],$cursoG)){
+
+            }else{
+                $dataSet[] = [
+                    "id_cu" => $esp[$i],
+                    "id_ins" => $id,
+                    "certificacion" => false
+                ];
+            }
+        }
+
+        $e = new Especialidad;
+
+        if(isset($dataSet)){
+            if(count($dataSet) > 0){
+                $e->insert($dataSet);
+            }
+        }
+    }
+    public function eliminarCurso($id,$esp){
+        $dataSet;
+        $le = Especialidad::where("id_ins","=",$id)->get();
+
+        foreach($le as $key => $lista){
+            if(in_array($lista->id_cu,$esp)){
+
+            }else{
+                $dataSet[] = $lista->id_cu;
+            }
+        }
+        
+        if(isset($dataSet)){
+            if(count($dataSet) > 0){
+                Especialidad::whereIn("id_cu",$dataSet)
+                            ->where("id_ins","=",$id)->delete();
+            }
+        }
     }
 
     /**

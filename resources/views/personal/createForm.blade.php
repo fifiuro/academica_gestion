@@ -96,10 +96,5 @@ $('#form input[type=text]').on('change invalid', function() {
     if (!campotexto.validity.valid) {
       campotexto.setCustomValidity('Esta información es requerida');  
     }
-    else{
-        $('#guardar').on('click', function(){
-            $(this).attr('disabled',true);
-        });
-    }
 });
 @endsection

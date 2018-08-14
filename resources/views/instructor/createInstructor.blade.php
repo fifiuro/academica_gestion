@@ -72,7 +72,7 @@
                 </div>
                 <div class="form-group">
                     <label for="espe">Especialidad *:</label>
-                    <select multiple name="espe[]" id="espe" class="form-control select2" data-placeholder="Seleccione Curso">
+                    <select multiple name="espe[]" id="espe" class="form-control select2" data-placeholder="Seleccione Curso" required>
                         <option></option>
                         @foreach($curso as $key => $cu)
                             <option value="{{ $cu->id_cu }}">{{ $cu->nombre }}</option>
