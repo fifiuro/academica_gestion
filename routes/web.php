@@ -141,4 +141,21 @@ Route::get('confirmCurso/{id}','CursoController@confirmation');
 // Eliminar los datos del Curso
 Route::post('destroyCurso','CursoController@destroy');
 
+/* ACCIONES A EMPRESA */
+// Formulario de busqueda de Empresa
+Route::get('findEmpresa','EmpresaController@index');
+// Resultado de la busqueda de Empresa
+Route::post('findEmpresa','EmpresaController@show');
+// Formulario de Nuevo Empresa
+Route::get('createEmpresa','EmpresaController@create');
+// Datos del Formulario con los datos del Nuevo Empresa
+Route::post('storeEmpresa','EmpresaController@store');
+// Formulario con los Datos a Modificar
+Route::get('editEmpresa/{id}','EmpresaController@edit');
+// datos del Formulario con los datos a modificar Empresa
+Route::post('updateEmpresa','EmpresaController@update');
+// Pregunta de eliminacion del registro del Empresa
+Route::get('confirmEmpresa/{id}','EmpresaController@confirmation');
+// Eliminar los datos del Empresa
+Route::post('destroyEmpresa','EmpresaController@destroy');
 /* ACCIONES  */

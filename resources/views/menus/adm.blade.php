@@ -46,6 +46,10 @@
             <a href="{{ url('findInstructor') }}">
                 <i class="fa fa-circle-o"></i> Instructores</a>
         </li>
+        <li>
+            <a href="{{ url('findEmpresa') }}">
+                <i class="fa fa-circle-o"></i> Empresas</a>
+        </li>
     </ul>
 </li>
 <li class="treeview">
