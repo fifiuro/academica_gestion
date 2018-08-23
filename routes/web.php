@@ -87,23 +87,26 @@ Route::get('confirmCategoria/{id}','CategoriaController@confirmation');
 // Eliminar los datos del Categoria
 Route::post('destroyCategoria','CategoriaController@destroy');
 
-/* ACCIONES AL PERSONAL COGNOS */
-// Formulario de busqueda de Personal
-Route::get('findPersonal','PersonalController@index');
-// Resultado de la busqueda de Personal
-Route::post('findPersonal','PersonalController@show');
-// Formulario de Nuevo Personal
-Route::get('createPersonal','PersonalController@create');
-// Datos del Formulario con los datos del Nuevo Personal
-Route::post('storePersonal','PersonalController@store');
-// Formulario con los Datos a Modificar
-Route::get('editPersonal/{id}','PersonalController@edit');
-// datos del FOrmulario con los datos a modificar Personal
-Route::post('updatePersonal','PersonalController@update');
-// Pregunta de eliminacion del registro del Personal
-Route::get('confirmPersonal/{id}','PersonalController@confirmation');
-// Eliminar los datos del Personal
-Route::post('destroyPersonal','PersonalController@destroy');
+Route::group(['middleware' => 'auth'], function() {
+    /* ACCIONES AL PERSONAL COGNOS */
+    // Formulario de busqueda de Personal
+    Route::get('findPersonal','PersonalController@index');
+    // Resultado de la busqueda de Personal
+    Route::post('findPersonal','PersonalController@show');
+    // Formulario de Nuevo Personal
+    Route::get('createPersonal','PersonalController@create');
+    // Datos del Formulario con los datos del Nuevo Personal
+    Route::post('storePersonal','PersonalController@store');
+    // Formulario con los Datos a Modificar
+    Route::get('editPersonal/{id}','PersonalController@edit');
+    // datos del FOrmulario con los datos a modificar Personal
+    Route::post('updatePersonal','PersonalController@update');
+    // Pregunta de eliminacion del registro del Personal
+    Route::get('confirmPersonal/{id}','PersonalController@confirmation');
+    // Eliminar los datos del Personal
+    Route::post('destroyPersonal','PersonalController@destroy');
+});
+
 
 /* ACCIONES A INSTRUCTOR COGNOS */
 // Formulario de busqueda de Instructor
@@ -159,3 +162,26 @@ Route::get('confirmEmpresa/{id}','EmpresaController@confirmation');
 // Eliminar los datos del Empresa
 Route::post('destroyEmpresa','EmpresaController@destroy');
 /* ACCIONES  */
+
+/* ACCIONES A USUARIO */
+// Formulario de busqueda de Usuario
+Route::get('findUsuario','UsuarioController@index');
+// Resultado de la busqueda de Usuario
+Route::post('findUsuario','UsuarioController@show');
+// Formulario de Nuevo Usuario
+Route::get('createUsuario/{id}','UsuarioController@create');
+// Datos del Formulario con los datos del Nuevo Usuario
+Route::post('storeUsuario','UsuarioController@store');
+// Formulario con los Datos a Modificar
+Route::get('editUsuario/{id}','UsuarioController@edit');
+// datos del Formulario con los datos a modificar Usuario
+Route::post('updateUsuario','UsuarioController@update');
+// Pregunta de eliminacion del registro del Usuario
+Route::get('confirmUsuario/{id}','UsuarioController@confirmation');
+// Eliminar los datos del Usuario
+Route::post('destroyUsuario','UsuarioController@destroy');
+/* ACCIONES  */
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

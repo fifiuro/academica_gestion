@@ -83,6 +83,10 @@
                 <a href="{{ url('confirmPersonal/'.$p->id_pe) }}" class="btn btn-danger">
                   <i class="glyphicon glyphicon-trash"></i>
                 </a>
+                {{-- Boton Crear Cuenta de Usuario --}}
+                <a href="{{ url('createUsuario/'.$p->id_pe) }}" class="btn btn-info">
+                  <i class="fa fa-key"></i>
+                </a>
               </td>
             </tr>
             @endforeach
