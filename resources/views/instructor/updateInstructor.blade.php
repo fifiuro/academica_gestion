@@ -30,22 +30,24 @@
             {{ csrf_field() }}
             @foreach ($ins as $key => $i)
             <div class="box-body">
-                <div class="form-group">
-                    <label for="nom">Nombre *:</label>
-                    <input class="form-control" name="nom" id="nom" placeholder="Nombre" type="text" value="{{ $i->nombre }}" required>
-                    <input name="id_pe" id="id_pe" value="{{ $i->id_pe }}" type="hidden">
-                    <input name="id_ins" id="id_ins" value="{{ $i->id_ins }}" type="hidden">
-                </div>
-                <div class="form-group">
-                    <label for="ape">Apellidos *:</label>
-                    <input class="form-control" name="ape" id="ape" placeholder="Apellidos" type="text" value="{{ $i->apellidos }}" required>
+                <div class="row">
+                    <div class="form-group col-md-6 col-sm-6">
+                        <label for="nom">Nombre *:</label>
+                        <input class="form-control" name="nom" id="nom" placeholder="Nombre" type="text" value="{{ $i->nombre }}" required>
+                        <input name="id_pe" id="id_pe" value="{{ $i->id_pe }}" type="hidden">
+                        <input name="id_ins" id="id_ins" value="{{ $i->id_ins }}" type="hidden">
+                    </div>
+                    <div class="form-group col-md-6 col-sm-6">
+                        <label for="ape">Apellidos *:</label>
+                        <input class="form-control" name="ape" id="ape" placeholder="Apellidos" type="text" value="{{ $i->apellidos }}" required>
+                    </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-8">
+                    <div class="form-group col-md-8 col-sm-8">
                         <label for="ci">Carnet de Identidad:</label>
                         <input class="form-control" name="ci" id="ci" placeholder="C.I." type="text" value="{{ $i->ci }}">
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-4 col-sm-4">
                         <label for="dep">Exsperido en:</label>
                         <select class="form-control" name="dep" id="dep">
                             @foreach ($depto as $ke => $d)
@@ -59,21 +61,21 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6 col-sm-6">
                         <label for="td">Teléfono de Domicilio:</label>
                         <input class="form-control" name="td" id="td" placeholder="Teléfono" type="text" value="{{ $i->tel_dom }}">
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6 col-sm-6">
                             <label for="to">Teléfono de Oficina:</label>
                             <input class="form-control" name="to" id="to" placeholder="Teléfono" type="text" value="{{ $i->tel_of }}">
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6 col-sm-6">
                         <label for="cel">Número de Celular *:</label>
                         <input class="form-control" name="cel" id="cel" placeholder="Celular" type="text" required value="{{ $i->celular }}">
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6 col-sm-6">
                         <label for="email">Email *:</label>
                         <input class="form-control" name="email" id="email" placeholder="Email" type="text" value="{{ $i->email }}" required>
                     </div>
@@ -93,7 +95,7 @@
                 </div>
                 <div class="form-group">
                     <label for="obs">Observaciones:</label>
-                    <textarea class="form-control" name="obs" id="obs" cols="30" rows="5">{{ $i->obs }}</textarea>
+                    <textarea class="form-control" name="obs" id="obs" cols="30" rows="2">{{ $i->obs }}</textarea>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-6">

@@ -38,11 +38,11 @@
                     <input class="form-control" name="ape" id="ape" placeholder="Apellidos" type="text" required>
                 </div>
                 <div class="row">
-                        <div class="form-group col-md-8">
+                        <div class="form-group col-md-8 col-sm-8">
                             <label for="exampleInputEmail1">Carnet de Identidad:</label>
                             <input class="form-control" name="ci" id="ci" placeholder="C.I." type="text">
                         </div>
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-4 col-sm-4">
                             <label for="exampleInputEmail1">Exsperido en:</label>
                             <select class="form-control" name="dep" id="dep">
                                 @foreach ($depto as $ke => $d)
@@ -52,11 +52,11 @@
                         </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6 col-sm-6">
                         <label for="exampleInputEmail1">Teléfono de Domicilio:</label>
                         <input class="form-control" name="td" id="td" placeholder="Teléfono" type="text">
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6 col-sm-6">
                         <label for="exampleInputEmail1">Número de Celular *:</label>
                         <input class="form-control" name="cel" id="cel" placeholder="Celular" type="text" required>
                     </div>

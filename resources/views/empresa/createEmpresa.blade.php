@@ -33,21 +33,23 @@
                     <label for="nom">Razon Social *:</label>
                     <input class="form-control" name="nom" id="nom" placeholder="Razon Social" type="text" required>
                 </div>
-                <div class="form-group">
-                    <label for="sig">Sigla *:</label>
-                    <input class="form-control" name="sig" id="sig" placeholder="Sigla" type="text" required>
-                </div>
-                <div class="form-group">
-                    <label for="nit">NIT:</label>
-                    <input class="form-control" name="nit" id="nit" placeholder="NIT" type="text">
+                <div class="row">
+                    <div class="form-group col-md-4 col-sm-4">
+                        <label for="sig">Sigla *:</label>
+                        <input class="form-control" name="sig" id="sig" placeholder="Sigla" type="text" required>
+                    </div>
+                    <div class="form-group col-md-4 col-sm-4">
+                        <label for="nit">NIT:</label>
+                        <input class="form-control" name="nit" id="nit" placeholder="NIT" type="text">
+                    </div>
+                    <div class="form-group col-md-4 col-sm-4">
+                        <label for="tel">Teléfono:</label>
+                        <input class="form-control" name="tel" id="tel" placeholder="Teléfono" type="text">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="dir">Dirección:</label>
                     <textarea class="form-control" name="dir" id="dir" cols="30" rows="5"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="tel">Teléfono:</label>
-                    <input class="form-control" name="tel" id="tel" placeholder="Teléfono" type="text">
                 </div>
             </div>
             <!-- /.box-body -->

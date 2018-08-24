@@ -39,11 +39,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-4 col-sm-4">
                         <label for="nom_corto">Nombre Corto Cursos *:</label>
                         <input class="form-control" name="nom_corto" id="nom_corto" placeholder="Nombre corto" type="text" required>
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-4 col-sm-4">
                         <label for="dur">Duración *:</label>
                         <div class="input-group">
                             <input class="form-control focus.inputmask" name="dur" id="dur" placeholder="Duración" type="text" data-inputmask="'mask' : ['999']" data-mask="" required>
@@ -52,7 +52,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group col-md-4">
+                    <div class="form-group col-md-4 col-sm-4">
                         <label for="pre">Precio *:</label>
                         <div class="input-group">
                             <input class="form-control focus.inputmask" name="pre" id="pre" placeholder="Precio" type="text" data-inputmask="'mask' : ['99999']" data-mask="" value="0">
