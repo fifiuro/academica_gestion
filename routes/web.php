@@ -180,6 +180,25 @@ Route::group(['middleware' => 'auth'], function() {
     // Eliminar los datos del Usuario
     Route::post('destroyUsuario','UsuarioController@destroy');
     /* ACCIONES  */
+
+    /* ACCIONES A CRONOGRAMA */
+    // Formulario de busqueda de Cronograma
+    Route::get('findCronograma','CronogramaController@index');
+    // Resultado de la busqueda de Cronograma
+    Route::post('findCronograma','CronogramaController@show');
+    // Formulario de Nuevo Cronograma
+    Route::get('createCronograma','CronogramaController@create');
+    // Datos del Formulario con los datos del Nuevo Cronograma
+    Route::post('storeCronograma','CronogramaController@store');
+    // Formulario con los Datos a Modificar
+    Route::get('editCronograma/{id}','CronogramaController@edit');
+    // datos del Formulario con los datos a modificar Cronograma
+    Route::post('updateCronograma','CronogramaController@update');
+    // Pregunta de eliminacion del registro del Cronograma
+    Route::get('confirmCronograma/{id}','CronogramaController@confirmation');
+    // Eliminar los datos del Cronograma
+    Route::post('destroyCronograma','CronogramaController@destroy');
+    /* ACCIONES  */
 });
 
 Auth::routes();

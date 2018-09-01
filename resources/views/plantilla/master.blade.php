@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="{{ asset('assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
     <!-- Daterange picker -->
     <link rel="stylesheet" href="{{ asset('assets/bower_components/bootstrap-daterangepicker/daterangepicker.css') }}">
+    <!-- Bootstrap time Picker -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/timepicker/bootstrap-timepicker.min.css') }}">
     <!-- Select2 -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/select2/select2.min.css') }}">
     <!-- bootstrap wysihtml5 - text editor -->
@@ -176,6 +178,8 @@
     <script src="{{ asset('assets/bower_components/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
     <!-- datepicker -->
     <script src="{{ asset('assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+    <!-- bootstrap time picker -->
+    <script src="{{ asset('assets/plugins/timepicker/bootstrap-timepicker.min.js') }}"></script>
     <!-- Bootstrap WYSIHTML5 -->
     <script src="{{ asset('assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') }}"></script>
     <!-- Slimscroll -->
