@@ -71,6 +71,8 @@ class InstructorController extends Controller
         $p1 = new Persona;
         $p2 = new Instructor;
         $e = new Especialidad;
+        $nom_cvc = "";
+        $nom_cvm = "";
 
         $v = \Validator::make($request->all(), [
             'nom' => 'required',
@@ -101,24 +103,24 @@ class InstructorController extends Controller
         $insertId = $p1->id_pe;
 
         $cont = 0;
-
-        if($request->file('cv') != null)
+        if(count($request->cv) > 0)
         {
             $files = $request->file('cv');
 
             foreach($files as $file){
-                $nom_file = $file->getClientOriginalName();
-                \Storage::disk('local')->put($nom_file, \File::get($file));
-                if($cont == 0){
-                    $nom_cvc = $nom_file;
-                    $cont++;
-                }else{
-                    $nom_cvm = $nom_file;
+                $extension = $file->getClientOriginalExtension();
+                if($extension == 'pdf' or $extension == 'PDF')
+                {
+                    $nom_file = $file->getClientOriginalName();
+                    \Storage::disk('local')->put($nom_file, \File::get($file));
+                    if($cont == 0){
+                        $nom_cvc = $nom_file;
+                        $cont++;
+                    }else{
+                        $nom_cvm = $nom_file;
+                    }
                 }
             }
-        }else{
-            $nom_cvc = "";
-            $nom_cvm = "";
         }
 
         $p2->id_pe = $insertId;
@@ -250,6 +252,7 @@ class InstructorController extends Controller
         Notification::success("La modificación se realizó correctamente.");
         return redirect('findInstructor');
     }
+
     public function agregarCurso($id,$esp){
         $dataSet;
         $le = Especialidad::where("id_ins","=",$id)->get();
@@ -278,6 +281,7 @@ class InstructorController extends Controller
             }
         }
     }
+    
     public function eliminarCurso($id,$esp){
         $dataSet;
         $le = Especialidad::where("id_ins","=",$id)->get();
