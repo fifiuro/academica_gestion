@@ -88,7 +88,7 @@
                 <div class="row">
                     <div class="form-group col-md-6 col-sm-6">
                         <label for="cvc">CV Original:</label>
-                        <input type="file" name="cv[]" id="cvc">
+                        <input type="file" name="cv[]" id="cvo">
                     </div>
                     <div class="form-group col-md-6 col-sm-6">
                         <label for="cvm">CV Modificado:</label>

@@ -32,17 +32,39 @@ class CursoController extends Controller
         select c.id_cu, c.codigo, c.nombre, c.duracion, c.nom_corto, c.precio, ca.nombre as categoria, c.estado 
         from curso as c
             inner join categoria as ca on c.categoria = ca.id_cat
-        where c.nombre like '%".$request->nom."%'
+        where concat(c.codigo,' ',c.nombre) like '%".$request->nom."%'
         ");
         
         if(count($cu)<=0){
-            return view('curso.findCurso', array('curso' => '',
-                                                 'estado' => false,
-                                                 'mensaje' => 'No se tuvieron coincidencias con: '.$request->nom));
+            if($request->curso){
+                return view('curso.findCurso', array('curso' => '',
+                                                    'estado' => false,
+                                                    'mensaje' => 'No se tuvieron coincidencias con: '.$request->nom));
+            }else{
+                echo 'No se tuvieron coincidencias con: '.$request->nom;
+            }
         }else{
-            return view('curso.findCurso', array('curso' => $cu,
-                                                 'estado' => true));
+            if($request->curso){
+                return view('curso.findCurso', array('curso' => $cu,
+                                                     'estado' => true));
+            }else{
+                echo $this->tabla($cu);
+            }
         }
+    }
+    private function tabla($curso){
+        $todo = "";
+        foreach($curso as $key => $c){
+            $todo .= "<tr data-id='".$c->id_cu."' data-c='".$c->codigo."' data-n='".$c->nombre."' data-d='".$c->duracion."' data-p='".$c->precio."'>";
+            $todo .= "<td>".$c->codigo."</td>";
+            $todo .= "<td>".$c->nombre."</td>";
+            $todo .= "<td>".$c->duracion."</td>";
+            $todo .= "<td>".$c->precio."</td>";
+            $todo .= "<td><input type='radio' name='sel' value='".$c->id_cu."' class='accion'></td>";
+            $todo .= "</td>";
+        }
+
+        return $todo;
     }
 
     /**

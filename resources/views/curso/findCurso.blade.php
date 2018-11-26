@@ -21,7 +21,8 @@
       <div class="row">
         <div class="col-xs-10">
           <label for="exampleInputEmail1">Nombre de Curso:</label>
-          <input class="form-control" id="nom" name="nom" placeholder="Nombre" type="text">
+          <input class="form-control" id="nom" name="nom" placeholder="Nombre" type="text" required>
+          <input type="hidden" name="curso" id="curso" value="true">
         </div>
         <div class="col-xs-2">
           {{-- Boton Buscar --}}
@@ -94,7 +95,7 @@ $('#form input[type=text]').on('change invalid', function() {
     campotexto.setCustomValidity('');
 
     if (!campotexto.validity.valid) {
-      campotexto.setCustomValidity('Esta información es requerida');  
+      campotexto.setCustomValidity('Introduzca el texto a buscar');  
     }
 });
 @endsection

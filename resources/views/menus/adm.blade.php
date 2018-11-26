@@ -75,3 +75,9 @@
         </li>
     </ul>
 </li>
+<li>
+    <a href="{{ url('findCronograma') }}">
+        <i class="fa fa-group"></i>
+        <span>CRONOGRAMA</span>
+    </a>
+</li>
