@@ -49,7 +49,7 @@
 
         <header class="main-header">
             <!-- Logo -->
-            <a href="{{ url('/') }}" class="logo">
+            <a href="{{ url('home') }}" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini">
                     <img src="{{ asset('assets/img/cognosLogo.png') }}">

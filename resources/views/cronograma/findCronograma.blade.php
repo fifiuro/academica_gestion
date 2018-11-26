@@ -21,15 +21,15 @@
       <div class="row">
         <div class="col-xs-2">
             <label for="cod">Código:</label>
-            <input class="form-control" id="cod" name="cod" placeholder="Código Curso" type="text">
+            <input class="form-control" id="cod" name="cod" placeholder="Código Curso" type="text" autocomplete="off">
         </div>
         <div class="col-xs-5">
             <label for="nom">Nombre Curso:</label>
-            <input class="form-control" id="nom" name="nom" placeholder="Nombre Curso" type="text">
+            <input class="form-control" id="nom" name="nom" placeholder="Nombre Curso" type="text" autocomplete="off">
         </div>
         <div class="col-xs-2">
             <label for="mes">Mes:</label>
-            <select name="mes" id="mes" class="form-control">
+            <select name="mes" id="mes" class="form-control" required>
                 <option value="" selected></option>
                 <option value="1">Enero</option>
                 <option value="2">Febrero</option>
@@ -47,7 +47,7 @@
         </div>
         <div class="col-xs-2">
             <label for="gestion">Gestión:</label>
-            <select name="gestion" id="gestion" class="form-control">
+            <select name="gestion" id="gestion" class="form-control" required>
                 <option value="" selected></option>
                 <option value="2014">2014</option>
                 <option value="2015">2015</option>
@@ -71,54 +71,28 @@
         <table class="table">
           <tbody>
             <tr>
-              <th>Nombre</th>
-              <th>ci</th>
-              <th>Teléfono Domicilio</th>
-              <th>Celular</th>
-              <th>Email</th>
-              <th>Cargo</th>
-              <th>Estado</th>
+              <th>Curso</th>
+              <th>Duraci&oacute;n</th>
+              <th>Fecha</th>
+              <th>Horario</th>
+              <th>D&iacute;as</th>
               <th>Acciones</th>
             </tr>
-            @foreach($personal as $key => $p)
+            @foreach($cronograma as $key => $c)
             <tr>
-              <td>{{ $p->nombre }} {{ $p->apellidos }}</td>
-              <td>
-                @if($p->ci != "")
-                  {{ $p->ci }} {{ $p->sigla }}
-                @else
-
-                @endif
-              </td>
-              <td>{{ $p->tel_dom }}</td>
-              <td>{{ $p->celular }}</td>
-              <td>{{ $p->email }}</td>
-              <td>
-                @foreach ($cargo as $key => $c)
-                  @if ($c->id_ca == $p->id_ca)
-                      {{ $c->nombre }}
-                  @endif
-                @endforeach
-              </td>
-              <td>
-                @if ($p->estado)
-                  <i class="glyphicon glyphicon-ok btn-lg" style="color:green;"></i>
-                @else
-                  <i class="glyphicon glyphicon-remove" style="color:red;"></i>  
-                @endif
-              </td>
+              <td>{{ $c->codigo }}: {{ $c->nombre }}</td>
+              <td>{{ $c->duracion }}</td>
+              <td>{{ formatoFechaReporte($c->fecha_inicio) }} - {{ formatoFechaReporte($c->fecha_fin) }}</td>
+              <td>{{ $c->hora_inicio }} - {{ $c->hora_fin }}</td>
+              <td>{{ dias($c->dias) }}</td>
               <td>
                 {{-- Boton Editar --}}
-                <a href="{{ url('editPersonal/'.$p->id_pe) }}" class="btn btn-warning">
+                <a href="{{ url('editCronograma/'.$c->id_cr) }}" class="btn btn-warning">
                   <i class="glyphicon glyphicon-pencil"></i>
                 </a>
                 {{-- Boton Eliminar --}}
-                <a href="{{ url('confirmPersonal/'.$p->id_pe) }}" class="btn btn-danger">
+                <a href="{{ url('confirmCronograma/'.$c->id_cr) }}" class="btn btn-danger">
                   <i class="glyphicon glyphicon-trash"></i>
-                </a>
-                {{-- Boton Crear Cuenta de Usuario --}}
-                <a href="{{ url('createUsuario/'.$p->id_pe) }}" class="btn btn-info">
-                  <i class="fa fa-key"></i>
                 </a>
               </td>
             </tr>
@@ -147,5 +121,15 @@ $('#form input[type=text]').on('change invalid', function() {
     if (!campotexto.validity.valid) {
       campotexto.setCustomValidity('Esta información es requerida');  
     }
+});
+
+$('#form select').on('change invalid', function() {
+  var campotexto = $(this).get(0);
+
+  campotexto.setCustomValidity('');
+
+  if (!campotexto.validity.valid) {
+    campotexto.setCustomValidity('Seleccione un Item de la lista.');  
+  }
 });
 @endsection

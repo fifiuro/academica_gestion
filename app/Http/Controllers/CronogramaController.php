@@ -34,6 +34,15 @@ class CronogramaController extends Controller
                       ->orWhere("curso.nombre","like","%".$request->nom."%")
                       ->orWhere("cronograma.mes","=",$request->mes)
                       ->orWhere("cronograma.gestion","=",$request->gestion)
+                      ->select("cronograma.id_cr",
+                                "curso.codigo",
+                                "curso.nombre",
+                                "curso.duracion",
+                                "cronograma.fecha_inicio",
+                                "cronograma.fecha_fin",
+                                "cronograma.hora_inicio",
+                                "cronograma.hora_fin",
+                                "cronograma.dias")
                       ->get();
         
         if($crono->isEmpty()){
@@ -63,39 +72,44 @@ class CronogramaController extends Controller
      */
     public function store(Request $request)
     {
+        $messages = array(
+            'mes.required' => 'El Mes de cronograma es necesario.',
+            'gestion.required' => 'La Gestion e s necesario.',
+            'id_cur.required' => 'No se selecciono ningun curso.',
+            'fechaInicio.required' => 'La Fecha de Inicio es necesario.',
+            'horaInicio.required' => 'La Hora de Inicio es necesario.',
+            'horaFin.required' => 'La Hora de Finalizacion es necesario.',
+            'dias.required' => 'Los Dias son necesario.'
+        );
+        $rules = array (
+            'mes' => 'required',
+            'gestion' => 'required',
+            'id_cur' => 'required',
+            'fechaInicio' => 'required',
+            'horaInicio' => 'required',
+            'horaFin' => 'required',
+            'dias' => 'required'
+        );
+
+        $this->validate($request, $rules, $messages);
+
         $crono = new Cronograma;
 
-        $v = \Validator::make($request->all(), [
-            'id_cu' => 'required',
-            'fecha_inicio' => 'required',
-            'fecha_fin' => 'required',
-            'hora_inicio' => 'required',
-            'hora_fin' => 'required',
-            'dias' => 'required',
-            'duracion' => 'required',
-            'id' => 'required',
-            'mes' => 'required',
-            'gestion' => 'required'
-        ]);
+        $dias = implode(',',$request->dias);
 
-        if($v->fails())
-        {
-            return redirect()->back()->withInput()->withErrors($v->errors());
-        }
-
-        $crono->id_cu = $request->id_cu;
-        $crono->fecha_inicio = $request->fecha_inicio;
-        $crono->fecha_fin = $request->fecha_fin;
-        $crono->hora_inicio = $request->hora_inicio;
-        $crono->hora_fin = $request->hora_fin;
-        $crono->dias = $request->dias;
-        $crono->precio = $request->precio;
-        $crono->duracion = $request->duracion;
-        $crono->disponibilidad = $request->disponibilidad;
-        $crono->id = $request->id;
+        $crono->id_cu = $request->id_cur;
+        $crono->fecha_inicio = formatoFecha($request->fechaInicio);
+        $crono->fecha_fin = formatoFecha($request->fechaInicio);
+        $crono->hora_inicio = $request->horaInicio;
+        $crono->hora_fin = $request->horaFin;
+        $crono->dias = $dias;
+        $crono->precio = 0;
+        $crono->duracion = 0;
+        $crono->disponibilidad = $request->dis;
         $crono->mes = $request->mes;
         $crono->gestion = $request->gestion;
         $crono->obs = $request->obs;
+        $crono->id = $request->user()->id_pe;
         $crono->save();
 
         Notification::success("El registro se realizó correctamente.");
@@ -111,11 +125,10 @@ class CronogramaController extends Controller
     public function edit($id)
     {
         $crono = Cronograma::join("curso","cronograma.id_cu","=","curso.id_cu")
-                      ->join("persona","cronograma.id","=","persona.id_pe")
-                      ->where("cronograma.id_cr","=",$id)
-                      ->get();
+                           ->where("cronograma.id_cr","=",$id)
+                           ->get();
         
-        return view('cronograma.updateCronograma', array("cronograma" => $crono));
+        return view('cronograma.updateCronograma', array("cronograma" => $crono, 'mes' => mes(), 'anio' => anio()));
     }
 
     /**
@@ -127,17 +140,13 @@ class CronogramaController extends Controller
      */
     public function update(Request $request)
     {
-        $crono = Cronograma::find($request->id);
-
+        print_r ($request->dias);
         $v = \Validator::make($request->all(), [
-            'id_cu' => 'required',
-            'fecha_inicio' => 'required',
-            'fecha_fin' => 'required',
-            'hora_inicio' => 'required',
-            'hora_fin' => 'required',
+            'id_cr' => 'required',
+            'fechaInicio' => 'required',
+            'horaInicio' => 'required',
+            'horaFin' => 'required',
             'dias' => 'required',
-            'duracion' => 'required',
-            'id' => 'required',
             'mes' => 'required',
             'gestion' => 'required'
         ]);
@@ -147,22 +156,25 @@ class CronogramaController extends Controller
             return redirect()->back()->withInput()->withErrors($v->errors());
         }
 
-        $crono->id_cu = $request->id_cu;
-        $crono->fecha_inicio = $request->fecha_inicio;
-        $crono->fecha_fin = $request->fecha_fin;
-        $crono->hora_inicio = $request->hora_inicio;
-        $crono->hora_fin = $request->hora_fin;
-        $crono->dias = $request->dias;
-        $crono->precio = $request->precio;
-        $crono->duracion = $request->duracion;
-        $crono->disponibilidad = $request->disponibilidad;
-        $crono->id = $request->id;
+        $crono = Cronograma::find($request->id_cr);
+
+        $dias = implode(",",$request->dias);
+
+        $crono->fecha_inicio = formatoFecha($request->fechaInicio);
+        $crono->fecha_fin = formatoFecha($request->fechaInicio);
+        $crono->hora_inicio = $request->horaInicio;
+        $crono->hora_fin = $request->horaFin;
+        $crono->dias = $dias;
+        //$crono->precio = $request->precio;
+        //$crono->duracion = $request->duracion;
+        $crono->disponibilidad = $request->dis;
+        //$crono->id = $request->id;
         $crono->mes = $request->mes;
         $crono->gestion = $request->gestion;
         $crono->obs = $request->obs;
         $crono->save();
 
-        Notification::success("El registro se realizó correctamente.");
+        Notification::success("El registro se modificó correctamente.");
         return redirect('findCronograma');
     }
 

@@ -15,9 +15,13 @@
 @section('contenido')
 @if($errors->all())
     <div class="alert alert-warning" role="alert">
+        <h4>Errores del llenado del formulario</h4>
+        <ul>
         @foreach ($errors->all() as $error)
-            <div>{{ $error }}</div>
+            <li>{{ $error }}</li>
         @endforeach
+        </ul>
+        Por favor corrija los errores vuelva enviar los datos.
     </div>
 @endif
 </br>
@@ -47,10 +51,11 @@
                         </select>
                     </div>
                 </div>
+                <!-- BUSQUE DADE CURSOS -->
                 <div class="row" id="ventanaBuscar" name="ventanaBuscar">
                     <div class="form-group col-md-10 col-sm-10">
                         <label for="nombre">Nombre Curso *:</label>
-                        <input class="form-control" name="nombre" id="nombre" placeholder="Nombre" type="text" required>
+                        <input class="form-control" name="nombre" id="nombre" placeholder="Nombre" type="text" autocomplete="off" required>
                     </div>
                     <div class="form-group col-md-2 col-sm-2">
                         <a href="#" name="myajax" id="myajax" class="btn btn-danger"><i class="glyphicon glyphicon-search"></i></a>
@@ -74,11 +79,12 @@
                         </table>
                     </div>
                 </div>
+                <!-- FIN DE BUSQUEDA -->
                 <div class="row" id="seleccionCursoN" name="seleccionCursoN" style="display:none">
                     <div class="form-group col-md-12">
                         <label for="nom">Nombre de curso:</label>
                         <input class="form-control" name="nom" id="nom" placeholder="Precio" type="text" disabled>
-                        <input type="hidden" id="id" name="id">
+                        <input type="hidden" id="id" name="id_cur">
                     </div>
                 </div>
                 <div class="row" id="seleccionCursoD" name="seleccionCursoD" style="display:none">
@@ -96,15 +102,15 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
                             </div>
-                            <input class="form-control pull-right" id="datepicker" type="text" name="fechaInicio" required>
+                            <input class="form-control pull-right" id="datepicker" type="text" name="fechaInicio" autocomplete="off" required>
                         </div>
                     </div>
                 </div>
                 <div class="row" id="ventanaHora" name="ventanaHora" style="display:none">
                     <div class="bootstrap-timepicker col-md-6 col-sm-6">
-                        <label for="hora_inicio">Hora Inicio *:</label>
+                        <label for="horaInicio">Hora Inicio *:</label>
                         <div class="input-group">
-                            <input type="text" class="form-control timepicker">
+                            <input type="text" class="form-control timepicker" name="horaInicio" id="horaInicio" autocomplete="off">
         
                             <div class="input-group-addon">
                                 <i class="fa fa-clock-o"></i>
@@ -112,9 +118,9 @@
                         </div>
                     </div>
                     <div class="bootstrap-timepicker col-md-6 col-sm-6">
-                        <label for="hora_inicio">Hora Fin *:</label>
+                        <label for="horaFin">Hora Fin *:</label>
                         <div class="input-group">
-                            <input type="text" class="form-control timepicker">
+                            <input type="text" class="form-control timepicker" name="horaFin" id="horaFin" autocomplete="off">
         
                             <div class="input-group-addon">
                                 <i class="fa fa-clock-o"></i>
@@ -124,7 +130,7 @@
                 </div>
                 <div class="form-group" id="ventanaDias" name="ventanDias" style="display:none">
                     <label for="dias">Días *:</label>
-                    <select name="dias" id="dias" class="form-control select2" multiple="multiple" data-placeholder="Seleccione Días" style="width:100%" required>
+                    <select name="dias[]" id="dias" class="form-control select2" multiple data-placeholder="Seleccione Días" style="width:100%" required>
                         <option value="2">Lunes</option>
                         <option value="3">Martes</option>
                         <option value="4">Miércoles</option>
@@ -136,7 +142,7 @@
                 </div>
                 <div class="form-group" id="ventanaDis" name="ventanaDis" style="display:none">
                     <label for="dis">Disponibilidad:</label>
-                    <input class="form-control" name="dis" id="dis" placeholder="Disponibilidad" type="text">
+                    <input class="form-control" name="dis" id="dis" placeholder="Disponibilidad" type="text" autocomplete="off">
                 </div>
                 <div class="form-group" id="ventanaObs" name="ventanaObs" style="display:none">
                     <label for="obs">Observaciones:</label>
@@ -164,6 +170,16 @@ $('#form input[type=text]').on('change invalid', function() {
 
     if (!campotexto.validity.valid) {
       campotexto.setCustomValidity('Esta información es requerida');  
+    }
+});
+
+$('#form select').on('change invalid', function() {
+    var campotexto = $(this).get(0);
+
+    campotexto.setCustomValidity('');
+
+    if (!campotexto.validity.valid) {
+      campotexto.setCustomValidity('Por favor seleccione un item de la lista.');  
     }
 });
 

@@ -17,6 +17,8 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => 'auth'], function() {
+    Route::get('/home', 'HomeController@index')->name('home');
+    
     /* ACCIONES A LOS CARGOS */
     // Formulario de busqueda de los Cargos
     Route::get('findCargo', 'cargoController@findForm');
@@ -203,4 +205,3 @@ Route::group(['middleware' => 'auth'], function() {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
