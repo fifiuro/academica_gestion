@@ -17,6 +17,10 @@ class CargoTableSeeder extends Seeder
 
         //Añadimos una entrada a esta tabla
         Cargo::create(array(
+            'nombre' => 'Administrador',
+            'estado' => '1'
+        ));
+        Cargo::create(array(
             'nombre' => 'Gerente General La Paz',
             'estado' => '1'
         ));
@@ -62,6 +66,10 @@ class CargoTableSeeder extends Seeder
         ));
         Cargo::create(array(
             'nombre' => 'Encargado de Fotocopias',
+            'estado' => '1'
+        ));
+        Cargo::create(array(
+            'nombre' => 'Diseñador Gráfico',
             'estado' => '1'
         ));
     }
