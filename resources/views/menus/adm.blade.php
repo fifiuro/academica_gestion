@@ -81,3 +81,9 @@
         <span>CRONOGRAMA</span>
     </a>
 </li>
+<li>
+    <a href="{{ url('createInicio') }}">
+        <i class="fa fa-group"></i>
+        <span>INICIO</span>
+    </a>
+</li>

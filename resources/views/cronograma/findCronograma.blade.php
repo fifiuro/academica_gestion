@@ -94,6 +94,10 @@
                 <a href="{{ url('confirmCronograma/'.$c->id_cr) }}" class="btn btn-danger">
                   <i class="glyphicon glyphicon-trash"></i>
                 </a>
+                {{-- Boton Inicar Curso --}}
+                <a href="{{ url('confirmCronograma/'.$c->id_cr) }}" class="btn btn-danger">
+                  <i class="glyphicon glyphicon-trash"></i>
+                </a>
               </td>
             </tr>
             @endforeach
