@@ -21,7 +21,7 @@
       <div class="row">
         <div class="col-xs-2">
             <label for="cod">Código:</label>
-            <input class="form-control" id="cod" name="cod" placeholder="Código Curso" type="text" autocomplete="off">
+            <input class="form-control" id="cod" name="cod" placeholder="Código" type="text" autocomplete="off">
         </div>
         <div class="col-xs-5">
             <label for="nom">Nombre Curso:</label>
