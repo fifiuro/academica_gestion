@@ -15,20 +15,17 @@ class CreateCronogramaTable extends Migration
     {
         Schema::create('cronograma', function (Blueprint $table) {
             $table->increments('id_cr');
-            $table->integer('id_cu');
-            $table->datetime('fecha_inicio');
-            $table->datetime('fecha_fin');
-            $table->time('hora_inicio');
-            $table->time('hora_fin');
-            $table->string('dias',15);
-            $table->integer('precio')->nullable();
-            $table->integer('duracion');
-            $table->integer('disponibilidad')->nullable();
+            $table->integer('id_cu')->unsigned();
+            $table->foreign('id_cu')->references('id_cu')->on('curso');
+            $table->integer('precio')->default(0);
+            $table->integer('duracion')->default(0);
+            $table->integer('disponibilidad')->default(0);
             $table->integer('id')->unsigned();
-            $table->foreign('id')->references('id_pe')->on('users')->onDelete('cascade');
+            $table->foreign('id')->references('id_pe')->on('users');
             $table->integer('mes');
             $table->integer('gestion');
             $table->string('obs',255)->nullable();
+            $table->integer('estado')->default('1');
             $table->timestamps();
         });
     }

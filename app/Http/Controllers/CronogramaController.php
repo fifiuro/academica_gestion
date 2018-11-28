@@ -203,4 +203,8 @@ class CronogramaController extends Controller
         Notification::success("El registro fue Eliminado.");
         return redirect('findCronograma');
     }
+
+    public function pruebaJson(){
+        
+    }
 }
