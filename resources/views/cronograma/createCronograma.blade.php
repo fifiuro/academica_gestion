@@ -36,15 +36,17 @@
                 <div class="row">
                     <div class="form-group col-md-6 col-sm-6">
                         <label for="mes">Mes de Cronograma *:</label>
-                        <select name="mes" id="mes" class="form-control">
-                            @foreach($mes as $key => $m)
-                                <option value="{{ $m["id"] }}">{{ $m["mes"] }}</option>
-                            @endforeach
+                        <select name="mes" id="mes" class="form-control" required>
+                           @for ($i=0; $i<13; $i++)
+                            @if (array_key_exists($i,$mes))
+                                <option value="{{ $i }}">{{ $mes[$i] }}</option>
+                            @endif
+                           @endfor
                         </select>
                     </div>
                     <div class="form-group col-md-6 col-sm-6">
                         <label for="gestion">Gestión de Cronograma *:</label>
-                        <select name="gestion" id="gestion" class="form-control">
+                        <select name="gestion" id="gestion" class="form-control" required>
                             @foreach($anio as $key => $a)
                                 <option value="{{ $a }}">{{ $a }}</option>
                             @endforeach
@@ -96,17 +98,12 @@
                         <label for="pre">Precio:</label>
                         <input class="form-control" name="pre" id="pre" placeholder="Precio" type="text" disabled>
                     </div>
-                    <div class="form-group col-md-4 col-sm-4">
-                        <label for="fecha_inicio">Fecha de Inicio *:</label>
-                        <div class="input-group date">
-                            <div class="input-group-addon">
-                                <i class="fa fa-calendar"></i>
-                            </div>
-                            <input class="form-control pull-right" id="datepicker" type="text" name="fechaInicio" autocomplete="off" required>
-                        </div>
-                    </div>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                        HORARIOS
+                    </button>
                 </div>
-                <div class="row" id="ventanaHora" name="ventanaHora" style="display:none">
+                <div class="row" id="ventanaHora" name="ventanaHora">
                     <div class="bootstrap-timepicker col-md-6 col-sm-6">
                         <label for="horaInicio">Hora Inicio *:</label>
                         <div class="input-group">
@@ -128,7 +125,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group" id="ventanaDias" name="ventanDias" style="display:none">
+                <div class="form-group" id="ventanaDias" name="ventanDias">
                     <label for="dias">Días *:</label>
                     <select name="dias[]" id="dias" class="form-control select2" multiple data-placeholder="Seleccione Días" style="width:100%" required>
                         <option value="2">Lunes</option>
@@ -140,11 +137,11 @@
                         <option value="1">Domingo</option>
                     </select>
                 </div>
-                <div class="form-group" id="ventanaDis" name="ventanaDis" style="display:none">
+                <div class="form-group" id="ventanaDis" name="ventanaDis">
                     <label for="dis">Disponibilidad:</label>
                     <input class="form-control" name="dis" id="dis" placeholder="Disponibilidad" type="text" autocomplete="off">
                 </div>
-                <div class="form-group" id="ventanaObs" name="ventanaObs" style="display:none">
+                <div class="form-group" id="ventanaObs" name="ventanaObs">
                     <label for="obs">Observaciones:</label>
                     <textarea name="obs" id="obs" cols="30" rows="5" class="form-control"></textarea>
                 </div>
@@ -160,6 +157,81 @@
 </div>
 <div class=" col-md-2"></div>
 
+<!-- VENTANA DE MODAL -->
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Asignar Horario</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label for="fechaInicio">Fecha Inicio</label>
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input class="form-control pull-right" id="fechaInicio" type="text" name="fechaInicio" autocomplete="off" required>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <label for="fecha_fin">Fecha Fin</label>
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input class="form-control pull-right" id="fechaFin" type="text" name="fechaFin" id="fechaFin" autocomplete="off" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label for="dias">Dias</label>
+                        <select name="dias[]" id="dias" class="form-control select2" multiple data-placeholder="Seleccione Días" style="width:100%" required>
+                            <option value="2">Lunes</option>
+                            <option value="3">Martes</option>
+                            <option value="4">Miércoles</option>
+                            <option value="5">Jueves</option>
+                            <option value="6">Viernes</option>
+                            <option value="7">Sábado</option>
+                            <option value="1">Domingo</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="bootstrap-timepicker col-md-6 col-sm-6">
+                        <label for="horaInicio">Hora Inicio *:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control timepicker" name="horaInicio" id="horaInicio" autocomplete="off">
+        
+                            <div class="input-group-addon">
+                                <i class="fa fa-clock-o"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bootstrap-timepicker col-md-6 col-sm-6">
+                        <label for="horaFin">Hora Fin *:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control timepicker" name="horaFin" id="horaFin" autocomplete="off">
+        
+                            <div class="input-group-addon">
+                                <i class="fa fa-clock-o"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="asignacion">Asignación Horario</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FIN DEL MODAL -->
 @endsection
 
 @section('extra')
@@ -232,7 +304,12 @@ $("#ventanaResul").on("click",".accion",function(){
 
 });
 
-$('#datepicker').datepicker({
+$('#fechaInicio').datepicker({
+    autoclose: true,
+    format: "dd/mm/yyyy"
+});
+
+$('#fechaFin').datepicker({
     autoclose: true,
     format: "dd/mm/yyyy"
 });
@@ -258,4 +335,9 @@ $("#datepicker").on("change",function(){
 });
 
 $(".select2").select2();
+
+$("#asignacion").on("click", function(){
+    alert($("#fechaInicio").val());
+    alert($("#fechaFin").val());
+});
 @endsection
