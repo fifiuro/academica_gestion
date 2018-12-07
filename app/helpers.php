@@ -68,3 +68,48 @@ function anio(){
 
     return $anio;
 }
+/** Calcular Fecha de Finalizacion */
+function finalizacion($fecha, $dias, $duracion, $hi, $hf, $feriado){
+    $d =  diasCurso($hi,$hf,$duracion);
+    $fer = array();
+    foreach($feriado as $key => $f){
+        array_push($fer,$f->fecha);
+    }
+
+    $fecha = strtotime($fecha);
+
+    while($d > 0){
+        $formateado = date('Y-m-j',$fecha);
+        if(in_array($formateado,$fer)){
+
+        }else{
+            $buscar = date('N',$fecha);
+            if(in_array($buscar,$dias)){
+                $d = $d - 1;
+            }
+        }
+
+        if($d == 0){
+            
+        }else{
+            $fecha = strtotime('+1 day', $fecha);
+        }
+    }
+
+    return date('Y-m-j',$fecha);
+}
+
+function diasCurso($hi, $hf, $duracion){
+    $f1 = new DateTime($hi);
+    $f2 = new DateTime($hf);
+
+    $d = $f1->diff($f2);
+
+    $h = explode(':', $d->format('%H:%I'));
+    $min = ($h[0] * 60) + $h[1];
+    $hor = $min / 60;
+
+    $todo = $duracion / $hor;
+
+    return $todo;
+}

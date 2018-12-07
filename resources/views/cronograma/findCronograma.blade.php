@@ -82,8 +82,8 @@
             <tr>
               <td>{{ $c->codigo }}: {{ $c->nombre }}</td>
               <td>{{ $c->duracion }}</td>
-              <td>{{ formatoFechaReporte($c->fecha_inicio) }} - {{ formatoFechaReporte($c->fecha_fin) }}</td>
-              <td>{{ $c->hora_inicio }} - {{ $c->hora_fin }}</td>
+              <td>{{ formatoFechaReporte($c->f_inicio) }} - {{ formatoFechaReporte($c->f_fin) }}</td>
+              <td>{{ $c->horarios }}</td>
               <td>{{ dias($c->dias) }}</td>
               <td>
                 {{-- Boton Editar --}}
@@ -95,9 +95,11 @@
                   <i class="glyphicon glyphicon-trash"></i>
                 </a>
                 {{-- Boton Inicar Curso --}}
-                <a href="{{ url('confirmCronograma/'.$c->id_cr) }}" class="btn btn-danger">
-                  <i class="glyphicon glyphicon-trash"></i>
-                </a>
+                @if ($c->estado == 1)
+                  <a href="{{ url('createInicio/'.$c->id_cr) }}" class="btn btn-success">
+                    <i class="fa fa-check"></i>
+                  </a>
+                @endif
               </td>
             </tr>
             @endforeach
