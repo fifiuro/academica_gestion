@@ -25,7 +25,7 @@ function formatoFechaReporte($fo){
 }
 /* Mostrar días de la semana */
 function dias($d){
-    $dias = array("","Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado");
+    $dias = array("","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo");
     $d = explode(",",$d);
     $j = 0;
     $m = "";
@@ -109,7 +109,11 @@ function diasCurso($hi, $hf, $duracion){
     $min = ($h[0] * 60) + $h[1];
     $hor = $min / 60;
 
-    $todo = $duracion / $hor;
+    if($hor > 0){
+        $todo = $duracion / $hor;
+    }else{
+        $todo = 0;
+    }
 
     return $todo;
 }

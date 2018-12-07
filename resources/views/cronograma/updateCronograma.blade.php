@@ -39,10 +39,10 @@
                         <label for="mes">Mes de Cronograma *:</label>
                         <select name="mes" id="mes" class="form-control">
                             @foreach($mes as $key => $m)
-                                @if($m["id"] == $c->mes)
-                                    <option value="{{ $m["id"] }}" selected>{{ $m["mes"] }}</option>
+                                @if($key == $c->mes)
+                                    <option value="{{ $key }}" selected>{{ $m }}</option>
                                 @else
-                                    <option value="{{ $m["id"] }}">{{ $m["mes"] }}</option>
+                                    <option value="{{ $key }}">{{ $m }}</option>
                                 @endif
                             @endforeach
                         </select>
@@ -71,6 +71,8 @@
                     <div class="form-group col-md-4 col-sm-4">
                         <label for="dur">Duración *:</label>
                         <input class="form-control" name="dur" id="dur" placeholder="Duración" type="text" value="{{ $c->duracion }}" disabled>
+                        <input type="hidden" name="id_ho" id="id_ho" value="{{ $c->id_ho }}">
+                        <input type="hidden" name="duracion" id="duracion" value="{{ $c->duracion }}">
                     </div>
                     <div class="form-group col-md-4 col-sm-4">
                         <label for="pre">Precio:</label>
@@ -82,7 +84,7 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
                             </div>
-                            <input class="form-control pull-right" id="datepicker" type="text" name="fechaInicio" value="{{ formatoFechaReporte($c->fecha_inicio) }}" required>
+                            <input class="form-control pull-right" id="datepicker" type="text" name="fechaInicio" value="{{ formatoFechaReporte($c->f_inicio) }}" required>
                         </div>
                     </div>
                 </div>
@@ -90,7 +92,8 @@
                     <div class="bootstrap-timepicker col-md-6 col-sm-6">
                         <label for="horaInicio">Hora Inicio *:</label>
                         <div class="input-group">
-                            <input type="text" class="form-control timepicker" name="horaInicio" id="horaInicio" autocomplete="off" value="{{ $c->hora_inicio }}">
+                            <?php $h = explode('-',$c->horarios); ?>
+                            <input type="text" class="form-control timepicker" name="horaInicio" id="horaInicio" autocomplete="off" value="<?php echo $h[0] ?>">
         
                             <div class="input-group-addon">
                                 <i class="fa fa-clock-o"></i>
@@ -100,7 +103,7 @@
                     <div class="bootstrap-timepicker col-md-6 col-sm-6">
                         <label for="horaFin">Hora Fin *:</label>
                         <div class="input-group">
-                            <input type="text" class="form-control timepicker" name="horaFin" id="horaFin" autocomplete="off" value="{{ $c->hora_fin }}">
+                            <input type="text" class="form-control timepicker" name="horaFin" id="horaFin" autocomplete="off" value="<?php echo $h[1] ?>">
         
                             <div class="input-group-addon">
                                 <i class="fa fa-clock-o"></i>
@@ -112,39 +115,39 @@
                     <label for="dias">Días *:</label>
                     <select name="dias[]" id="dias" class="form-control select2" multiple data-placeholder="Seleccione Días" style="width:100%" required>
                         @if(strpos($c->dias,'1') !== false)
-                            <option value="1" selected>Domingo</option>
+                            <option value="1" selected>Lunes</option>
                         @else
-                            <option value="1">Domingo</option>
+                            <option value="1">Lunes</option>
                         @endif
-                        @if(strpos($c->dias,'2') !== false)
-                            <option value="2" selected>Lunes</option>
+                        @if(strpos($c->dias,'2')  !== false)
+                            <option value="2" selected>Martes</option>
                         @else
-                            <option value="2">Lunes</option>
+                            <option value="2">Martes</option>
                         @endif
                         @if(strpos($c->dias,'3')  !== false)
-                            <option value="3" selected>Martes</option>
+                            <option value="3" selected>Miércoles</option>
                         @else
-                            <option value="3">Martes</option>
+                            <option value="3">Miércoles</option>
                         @endif
                         @if(strpos($c->dias,'4')  !== false)
-                            <option value="4" selected>Miércoles</option>
+                            <option value="4" selected>Jueves</option>
                         @else
-                            <option value="4">Miércoles</option>
+                            <option value="4">Jueves</option>
                         @endif
                         @if(strpos($c->dias,'5')  !== false)
-                            <option value="5" selected>Jueves</option>
+                            <option value="5" selected>Viernes</option>
                         @else
-                            <option value="5">Jueves</option>
+                            <option value="5">Viernes</option>
                         @endif
                         @if(strpos($c->dias,'6')  !== false)
-                            <option value="6" selected>Viernes</option>
+                            <option value="6" selected>Sábado</option>
                         @else
-                            <option value="6">Viernes</option>
+                            <option value="6">Sábado</option>
                         @endif
-                        @if(strpos($c->dias,'7')  !== false)
-                            <option value="7" selected>Sábado</option>
+                        @if(strpos($c->dias,'7') !== false)
+                            <option value="7" selected>Domingo</option>
                         @else
-                            <option value="7">Sábado</option>
+                            <option value="7">Domingo</option>
                         @endif
                     </select>
                 </div>

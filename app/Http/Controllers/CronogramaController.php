@@ -143,10 +143,11 @@ class CronogramaController extends Controller
      */
     public function edit($id)
     {
-        $crono = Cronograma::join("curso","cronograma.id_cu","=","curso.id_cu")
-                           ->where("cronograma.id_cr","=",$id)
+        $crono = Cronograma::join('curso','cronograma.id_cu','=','curso.id_cu')
+                           ->join('horario','cronograma.id_cr','=','horario.id_cr')
+                           ->where('cronograma.id_cr','=',$id)
                            ->get();
-        
+
         return view('cronograma.updateCronograma', array("cronograma" => $crono, 'mes' => mes(), 'anio' => anio()));
     }
 
@@ -159,40 +160,60 @@ class CronogramaController extends Controller
      */
     public function update(Request $request)
     {
-        print_r ($request->dias);
-        $v = \Validator::make($request->all(), [
-            'id_cr' => 'required',
+        $messages = array(
+            'mes.required' => 'El Mes de cronograma es necesario.',
+            'gestion.required' => 'La Gestion e s necesario.',
+            'fechaInicio.required' => 'La Fecha de Inicio es necesario.',
+            'horaInicio.required' => 'La Hora de Inicio es necesario.',
+            'horaFin.required' => 'La Hora de Finalizacion es necesario.',
+            'dias.required' => 'Los Dias son necesario.'
+        );
+        $rules = array (
+            'mes' => 'required',
+            'gestion' => 'required',
             'fechaInicio' => 'required',
             'horaInicio' => 'required',
             'horaFin' => 'required',
-            'dias' => 'required',
-            'mes' => 'required',
-            'gestion' => 'required'
-        ]);
+            'dias' => 'required'
+        );
 
-        if($v->fails())
-        {
-            return redirect()->back()->withInput()->withErrors($v->errors());
-        }
-
+        $this->validate($request, $rules, $messages);
+        /* GUARDA DATOS DE CRONOGRAMA */
         $crono = Cronograma::find($request->id_cr);
 
-        $dias = implode(",",$request->dias);
-
-        $crono->fecha_inicio = formatoFecha($request->fechaInicio);
-        $crono->fecha_fin = formatoFecha($request->fechaInicio);
-        $crono->hora_inicio = $request->horaInicio;
-        $crono->hora_fin = $request->horaFin;
-        $crono->dias = $dias;
-        //$crono->precio = $request->precio;
-        //$crono->duracion = $request->duracion;
+        if(isset($request->pre) & isset($request->dur)){
+            $crono->precio = $request->pre;
+            $crono->duracion = $request->dur;
+        }else{
+            $crono->precio = 0;
+            $crono->duracion = 0;
+        }
         $crono->disponibilidad = $request->dis;
-        //$crono->id = $request->id;
+        $crono->id = $request->user()->id_pe;
         $crono->mes = $request->mes;
         $crono->gestion = $request->gestion;
         $crono->obs = $request->obs;
+        $crono->estado = 1;
+
         $crono->save();
 
+        $insertId = $crono->id_cr;
+        /* FIN DE GUARDAR DATOS */
+        /** GUARDAR DATOS DE HORARIO */
+        $feriado = Feriado::where('estado','=',1)->get();
+        $hora = Horario::find($request->id_ho);
+
+        $dias = implode(',',$request->dias);
+
+        $hora->id_cr = $insertId;
+        $hora->dias = $dias;
+        $hora->horarios = $request->horaInicio."-".$request->horaFin;
+        $hora->f_inicio = formatoFecha($request->fechaInicio);
+        $hora->f_fin = finalizacion(formatoFecha($request->fechaInicio),$request->dias,$request->duracion,$request->horaInicio,$request->horaFin,$feriado);
+        $hora->estado = 1;
+
+        $hora->save();
+        /** FIN DE GUARDAR DATOS */
         Notification::success("El registro se modificó correctamente.");
         return redirect('findCronograma');
     }
