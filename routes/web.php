@@ -202,6 +202,24 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('destroyCronograma','CronogramaController@destroy');
     /* ACCIONES  */
 
+    /* ACCIONES A INICIO */
+    // Formulario de busqueda de Inicio
+    Route::get('findInicio','InicioController@index');
+    // Resultado de la busqueda de Inicio
+    Route::post('findInicio','InicioController@show');
+    // Formulario de Nuevo Inicio
+    Route::get('createInicio/{id}','InicioController@create');
+    // Datos del Formulario con los datos del Nuevo Inicio
+    Route::post('storeInicio','InicioController@store');
+    // Formulario con los Datos a Modificar
+    Route::get('editInicio/{id}','InicioController@edit');
+    // datos del Formulario con los datos a modificar Inicio
+    Route::post('updateInicio','InicioController@update');
+    // Pregunta de eliminacion del registro del Inicio
+    Route::get('confirmInicio/{id}','InicioController@confirmation');
+    // Eliminar los datos del Inicio
+    Route::post('destroyInicio','InicioController@destroy');
+    /* ACCIONES  */
 });
 
 Auth::routes();

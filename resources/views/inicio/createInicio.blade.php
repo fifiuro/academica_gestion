@@ -5,7 +5,7 @@
 @endsection 
 
 @section('tituloPag') 
-    CRONOGRAMA MENSUAL
+    INICIO DE CURSO
 @endsection
 
 @section('subtituloPag')

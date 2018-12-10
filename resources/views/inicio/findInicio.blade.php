@@ -5,7 +5,7 @@
 @endsection 
 
 @section('tituloPag') 
-  BUSCAR CRONOGRAMA
+  BUSCAR INICIO
 @endsection
 
 @section('subtituloPag')
@@ -16,7 +16,7 @@
 @notification()
 <div class="box box-primary">
   <div class="box-body">
-    <form class="form-horizontal" name="form" id="form" role="form" method="POST" action="{{ url('findCronograma') }}">
+    <form class="form-horizontal" name="form" id="form" role="form" method="POST" action="{{ url('findInicio') }}">
       {{ csrf_field() }}
       <div class="row">
         <div class="col-xs-2">
@@ -59,8 +59,6 @@
         <div class="col-xs-1">
           {{-- Boton Buscar --}}
           <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i></button>
-          {{-- Boton Nuevo --}}
-          <a href="{{ url('createCronograma') }}" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i></a>
         </div>
       </div>
     </form>
@@ -75,6 +73,7 @@
               <th>Fecha</th>
               <th>Horario</th>
               <th>D&iacute;as</th>
+              <th>Instructor</th>
               <th></th>
             </tr>
             @foreach($cronograma as $key => $c)
@@ -87,19 +86,13 @@
               <td>{{ dias($c->dias) }}</td>
               <td>
                 {{-- Boton Editar --}}
-                <a href="{{ url('editCronograma/'.$c->id_cr) }}" class="btn btn-warning">
+                <a href="{{ url('editInicio/'.$c->id_cr) }}" class="btn btn-warning">
                   <i class="glyphicon glyphicon-pencil"></i>
                 </a>
                 {{-- Boton Eliminar --}}
-                <a href="{{ url('confirmCronograma/'.$c->id_cr) }}" class="btn btn-danger">
+                <a href="{{ url('confirmInicio/'.$c->id_cr) }}" class="btn btn-danger">
                   <i class="glyphicon glyphicon-trash"></i>
                 </a>
-                {{-- Boton Inicar Curso --}}
-                @if ($c->estado == 1)
-                  <a href="{{ url('createInicio/'.$c->id_cr) }}" class="btn btn-success">
-                    <i class="fa fa-check"></i>
-                  </a>
-                @endif
               </td>
             </tr>
             @endforeach

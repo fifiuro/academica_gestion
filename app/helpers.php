@@ -25,7 +25,7 @@ function formatoFechaReporte($fo){
 }
 /* Mostrar días de la semana */
 function dias($d){
-    $dias = array("","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo");
+    $dias = array("","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo");
     $d = explode(",",$d);
     $j = 0;
     $m = "";

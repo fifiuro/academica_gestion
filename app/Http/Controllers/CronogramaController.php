@@ -33,9 +33,10 @@ class CronogramaController extends Controller
         $crono = Cronograma::join('curso','cronograma.id_cu','=','curso.id_cu')
                            ->join('horario','cronograma.id_cr','=','horario.id_cr')
                            ->where('curso.codigo','like','%'.$request->cod.'%')
-                           ->orWhere('curso.nombre','like','%'.$request->nom.'%')
+                           ->Where('curso.nombre','like','%'.$request->nom.'%')
                            ->where('cronograma.mes','=',$request->mes)
                            ->where('cronograma.gestion','=',$request->gestion)
+                           ->where('cronograma.estado','=',1)
                            ->select("cronograma.id_cr",
                                 "curso.codigo",
                                 "curso.nombre",
