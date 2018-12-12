@@ -119,38 +119,20 @@
                         </button>
                     </div>
                 </div>
-                <div class="form-group" id="ventanaDias" name="ventanDias" style="display: none;">
-                    <label for="dias">Días *:</label>
-                    <div class="row">
-                        <div class="col-xs-4 col-sm-1 text-center">Lunes<br><input type="checkbox" name="dias[]" id="dias" value="1"></div>
-                        <div class="col-xs-4 col-sm-1 text-center">Martes<br><input type="checkbox" name="dias[]" id="dias" value="1"></div>
-                        <div class="col-xs-4 col-sm-1 text-center">Miercoles<br><input type="checkbox" name="dias[]" id="dias" value="1"></div>
-                        <div class="col-xs-3 col-sm-1 text-center">Jueves<br><input type="checkbox" name="dias[]" id="dias" value="1"></div>
-                        <div class="col-xs-3 col-sm-1 text-center">Viernes<br><input type="checkbox" name="dias[]" id="dias" value="1"></div>
-                        <div class="col-xs-3 col-sm-1 text-center">Sabado<br><input type="checkbox" name="dias[]" id="dias" value="1"></div>
-                        <div class="col-xs-3 col-sm-1 text-center">Domingo<br><input type="checkbox" name="dias[]" id="dias" value="1"></div>
-                    </div>
-                </div>
-                <div class="row" id="ventanaHora" name="ventanaHora" style="display: none;">
-                    <div class="bootstrap-timepicker col-xs-6 col-sm-6">
-                        <label for="horaInicio">Hora Inicio *:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control timepicker" name="horaInicio" id="horaInicio" autocomplete="off">
-        
-                            <div class="input-group-addon">
-                                <i class="fa fa-clock-o"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bootstrap-timepicker col-xs-6 col-sm-6">
-                        <label for="horaFin">Hora Fin *:</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control timepicker" name="horaFin" id="horaFin" autocomplete="off">
-        
-                            <div class="input-group-addon">
-                                <i class="fa fa-clock-o"></i>
-                            </div>
-                        </div>
+                <div class="row" id="ventanaDias" name="ventanaDias" style="display: none;">
+                    <div class="col-xs-12">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <td><strong>Días</strong></td>
+                                    <td><strong>Horario</strong></td>
+                                    <td><strong>Acciones</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody id="horario">
+                                
+                            </tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="form-group" id="ventanaDis" name="ventanaDis" style="display: none;">
@@ -165,7 +147,9 @@
             <!-- /.box-body -->
 
             <div class="box-footer">
-                <button type="submit" class="btn btn-primary" name="guardar" id="guardar">GUARDAR</button>
+                <button type="submit" class="btn btn-primary" name="guardar" id="guardar" style="display: none;">
+                    GUARDAR
+                </button>
                 <a href="{{ url('findCronograma') }}" class="btn btn-danger">CANCELAR</a>
             </div>
         </form>
@@ -184,36 +168,16 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-xs-6">
-                        <label for="fechaInicio">Fecha Inicio</label>
-                        <div class="input-group date">
-                            <div class="input-group-addon">
-                                <i class="fa fa-calendar"></i>
-                            </div>
-                            <input class="form-control pull-right" id="fInicio" type="text" name="fInicio" autocomplete="off" required>
-                        </div>
-                    </div>
-                    <div class="col-xs-6">
-                        <label for="fecha_fin">Fecha Fin</label>
-                        <div class="input-group date">
-                            <div class="input-group-addon">
-                                <i class="fa fa-calendar"></i>
-                            </div>
-                            <input class="form-control pull-right" id="fFin" type="text" name="fFin" autocomplete="off" required>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-xs-12">
                         <label for="dias">Dias</label>
                         <select name="dias[]" id="dias" class="form-control select2" multiple data-placeholder="Seleccione Días" style="width:100%" required>
-                            <option value="2">Lunes</option>
-                            <option value="3">Martes</option>
-                            <option value="4">Miércoles</option>
-                            <option value="5">Jueves</option>
-                            <option value="6">Viernes</option>
-                            <option value="7">Sábado</option>
-                            <option value="1">Domingo</option>
+                            <option value="1">Lunes</option>
+                            <option value="2">Martes</option>
+                            <option value="3">Miércoles</option>
+                            <option value="4">Jueves</option>
+                            <option value="5">Viernes</option>
+                            <option value="6">Sábado</option>
+                            <option value="7">Domingo</option>
                         </select>
                     </div>
                 </div>
@@ -302,8 +266,6 @@ $('#myajax').click(function(){
 });
 
 $("#ventanaResul").on("click",".accion",function(){
-    //$("#ventanaResul").css("display","none");
-    //$("#ventanaBuscar").css("display","none");
     $("#ventanaResul").hide(1000);
     $("#ventanaBuscar").hide(1000);
 
@@ -347,26 +309,47 @@ $('#datepicker').datepicker({
     format: "dd/mm/yyyy"
 });
 
-$("#datepicker").on("change",function(){
-    if($(this).val() != ''){
-        $("#ventanaHora").show(1000);
-        $("#ventanaDias").show(1000);
-        $("#ventanaDis").show(1000);
-        $("#ventanaObs").show(1000);
-    }else{
-        $("#ventanaHora").hide(1000);
-        $("#ventanaDias").hide(1000);
-        $("#ventanaDis").hide(1000);
-        $("#ventanaObs").hide(1000);
-    }
-});
-
 $(".select2").select2();
-
+/* LLENADO DE DIAS Y HORAS */
 $("#asignacion").on("click", function(){
-    alert($("#fechaInicio").val());
-    alert($("#fechaFin").val());
+    var ndias = [ '','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo' ];
+    var dia = $("#dias").val();
+    var d = "";
+    var nd = "";
+    var coin = 0;
+    for(var i=1; i<ndias.length; i++){
+        if(dia.includes(i.toString())){
+            if(coin == 0){
+                nd = nd + i;
+                d = d + ndias[i];
+                coin = coin + 1;
+            }else{
+                nd = nd + "," + i;
+                d = d + ", " + ndias[i];
+            }
+        }
+    }
+    $("#horario").append('<tr><td>' + d + '<input type="text" name="d[]" value="' + nd + '"></td><td>' + $("#horaInicio").val() + ' - ' + $("#horaFin").val() + '<input type="text" name="h[]" value="' + $("#horaInicio").val() + '-' + $("#horaFin").val() + '"></td><td><button type="button" class="btn btn-danger" id="eliminar">ELIMINAR</button></td></tr>');
+
+    $("#myModal").modal('hide');
+    
+    $("#ventanaDias").show(1000);
+    $("#ventanaDis").show(1000);
+    $("#ventanaObs").show(1000);
 });
+/* FIN DEL LLENADO DIAS Y HORAS */
+
+/* ELIMINA UNA FILA DE LA TABLA */
+$(document).on('click', '#eliminar', function(){
+    $(this).closest('tr').remove();
+});
+/* FIN ELIMINAR */
+
+/* CAMBIO DE ESTADO DE DISPONIBILIDAD */
+$("#dis").on('change', function(){
+    $("#guardar").css('display','inline');
+});
+/* FIN DE LA DISPONIBILIDAD */
 
 /* HABILITAR LOS CAMBIOS DE DURACION Y PRECIO DEL CURSO */
 $("#cambio").on("click", function(){
@@ -382,12 +365,6 @@ $("#cambio").on("click", function(){
     }
 });
 /* FIN DE HABILITAR LOS CAMBIOS */
-
-/* AGREGAR NUEVOS ELEMENTOS AL HTML */
-$('#agregar').on('click',function(){
-    $('#tablaContenido').append('<tr><td><input type="checkbox" name="dias[]" id="dias" value="2"><div class="bootstrap-timepicker"><div class="input-group"><input type="text" class="form-control timepicker" name="horaInicioLunes[]" id="horaInicio" autocomplete="off"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></div><div class="bootstrap-timepicker"><div class="input-group"><input type="text" class="form-control timepicker" name="horaFinLunes[]" id="horaFin" autocomplete="off"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></div></td><td><input type="checkbox" name="dias[]" id="dias" value="3"><div class="bootstrap-timepicker"><div class="input-group"><input type="text" class="form-control timepicker" name="horaInicioMartes[]" id="horaInicio" autocomplete="off"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></div><div class="bootstrap-timepicker"><div class="input-group"><input type="text" class="form-control timepicker" name="horaFinMartes[]" id="horaFin" autocomplete="off"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></div></td><td><input type="checkbox" name="dias[]" id="dias" value="4"><div class="bootstrap-timepicker"><div class="input-group"><input type="text" class="form-control timepicker" name="horaInicioMiercoles[]" id="horaInicio" autocomplete="off"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></div><div class="bootstrap-timepicker"><div class="input-group"><input type="text" class="form-control timepicker" name="horaFinMiercoles[]" id="horaFin" autocomplete="off"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></div></td><td><input type="checkbox" name="dias[]" id="dias" value="5"><div class="bootstrap-timepicker"><div class="input-group"><input type="text" class="form-control timepicker" name="horaInicioJueves[]" id="horaInicio" autocomplete="off"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></div><div class="bootstrap-timepicker"><div class="input-group"><input type="text" class="form-control timepicker" name="horaFinJueves[]" id="horaFin" autocomplete="off"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></div></td><td><input type="checkbox" name="dias[]" id="dias" value="6"><div class="bootstrap-timepicker"><div class="input-group"><input type="text" class="form-control timepicker" name="horaInicioViernes[]" id="horaInicio" autocomplete="off"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></div><div class="bootstrap-timepicker"><div class="input-group"><input type="text" class="form-control timepicker" name="horaFinViernes[]" id="horaFin" autocomplete="off"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></div></td><td><input type="checkbox" name="dias[]" id="dias" value="7"><div class="bootstrap-timepicker"><div class="input-group"><input type="text" class="form-control timepicker" name="horaInicioSabado[]" id="horaInicio" autocomplete="off"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></div><div class="bootstrap-timepicker"><div class="input-group"><input type="text" class="form-control timepicker" name="horaFinSabado[]" id="horaFin" autocomplete="off"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></div></td><td><input type="checkbox" name="dias[]" id="dias" value="1"></td><td><input class="form-control pull-right" id="fechaInicio" type="text" name="fechaInicio[]" autocomplete="off" required><br><input class="form-control pull-right" id="fechaFin" type="text" name="fechaFin[]" autocomplete="off" required></td></tr>');
-});
-//<div class="bootstrap-timepicker"><div class="input-group"><input type="text" class="form-control timepicker" name="horaInicioSabado[]" id="horaInicio" autocomplete="off"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></div><div class="bootstrap-timepicker"><div class="input-group"><input type="text" class="form-control timepicker" name="horaFinSabado[]" id="horaFin" autocomplete="off"><div class="input-group-addon"><i class="fa fa-clock-o"></i></div></div></div>
 
 /* Asignar acciones a todos los elementos interactivos */
 $(document).on('click', '#dias', function(){

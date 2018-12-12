@@ -121,7 +121,11 @@ class CronogramaController extends Controller
         $feriado = Feriado::where('estado','=',1)->get();
         $hora = new Horario;
 
-        $dias = implode(',',$request->dias);
+        if(is_array($request->dias)){
+            $dias = implode(',',$request->dias);
+        }else{
+            $dias = $request->dias;
+        }
 
         $hora->id_cr = $insertId;
         $hora->dias = $dias;
