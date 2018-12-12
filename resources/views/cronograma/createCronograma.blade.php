@@ -346,8 +346,12 @@ $(document).on('click', '#eliminar', function(){
 /* FIN ELIMINAR */
 
 /* CAMBIO DE ESTADO DE DISPONIBILIDAD */
-$("#dis").on('change', function(){
-    $("#guardar").css('display','inline');
+$("#dis").on('keyup', function(){
+    if($("#dis").val() > 0){
+        $("#guardar").css('display','inline');
+    }else{
+        $("#guardar").css('display','none');
+    }
 });
 /* FIN DE LA DISPONIBILIDAD */
 
