@@ -75,7 +75,36 @@ class CronogramaController extends Controller
      */
     public function store(Request $request)
     {
-        $messages = array(
+        echo $request->id_cur."<br>";
+        if(isset($request->pre) & isset($request->dur)){
+            $crono->precio = $request->pre;
+            $crono->duracion = $request->dur;
+        }else{
+            $crono->precio = 0;
+            $crono->duracion = 0;
+        }
+        $crono->disponibilidad = $request->dis;
+        $crono->id = $request->user()->id_pe;
+        $crono->mes = $request->mes;
+        $crono->gestion = $request->gestion;
+        $crono->obs = $request->obs;
+        $crono->estado = 1;
+
+        if(is_array($request->dias)){
+            $dias = implode(',',$request->dias);
+        }else{
+            $dias = $request->dias;
+        }
+
+        $hora->id_cr = $insertId;
+        $hora->dias = $dias;
+        $hora->horarios = $request->horaInicio."-".$request->horaFin;
+        $hora->f_inicio = formatoFecha($request->fechaInicio);
+        $hora->f_fin = finalizacion(formatoFecha($request->fechaInicio),$request->dias,$request->duracion,$request->horaInicio,$request->horaFin,$feriado);
+        $hora->estado = 1;
+
+
+        /*$messages = array(
             'mes.required' => 'El Mes de cronograma es necesario.',
             'gestion.required' => 'La Gestion e s necesario.',
             'id_cur.required' => 'No se selecciono ningun curso.',
@@ -96,7 +125,7 @@ class CronogramaController extends Controller
 
         $this->validate($request, $rules, $messages);
         /* GUARDA DATOS DE CRONOGRAMA */
-        $crono = new Cronograma;
+        /*$crono = new Cronograma;
 
         $crono->id_cu = $request->id_cur;
         if(isset($request->pre) & isset($request->dur)){
@@ -118,7 +147,7 @@ class CronogramaController extends Controller
         $insertId = $crono->id_cr;
         /* FIN DE GUARDAR DATOS */
         /** GUARDAR DATOS DE HORARIO */
-        $feriado = Feriado::where('estado','=',1)->get();
+        /*$feriado = Feriado::where('estado','=',1)->get();
         $hora = new Horario;
 
         if(is_array($request->dias)){
@@ -136,8 +165,8 @@ class CronogramaController extends Controller
 
         $hora->save();
         /** FIN DE GUARDAR DATOS */
-        Notification::success("El registro se realizó correctamente.");
-        return redirect('findCronograma');
+        /*Notification::success("El registro se realizó correctamente.");
+        return redirect('findCronograma');*/
     }
 
     /**
