@@ -75,57 +75,27 @@ class CronogramaController extends Controller
      */
     public function store(Request $request)
     {
-        echo $request->id_cur."<br>";
-        if(isset($request->pre) & isset($request->dur)){
-            $crono->precio = $request->pre;
-            $crono->duracion = $request->dur;
-        }else{
-            $crono->precio = 0;
-            $crono->duracion = 0;
-        }
-        $crono->disponibilidad = $request->dis;
-        $crono->id = $request->user()->id_pe;
-        $crono->mes = $request->mes;
-        $crono->gestion = $request->gestion;
-        $crono->obs = $request->obs;
-        $crono->estado = 1;
-
-        if(is_array($request->dias)){
-            $dias = implode(',',$request->dias);
-        }else{
-            $dias = $request->dias;
-        }
-
-        $hora->id_cr = $insertId;
-        $hora->dias = $dias;
-        $hora->horarios = $request->horaInicio."-".$request->horaFin;
-        $hora->f_inicio = formatoFecha($request->fechaInicio);
-        $hora->f_fin = finalizacion(formatoFecha($request->fechaInicio),$request->dias,$request->duracion,$request->horaInicio,$request->horaFin,$feriado);
-        $hora->estado = 1;
-
-
-        /*$messages = array(
+        $messages = array(
             'mes.required' => 'El Mes de cronograma es necesario.',
-            'gestion.required' => 'La Gestion e s necesario.',
+            'gestion.required' => 'La Gestion es necesario.',
             'id_cur.required' => 'No se selecciono ningun curso.',
             'fechaInicio.required' => 'La Fecha de Inicio es necesario.',
-            'horaInicio.required' => 'La Hora de Inicio es necesario.',
-            'horaFin.required' => 'La Hora de Finalizacion es necesario.',
-            'dias.required' => 'Los Dias son necesario.'
+            'h.required' => 'Es necesario definir el horario.',
+            'd.required' => 'Es necesaio los dias a pasar clases.',
         );
         $rules = array (
             'mes' => 'required',
             'gestion' => 'required',
             'id_cur' => 'required',
             'fechaInicio' => 'required',
-            'horaInicio' => 'required',
-            'horaFin' => 'required',
-            'dias' => 'required'
+            'h' => 'required',
+            'd' => 'required'
         );
 
         $this->validate($request, $rules, $messages);
+
         /* GUARDA DATOS DE CRONOGRAMA */
-        /*$crono = new Cronograma;
+        $crono = new Cronograma;
 
         $crono->id_cu = $request->id_cur;
         if(isset($request->pre) & isset($request->dur)){
@@ -147,26 +117,28 @@ class CronogramaController extends Controller
         $insertId = $crono->id_cr;
         /* FIN DE GUARDAR DATOS */
         /** GUARDAR DATOS DE HORARIO */
-        /*$feriado = Feriado::where('estado','=',1)->get();
+        $feriado = Feriado::where('estado','=',1)->get();
         $hora = new Horario;
 
-        if(is_array($request->dias)){
-            $dias = implode(',',$request->dias);
+        $dias = implode(',',$request->d);
+        $horas = implode(',',$request->h);
+        if($request->dur > 0){
+            $duracion = $request->dur;
         }else{
-            $dias = $request->dias;
+            $duracion = $request->duracion;
         }
-
+        
         $hora->id_cr = $insertId;
         $hora->dias = $dias;
-        $hora->horarios = $request->horaInicio."-".$request->horaFin;
+        $hora->horarios = $horas;
         $hora->f_inicio = formatoFecha($request->fechaInicio);
-        $hora->f_fin = finalizacion(formatoFecha($request->fechaInicio),$request->dias,$request->duracion,$request->horaInicio,$request->horaFin,$feriado);
+        $hora->f_fin = finalizacion(formatoFecha($request->fechaInicio),$request->d,$request->h,$duracion,$feriado);
         $hora->estado = 1;
 
         $hora->save();
         /** FIN DE GUARDAR DATOS */
-        /*Notification::success("El registro se realizó correctamente.");
-        return redirect('findCronograma');*/
+        Notification::success("El registro se realizó correctamente.");
+        return redirect('findCronograma');
     }
 
     /**
@@ -194,24 +166,41 @@ class CronogramaController extends Controller
      */
     public function update(Request $request)
     {
+        echo "Mes: ".$request->mes."<br>";
+        echo "Gestion: ".$request->gestion."<br>";
+        echo "ID del curso: ".$request->id_cur."<br>";
+        echo "Duracion original: ".$request->duracion."<br>";
+        echo "Duracion Cambio: ".$request->dur."<br>";
+        echo "Precio Cambio: ".$request->pre."<br>";
+        echo "Fecha de Inicio: ".$request->fechaInicio."<br>";
+        echo "Disponibilidad: ".$request->dis."<br>";
+        echo "Observaciones: ".$request->obs."<br>";
+        echo "Dias: ";
+        print_r($request->d);
+        echo "<br>";
+        echo "Horas: ";
+        print_r($request->h);
+        echo "<br>";
+
         $messages = array(
             'mes.required' => 'El Mes de cronograma es necesario.',
-            'gestion.required' => 'La Gestion e s necesario.',
+            'gestion.required' => 'La Gestion es necesario.',
+            'id_cur.required' => 'No se selecciono ningun curso.',
             'fechaInicio.required' => 'La Fecha de Inicio es necesario.',
-            'horaInicio.required' => 'La Hora de Inicio es necesario.',
-            'horaFin.required' => 'La Hora de Finalizacion es necesario.',
-            'dias.required' => 'Los Dias son necesario.'
+            'h.required' => 'Es necesario definir el horario.',
+            'd.required' => 'Es necesaio los dias a pasar clases.',
         );
         $rules = array (
             'mes' => 'required',
             'gestion' => 'required',
+            'id_cur' => 'required',
             'fechaInicio' => 'required',
-            'horaInicio' => 'required',
-            'horaFin' => 'required',
-            'dias' => 'required'
+            'h' => 'required',
+            'd' => 'required'
         );
 
         $this->validate($request, $rules, $messages);
+        
         /* GUARDA DATOS DE CRONOGRAMA */
         $crono = Cronograma::find($request->id_cr);
 

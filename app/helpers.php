@@ -64,32 +64,39 @@ function anio(){
     $f = getdate(); 
     $anio = array();
 
-    array_push($anio, $f['year']);
+    for($i=2014; $i<=$f['year']; $i++)
+    {
+        array_push($anio, $i);
+    }
 
     return $anio;
 }
 /** Calcular Fecha de Finalizacion */
-function finalizacion($fecha, $dias, $duracion, $hi, $hf, $feriado){
-    $d =  diasCurso($hi,$hf,$duracion);
+function finalizacion($fecha, $dias, $horas, $duracion, $feriado){
     $fer = array();
     foreach($feriado as $key => $f){
         array_push($fer,$f->fecha);
     }
 
     $fecha = strtotime($fecha);
+    $dias = implode(",",$dias);
+    $dias = explode(",",$dias);
+    $horas = implode(",",$horas);
+    $horas = explode(",",$horas);
 
-    while($d > 0){
+    while($duracion > 0){
         $formateado = date('Y-m-j',$fecha);
         if(in_array($formateado,$fer)){
 
         }else{
             $buscar = date('N',$fecha);
-            if(in_array($buscar,$dias)){
-                $d = $d - 1;
+            $clave = array_search($buscar,$dias);
+            if($clave !== false){
+                $duracion = $duracion - numeroHorasDia($horas, $clave);
             }
         }
 
-        if($d == 0){
+        if($duracion == 0){
             
         }else{
             $fecha = strtotime('+1 day', $fecha);
@@ -99,21 +106,13 @@ function finalizacion($fecha, $dias, $duracion, $hi, $hf, $feriado){
     return date('Y-m-j',$fecha);
 }
 
-function diasCurso($hi, $hf, $duracion){
-    $f1 = new DateTime($hi);
-    $f2 = new DateTime($hf);
+function numeroHorasDia($hora, $clave){
+    $hora = explode("-",$hora[$clave]);
+    $hi = explode(":",$hora[0]);
+    $hf = explode(":",$hora[1]);
 
-    $d = $f1->diff($f2);
-
-    $h = explode(':', $d->format('%H:%I'));
-    $min = ($h[0] * 60) + $h[1];
+    $min = (($hf[0] * 60) + $hf[1]) - (($hi[0] * 60) + $hi[1]);
     $hor = $min / 60;
 
-    if($hor > 0){
-        $todo = $duracion / $hor;
-    }else{
-        $todo = 0;
-    }
-
-    return $todo;
+    return $hor;
 }

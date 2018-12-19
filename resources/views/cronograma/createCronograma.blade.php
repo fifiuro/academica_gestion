@@ -316,20 +316,23 @@ $("#asignacion").on("click", function(){
     var dia = $("#dias").val();
     var d = "";
     var nd = "";
+    var hd = "";
     var coin = 0;
     for(var i=1; i<ndias.length; i++){
         if(dia.includes(i.toString())){
             if(coin == 0){
                 nd = nd + i;
+                hd = hd + $("#horaInicio").val() + "-" + $("#horaFin").val();
                 d = d + ndias[i];
                 coin = coin + 1;
             }else{
                 nd = nd + "," + i;
                 d = d + ", " + ndias[i];
+                hd = hd + "," + $("#horaInicio").val() + "-" + $("#horaFin").val();
             }
         }
     }
-    $("#horario").append('<tr><td>' + d + '<input type="text" name="d[]" value="' + nd + '"></td><td>' + $("#horaInicio").val() + ' - ' + $("#horaFin").val() + '<input type="text" name="h[]" value="' + $("#horaInicio").val() + '-' + $("#horaFin").val() + '"></td><td><button type="button" class="btn btn-danger" id="eliminar">ELIMINAR</button></td></tr>');
+    $("#horario").append('<tr><td>' + d + '<input type="hidden" name="d[]" value="' + nd + '"></td><td>' + $("#horaInicio").val() + ' - ' + $("#horaFin").val() + '<input type="hidden" name="h[]" value="' + hd + '"></td><td><button type="button" class="btn btn-danger" id="eliminar">ELIMINAR</button></td></tr>');
 
     $("#myModal").modal('hide');
     
