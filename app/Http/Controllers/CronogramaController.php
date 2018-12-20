@@ -152,6 +152,7 @@ class CronogramaController extends Controller
         $crono = Cronograma::join('curso','cronograma.id_cu','=','curso.id_cu')
                            ->join('horario','cronograma.id_cr','=','horario.id_cr')
                            ->where('cronograma.id_cr','=',$id)
+                           ->select('cronograma.id_cr','cronograma.gestion','cronograma.mes','cronograma.disponibilidad','cronograma.obs','horario.id_ho','horario.dias','horario.horarios','horario.f_inicio','curso.id_cu','curso.codigo','curso.nombre','curso.duracion','curso.precio')
                            ->get();
 
         return view('cronograma.updateCronograma', array("cronograma" => $crono, 'mes' => mes(), 'anio' => anio()));

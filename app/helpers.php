@@ -43,6 +43,70 @@ function dias($d){
 
     return $m;
 }
+
+function diasMod($d,$h){
+    $dias = array('','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo');
+    $d = explode(',',$d);
+    $h = explode(',',$h);
+    $j = 0;
+    $m = '';
+    $n = '';
+    $r = '';
+    $s = '';
+    $todo = array();
+    $ant = '';
+
+    for($i=0; $i<count($dias); $i++) {
+        if($i == $d[$j]){
+            switch ($i) {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                    $m .= $dias[$i];
+                    if($ant != $h[$j]){
+                        $n .= $h[$j];
+                        $ant = $h[$j];
+                    }
+        
+                    if($j < (count($d)-1)){
+                        $j = $j + 1;
+                        $m .= ',';
+                        //$n .= ',';
+                    }
+                    break;
+                case 6:
+                case 7:
+                    $r .= $dias[$i];
+                    if($ant != $h[$j]){
+                        $s .= $h[$j];
+                        $ant = $h[$j];
+                    }
+
+                    if($j < (count($d)-1)){
+                        $j = $j + 1;
+                        $r .= ',';
+                        $s .= ',';
+                    }
+                    break;
+                
+                default:
+                    # code...
+                    break;
+            }
+            
+        }
+    }
+    if($m != '' and $n != ''){
+        array_push($todo, '<tr><td>'.$m.'</td><td>'.$n.'</td></tr>');
+    }
+    if($r != '' and $s != ''){
+        array_push($todo, '<tr><td>'.$r.'</td><td>'.$s.'</td></tr>');
+    }
+
+    return $todo;
+}
 /* Array del Mes */
 function mes(){
     $m = array("","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");

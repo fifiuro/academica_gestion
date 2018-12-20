@@ -105,11 +105,12 @@
                                 <tr>
                                     <td><strong>Días</strong></td>
                                     <td><strong>Horario</strong></td>
-                                    <td><strong>Acciones</strong></td>
                                 </tr>
                             </thead>
                             <tbody id="horario">
-                                
+                                @foreach (diasMod($c->dias,$c->horarios) as $key => $dm)
+                                    {!! $dm !!}
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
