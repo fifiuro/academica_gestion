@@ -30,7 +30,7 @@
             {{ csrf_field() }}
             <div class="box-body">
                 <div class="text-center">
-                    <h2>¿Está seguro de eleminar Cronograma del Curso?</h2>
+                    <h2>¿Está seguro de eleminar el Curso del Cronograma?</h2>
                     <input type="hidden" class="form-control" name="id" id="id" value="{{ $id }}">
                 </div>
             </div>

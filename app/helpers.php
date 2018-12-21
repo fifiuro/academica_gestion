@@ -55,6 +55,10 @@ function diasMod($d,$h){
     $s = '';
     $todo = array();
     $ant = '';
+    $md1 = '';
+    $mh1 = '';
+    $md2 = '';
+    $mh2 = '';
 
     for($i=0; $i<count($dias); $i++) {
         if($i == $d[$j]){
@@ -65,6 +69,8 @@ function diasMod($d,$h){
                 case 4:
                 case 5:
                     $m .= $dias[$i];
+                    $md1 .= $i;
+                    $mh1 .= $h[$j];
                     if($ant != $h[$j]){
                         $n .= $h[$j];
                         $ant = $h[$j];
@@ -74,38 +80,55 @@ function diasMod($d,$h){
                         $j = $j + 1;
                         $m .= ',';
                         //$n .= ',';
+                        $md1 .= ',';
+                        $mh1 .= ',';
                     }
                     break;
                 case 6:
                 case 7:
                     $r .= $dias[$i];
+                    $md2 .= $i;
                     if($ant != $h[$j]){
                         $s .= $h[$j];
                         $ant = $h[$j];
+                        $mh2 .= $h[$j];
                     }
 
                     if($j < (count($d)-1)){
                         $j = $j + 1;
                         $r .= ',';
                         $s .= ',';
+                        $md2 .= ',';
+                        $mh2 .= ',';
                     }
-                    break;
-                
-                default:
-                    # code...
                     break;
             }
             
         }
     }
     if($m != '' and $n != ''){
-        array_push($todo, '<tr><td>'.$m.'</td><td>'.$n.'</td></tr>');
+        array_push($todo, '<tr><td>'.trim($m,',').'<input type="hidden" name="d[]" value="'.trim($md1,',').'"></td><td>'.trim($n,',').'<input type="hidden" name="h[]" value="'.trim($mh1,',').'"></td><td><button type="button" class="btn btn-danger" id="eliminar">ELIMINAR</button></td></tr>');
     }
     if($r != '' and $s != ''){
-        array_push($todo, '<tr><td>'.$r.'</td><td>'.$s.'</td></tr>');
+        array_push($todo, '<tr><td>'.trim($r,',').'<input type="hidden" name="d[]" value="'.trim($md2,',').'"></td><td>'.trim($s,',').'<input type="hidden" name="h[]" value="'.trim($mh2,',').'"></td><td><button type="button" class="btn btn-danger" id="eliminar">ELIMINAR</button></td></tr>');
     }
 
     return $todo;
+}
+
+function horarios($h){
+    $h = explode(',',$h);
+    $ant = '';
+    $t = '';
+
+    for($i=0; $i<count($h); $i++){
+        if($ant != $h[$i]){
+            $t .= $h[$i].",";
+            $ant = $h[$i];
+        }
+    }
+
+    return $t;
 }
 /* Array del Mes */
 function mes(){

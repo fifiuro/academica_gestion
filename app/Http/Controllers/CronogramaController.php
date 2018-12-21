@@ -152,7 +152,7 @@ class CronogramaController extends Controller
         $crono = Cronograma::join('curso','cronograma.id_cu','=','curso.id_cu')
                            ->join('horario','cronograma.id_cr','=','horario.id_cr')
                            ->where('cronograma.id_cr','=',$id)
-                           ->select('cronograma.id_cr','cronograma.gestion','cronograma.mes','cronograma.disponibilidad','cronograma.obs','horario.id_ho','horario.dias','horario.horarios','horario.f_inicio','curso.id_cu','curso.codigo','curso.nombre','curso.duracion','curso.precio')
+                           ->select('cronograma.id_cr','cronograma.gestion','cronograma.mes','cronograma.disponibilidad','cronograma.obs','cronograma.estado','horario.id_ho','horario.dias','horario.horarios','horario.f_inicio','curso.id_cu','curso.codigo','curso.nombre','curso.duracion','curso.precio')
                            ->get();
 
         return view('cronograma.updateCronograma', array("cronograma" => $crono, 'mes' => mes(), 'anio' => anio()));
@@ -167,22 +167,6 @@ class CronogramaController extends Controller
      */
     public function update(Request $request)
     {
-        echo "Mes: ".$request->mes."<br>";
-        echo "Gestion: ".$request->gestion."<br>";
-        echo "ID del curso: ".$request->id_cur."<br>";
-        echo "Duracion original: ".$request->duracion."<br>";
-        echo "Duracion Cambio: ".$request->dur."<br>";
-        echo "Precio Cambio: ".$request->pre."<br>";
-        echo "Fecha de Inicio: ".$request->fechaInicio."<br>";
-        echo "Disponibilidad: ".$request->dis."<br>";
-        echo "Observaciones: ".$request->obs."<br>";
-        echo "Dias: ";
-        print_r($request->d);
-        echo "<br>";
-        echo "Horas: ";
-        print_r($request->h);
-        echo "<br>";
-
         $messages = array(
             'mes.required' => 'El Mes de cronograma es necesario.',
             'gestion.required' => 'La Gestion es necesario.',
@@ -217,7 +201,7 @@ class CronogramaController extends Controller
         $crono->mes = $request->mes;
         $crono->gestion = $request->gestion;
         $crono->obs = $request->obs;
-        $crono->estado = 1;
+        $crono->estado = $request->estado;
 
         $crono->save();
 
@@ -227,13 +211,18 @@ class CronogramaController extends Controller
         $feriado = Feriado::where('estado','=',1)->get();
         $hora = Horario::find($request->id_ho);
 
-        $dias = implode(',',$request->dias);
-
-        $hora->id_cr = $insertId;
+        $dias = implode(',',$request->d);
+        $horas = implode(',',$request->h);
+        if($request->dur > 0){
+            $duracion = $request->dur;
+        }else{
+            $duracion = $request->duracion;
+        }
+        
         $hora->dias = $dias;
-        $hora->horarios = $request->horaInicio."-".$request->horaFin;
+        $hora->horarios = $horas;
         $hora->f_inicio = formatoFecha($request->fechaInicio);
-        $hora->f_fin = finalizacion(formatoFecha($request->fechaInicio),$request->dias,$request->duracion,$request->horaInicio,$request->horaFin,$feriado);
+        $hora->f_fin = finalizacion(formatoFecha($request->fechaInicio),$request->d,$request->h,$duracion,$feriado);
         $hora->estado = 1;
 
         $hora->save();
@@ -269,7 +258,4 @@ class CronogramaController extends Controller
         return redirect('findCronograma');
     }
 
-    public function pruebaJson(){
-        
-    }
 }

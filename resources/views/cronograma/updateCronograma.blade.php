@@ -30,9 +30,11 @@
     <div class="box box-primary">
         <!-- /.box-header -->
         <!-- form start -->
-        <form name="form" id="form" role="form" method="POST" action="{{ url('storeCronograma') }}">
+        <form name="form" id="form" role="form" method="POST" action="{{ url('updateCronograma') }}">
             {{ csrf_field() }}
             @foreach ($cronograma as $key => $c)
+            <input type="hidden" name="id_cr" id="id_cr" value="{{ $c->id_cr }}">
+            <input type="hidden" name="id_ho" id="id_ho" value="{{ $c->id_ho }}">
             <div class="box-body">
                 <div class="row">
                     <div class="form-group col-md-6 col-sm-6">
@@ -74,7 +76,7 @@
                     <div class="form-group col-md-3 col-sm-3">
                         <label for="dur">Duración *:</label>
                     <input class="form-control" name="dur" id="dur" placeholder="Duración" type="text" value="{{ $c->duracion }}" disabled>
-                        <input type="hidden" name="duracion" id="duracion">
+                        <input type="hidden" name="duracion" id="duracion" value="{{ $c->duracion }}">
                     </div>
                     <div class="form-group col-md-3 col-sm-3">
                         <label for="pre">Precio:</label>
@@ -86,7 +88,7 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
                             </div>
-                        <input class="form-control pull-right" id="datepicker" type="text" name="fechaInicio" autocomplete="off" value="{{ $c->f_inicio }}" required>
+                        <input class="form-control pull-right" id="datepicker" type="text" name="fechaInicio" autocomplete="off" value="{{ formatoFechaReporte($c->f_inicio) }}" required>
                         </div>
                     </div>
                     <div class="form-group col-md-3 col-sm-3">
@@ -100,11 +102,12 @@
                 </div>
                 <div class="row" id="ventanaDias" name="ventanaDias">
                     <div class="col-xs-12">
-                        <table class="table table-striped">
+                        <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <td><strong>Días</strong></td>
                                     <td><strong>Horario</strong></td>
+                                    <td><strong>Acciones</strong></td>
                                 </tr>
                             </thead>
                             <tbody id="horario">
@@ -122,6 +125,32 @@
                 <div class="form-group" id="ventanaObs" name="ventanaObs">
                     <label for="obs">Observaciones:</label>
                 <textarea name="obs" id="obs" cols="30" rows="5" class="form-control">{{ $c->obs }}</textarea>
+                </div>
+                <div class="form-group" id="ventanaObs" name="ventanaObs">
+                    <label for="estado">Estado:</label>
+                    <select name="estado" id="estado" class="form-control">
+                        @if($c->estado == 1)
+                            <option value="1" selected>En cronograma</option>
+                            <option value="2">Iniciado</option>
+                            <option value="3">Finalizado</option>
+                            <option value="4">Suspendido</option>
+                        @elseif ($c->estado == 2)
+                            <option value="1">En cronograma</option>
+                            <option value="2" selected>Iniciado</option>
+                            <option value="3">Finalizado</option>
+                            <option value="4">Suspendido</option>
+                        @elseif ($c->estado == 3)
+                            <option value="1">En cronograma</option>
+                            <option value="2">Iniciado</option>
+                            <option value="3" selected>Finalizado</option>
+                            <option value="4">Suspendido</option>
+                        @elseif ($c->estado == 4)
+                            <option value="1">En cronograma</option>
+                            <option value="2">Iniciado</option>
+                            <option value="3">Finalizado</option>
+                            <option value="4" selected>Suspendido</option>
+                        @endif
+                    </select>
                 </div>
             </div>
             <!-- /.box-body -->

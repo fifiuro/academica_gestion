@@ -83,7 +83,7 @@
                 <a href="https://www.cognos-capacitacion.com/cursos/Cont/{{ $c->codigo }}" target="_blank">{{ $c->codigo }}</a>: {{ $c->nombre }}<br>
                 <strong>Duraci&oacute;n</strong>: {{ $c->duracion }}</td>
               <td>{{ formatoFechaReporte($c->f_inicio) }} - {{ formatoFechaReporte($c->f_fin) }}</td>
-              <td>{{ $c->horarios }}</td>
+              <td>{{ horarios($c->horarios) }}</td>
               <td>{{ dias($c->dias) }}</td>
               <td>
                 {{-- Boton Editar --}}
