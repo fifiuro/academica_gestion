@@ -44,7 +44,7 @@ function dias($d){
     return $m;
 }
 
-function diasMod($d,$h){
+function diasMod($d,$h,$t=''){
     $dias = array('','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo');
     $d = explode(',',$d);
     $h = explode(',',$h);
@@ -107,10 +107,18 @@ function diasMod($d,$h){
         }
     }
     if($m != '' and $n != ''){
-        array_push($todo, '<tr><td>'.trim($m,',').'<input type="hidden" name="d[]" value="'.trim($md1,',').'"></td><td>'.trim($n,',').'<input type="hidden" name="h[]" value="'.trim($mh1,',').'"></td><td><button type="button" class="btn btn-danger" id="eliminar">ELIMINAR</button></td></tr>');
+        if($t == 'i'){
+            array_push($todo, '<tr><td></td><td>'.trim($m,',').'<input type="hidden" name="d[]" value="'.trim($md1,',').'"></td><td>'.trim($n,',').'<input type="hidden" name="h[]" value="'.trim($mh1,',').'"></td><td><button type="button" class="btn btn-danger" id="eliminar">ELIMINAR</button></td></tr>');
+        }else{
+            array_push($todo, '<tr><td>'.trim($m,',').'<input type="hidden" name="d[]" value="'.trim($md1,',').'"></td><td>'.trim($n,',').'<input type="hidden" name="h[]" value="'.trim($mh1,',').'"></td><td><button type="button" class="btn btn-danger" id="eliminar">ELIMINAR</button></td></tr>');
+        }
     }
     if($r != '' and $s != ''){
-        array_push($todo, '<tr><td>'.trim($r,',').'<input type="hidden" name="d[]" value="'.trim($md2,',').'"></td><td>'.trim($s,',').'<input type="hidden" name="h[]" value="'.trim($mh2,',').'"></td><td><button type="button" class="btn btn-danger" id="eliminar">ELIMINAR</button></td></tr>');
+        if($t == 'i'){
+            array_push($todo, '<tr><td><td><td>'.trim($r,',').'<input type="hidden" name="d[]" value="'.trim($md2,',').'"></td><td>'.trim($s,',').'<input type="hidden" name="h[]" value="'.trim($mh2,',').'"></td><td><button type="button" class="btn btn-danger" id="eliminar">ELIMINAR</button></td></tr>');
+        }else{
+            array_push($todo, '<tr><td>'.trim($r,',').'<input type="hidden" name="d[]" value="'.trim($md2,',').'"></td><td>'.trim($s,',').'<input type="hidden" name="h[]" value="'.trim($mh2,',').'"></td><td><button type="button" class="btn btn-danger" id="eliminar">ELIMINAR</button></td></tr>');
+        }
     }
 
     return $todo;

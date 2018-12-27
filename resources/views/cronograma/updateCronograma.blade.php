@@ -157,7 +157,7 @@
 
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary" name="guardar" id="guardar">
-                    GUARDAR
+                    MODIFICAR
                 </button>
                 <a href="{{ url('findCronograma') }}" class="btn btn-danger">CANCELAR</a>
             </div>
