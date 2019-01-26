@@ -7,6 +7,7 @@ use App\Curso;
 use App\Horario;
 use App\Feriado;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Notification;
 
 class InicioController extends Controller
@@ -42,7 +43,22 @@ class InicioController extends Controller
         $crono = Cronograma::join('curso','cronograma.id_cu','=','curso.id_cu')
                            ->join('horario','cronograma.id_cr','=','horario.id_cr')
                            ->where('cronograma.id_cr','=',$id)
-                           ->select('cronograma.id_cr','cronograma.gestion','cronograma.mes','cronograma.disponibilidad','cronograma.obs','cronograma.estado','horario.id_ho','horario.dias','horario.horarios','horario.f_inicio','curso.id_cu','curso.codigo','curso.nombre','curso.duracion','curso.precio')
+                           ->select('cronograma.id_cr',
+                                    'cronograma.gestion',
+                                    'cronograma.mes',
+                                    'cronograma.disponibilidad',
+                                    'cronograma.obs',
+                                    'cronograma.estado',
+                                    DB::raw('cronograma.precio as p'),
+                                    'horario.id_ho',
+                                    'horario.dias',
+                                    'horario.horarios',
+                                    'horario.f_inicio',
+                                    'curso.id_cu',
+                                    'curso.codigo',
+                                    'curso.nombre',
+                                    'curso.duracion',
+                                    'curso.precio')
                            ->get();
 
         return view('inicio.createInicio', array("cronograma" => $crono, 'mes' => mes(), 'anio' => anio()));

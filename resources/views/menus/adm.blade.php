@@ -23,6 +23,10 @@
             <a href="{{ url('findCategoria') }}">
                 <i class="fa fa-circle-o"></i> Tecnologías</a>
         </li>
+        <li>
+            <a href="{{ url('findAula') }}">
+                <i class="fa fa-circle-o"></i> Aulas</a>
+        </li>
     </ul>
 </li>
 <li class="treeview">

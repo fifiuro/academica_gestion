@@ -31,7 +31,8 @@ class DepartamentoController extends Controller
 
         if(count($depto)>0)
         {
-            return view('departamento.findDepartamento', array('depto' => $depto, 'estado' => true));
+            return view('departamento.findDepartamento', array('depto' => $depto,
+                                                               'estado' => true));
         }else{
             return view('departamento.findDepartamento', array('depto' => '',
                                                                'estado' => false,

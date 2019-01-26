@@ -19,7 +19,7 @@ class CronogramaController extends Controller
      */
     public function index()
     {
-        return view('cronograma.findCronograma');
+        return view('cronograma.findCronograma', array('mes' => mes(), 'anio' => anio()));
     }
 
     /**
@@ -51,9 +51,16 @@ class CronogramaController extends Controller
         if($crono->isEmpty()){
             return view('cronograma.findCronograma', array('cronograma' => '',
                                                            'estado' => false,
-                                                           'mensaje' => 'No se tuvieron coincidencias.'));
+                                                           'mensaje' => 'No se tuvieron coincidencias.',
+                                                           'mes' => mes(),
+                                                           'anio' => anio()
+                                                        ));
         }else{
-            return view('cronograma.findCronograma', array("cronograma" => $crono, 'estado' => true));
+            return view('cronograma.findCronograma', array("cronograma" => $crono, 
+                                                           'estado' => true, 
+                                                           'mes' => mes(), 
+                                                           'anio' => anio()
+                                                        ));
         }
     }
 

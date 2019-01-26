@@ -39,7 +39,11 @@
                         <select name="mes" id="mes" class="form-control" required>
                            @for ($i=0; $i<13; $i++)
                             @if (array_key_exists($i,$mes))
-                                <option value="{{ $i }}">{{ $mes[$i] }}</option>
+                                @if(date("m") == $i)
+                                    <option value="{{ $i }}" selected>{{ $mes[$i] }}</option>
+                                @else
+                                    <option value="{{ $i }}">{{ $mes[$i] }}</option>
+                                @endif
                             @endif
                            @endfor
                         </select>
@@ -48,7 +52,11 @@
                         <label for="gestion">Gestión de Cronograma *:</label>
                         <select name="gestion" id="gestion" class="form-control" required>
                             @foreach($anio as $key => $a)
-                                <option value="{{ $a }}">{{ $a }}</option>
+                                @if(date("Y") == $a)
+                                    <option value="{{ $a }}" selected>{{ $a }}</option>
+                                @else
+                                    <option value="{{ $a }}">{{ $a }}</option>
+                                @endif
                             @endforeach
                         </select>
                     </div>

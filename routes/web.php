@@ -91,6 +91,24 @@ Route::group(['middleware' => 'auth'], function() {
     // Eliminar los datos del Categoria
     Route::post('destroyCategoria','CategoriaController@destroy');
 
+    /* ACCIONES A AULA */
+    // Formulario de busqueda de Aula
+    Route::get('findAula','AulaController@index');
+    // Resultado de la busqueda de Aula
+    Route::post('findAula','AulaController@show');
+    // Formulario de Nuevo Aula
+    Route::get('createAula','AulaController@create');
+    // Datos del Formulario con los datos del Nuevo Aula
+    Route::post('storeAula','AulaController@store');
+    // Formulario con los Datos a Modificar del Aula
+    Route::get('editAula/{id}','AulaController@edit');
+    // datos del Formulario con los datos a modificar Aula
+    Route::post('updateAula','AulaController@update');
+    // Pregunta de eliminacion del registro del Aula
+    Route::get('confirmAula/{id}','AulaController@confirmation');
+    // Eliminar los datos del Aula
+    Route::post('destroyAula','AulaController@destroy');
+
     /* ACCIONES AL PERSONAL COGNOS */
     // Formulario de busqueda de Personal
     Route::get('findPersonal','PersonalController@index');

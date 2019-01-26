@@ -31,29 +31,20 @@
             <label for="mes">Mes:</label>
             <select name="mes" id="mes" class="form-control" required>
                 <option value="" selected></option>
-                <option value="1">Enero</option>
-                <option value="2">Febrero</option>
-                <option value="3">Marzo</option>
-                <option value="4">Abril</option>
-                <option value="5">Mayo</option>
-                <option value="6">Junio</option>
-                <option value="7">Julio</option>
-                <option value="8">Agosto</option>
-                <option value="9">Septiembre</option>
-                <option value="10">Octubre</option>
-                <option value="11">Noviembre</option>
-                <option value="12">Diciembre</option>
+                @for ($i=0; $i<13; $i++)
+                  @if (array_key_exists($i,$mes))
+                      <option value="{{ $i }}">{{ $mes[$i] }}</option>
+                  @endif
+                @endfor
             </select>
         </div>
         <div class="col-xs-2">
             <label for="gestion">Gestión:</label>
             <select name="gestion" id="gestion" class="form-control" required>
                 <option value="" selected></option>
-                <option value="2014">2014</option>
-                <option value="2015">2015</option>
-                <option value="2016">2016</option>
-                <option value="2017">2017</option>
-                <option value="2018">2018</option>
+                @foreach($anio as $key => $a)
+                    <option value="{{ $a }}">{{ $a }}</option>
+                @endforeach
             </select>
         </div>
         <div class="col-xs-1">

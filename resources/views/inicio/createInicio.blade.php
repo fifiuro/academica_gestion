@@ -62,7 +62,11 @@
                     </div>
                     <div class="form-group col-md-3 col-sm-3">
                         <label for="pre">Precio:</label>
-                        <input class="form-control" name="pre" id="pre" placeholder="Precio" type="text" value="{{ $c->precio }}" disabled>
+                        @if($c->p == 0)
+                            <input class="form-control" name="pre" id="pre" placeholder="Precio" type="text" value="{{ $c->precio }}" disabled>
+                        @else
+                            <input class="form-control" name="pre" id="pre" placeholder="Precio" type="text" value="{{ $c->p }}" disabled>
+                        @endif
                     </div>
                     <div class="form-group col-md-3 col-sm-3">
                         <label for="fechaInicio">Fecha Inicio</label>
@@ -114,7 +118,7 @@
 
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary" name="guardar" id="guardar">
-                    MODIFICAR
+                    INICIAR
                 </button>
                 <a href="{{ url('findCronograma') }}" class="btn btn-danger">CANCELAR</a>
             </div>
