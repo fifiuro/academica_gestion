@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Aula;
 use Illuminate\Http\Request;
+use Notification;
 
 class AulaController extends Controller
 {
@@ -57,6 +58,16 @@ class AulaController extends Controller
     {
         $aula = new Aula;
 
+        $v = \Validator::make($request->all(), [
+            'numero' => 'required|digits_between:1,99',
+            'num_pc' => 'required|digits_between:1,100',
+            'descripcion' => 'required'
+        ]);
+
+        if($v->fails()){
+            return redirect()->back()->withInput()->withErrors($v->errors());
+        }
+
         $aula->numero = $request->numero;
         $aula->num_pc = $request->num_pc;
         $aula->descripcion = $request->descripcion;
@@ -75,7 +86,7 @@ class AulaController extends Controller
      */
     public function edit($id)
     {
-        $aula = Aula::where('id_aul','=',$id);
+        $aula = Aula::where('id_aul','=',$id)->get();
 
         return view('aula.updateAula', array('aula' => $aula));
     }
@@ -90,6 +101,16 @@ class AulaController extends Controller
     public function update(Request $request)
     {
         $aula = Aula::find($request->id);
+
+        $v = \Validator::make($request->all(), [
+            'numero' => 'required|digits_between:1,99',
+            'num_pc' => 'required|digits_between:1,100',
+            'descripcion' => 'required'
+        ]);
+
+        if($v->fails()){
+            return redirect()->back()->withInput()->withErrors($v->errors());
+        }
 
         $aula->numero = $request->numero;
         $aula->num_pc = $request->num_pc;
@@ -118,7 +139,7 @@ class AulaController extends Controller
      * @param  \App\Aula  $aula
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Aula $aula)
+    public function destroy(Request $request)
     {
         $aula = Aula::find($request->id);
         $aula->delete();

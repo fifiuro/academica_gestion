@@ -20,41 +20,33 @@
         @endforeach
     </div>
 @endif
-</br>
+
 <div class="col-md-3"></div>
 <div class="col-md-6 col-sm-12 col-12">
     <div class="box box-primary">
         <!-- /.box-header -->
         <!-- form start -->
-        <form name="form" id="form" role="form" method="POST" action="{{ url('storeCategoria') }}">
+        <form name="form" id="form" role="form" method="POST" action="{{ url('storeAula') }}">
             {{ csrf_field() }}
             <div class="box-body">
                 <div class="form-group">
-                    <label for="nom">Nombre Categoria:</label>
-                    <input class="form-control" name="nom" id="nom" placeholder="Nombre Categoria" type="text" required>
+                    <label for="numero">Número de Aula:</label>
+                    <input class="form-control" name="numero" id="numero" placeholder="Número de Aula" type="text" required>
                 </div>
                 <div class="form-group">
-                    <label for="nivel">Nombre Categoria:</label>
-                    <select class="form-control" name="nivel" id="nivel" required>
-                        <option value="0">Principal</option>
-                        <option value="1">Sub-Categoria</option>
-                    </select>
+                    <label for="num_pc">Capacidad:</label>
+                    <input type="text" name="num_pc" id="num_pc" placeholder="Capacidad" class="form-control" required>
                 </div>
-                <div class="form-group" id="perte" style="display: none;">
-                    <label for="n">Categoria a la que pertenece:</label>
-                    <select class="form-control" name="n" id="n">
-                        <option value=""></option>
-                        @foreach($cate as $key => $c)
-                            <option value="{{ $c->id_cat }}">{{ $c->nombre }}</option>
-                        @endforeach
-                    </select>
+                <div class="form-group">
+                    <label for="descripcion">Descripción:</label>
+                    <textarea name="descripcion" id="descripcion" cols="30" rows="5" class="form-control"></textarea>
                 </div>
             </div>
             <!-- /.box-body -->
 
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary" name="guardar" id="guardar">GUARDAR</button>
-                <a href="{{ url('findCategoria') }}" class="btn btn-danger">CANCELAR</a>
+                <a href="{{ url('findAula') }}" class="btn btn-danger">CANCELAR</a>
             </div>
         </form>
     </div>
@@ -71,19 +63,6 @@ $('#form input[type=text]').on('change invalid', function() {
 
     if (!campotexto.validity.valid) {
       campotexto.setCustomValidity('Esta información es requerida');  
-    }
-    else{
-        $('#guardar').on('click', function(){
-            $(this).attr('disabled',true);
-        });
-    }
-});
-
-$("#nivel").on('change', function(){
-    if($(this).val() == 0){
-        $("#perte").hide();
-    }else{
-        $("#perte").show(500);
     }
 });
 @endsection

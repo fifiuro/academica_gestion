@@ -58,11 +58,11 @@
               </td>
               <td>
                 {{-- Boton Editar --}}
-                <a href="{{ url('editAula/'.$c->id_cat) }}" class="btn btn-warning">
+                <a href="{{ url('editAula/'.$a->id_aul) }}" class="btn btn-warning">
                   <i class="glyphicon glyphicon-pencil"></i>
                 </a>
                 {{-- Boton Eliminar --}}
-                <a href="{{ url('confirmAula/'.$c->id_cat) }}" class="btn btn-danger">
+                <a href="{{ url('confirmAula/'.$a->id_aul) }}" class="btn btn-danger">
                   <i class="glyphicon glyphicon-trash"></i>
                 </a>
               </td>
