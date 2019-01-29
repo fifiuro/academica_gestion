@@ -35,17 +35,37 @@ class InstructorController extends Controller
         $ins = Persona::join("instructor","persona.id_pe","=","instructor.id_pe")
                       ->join("departamento","persona.expedido","=","departamento.id_dep")
                       ->where(DB::raw("concat(persona.nombre,' ',persona.apellidos)"),"like","%".$request->nom."%")
-                      ->select("persona.id_pe","persona.nombre","persona.ci","departamento.sigla","persona.tel_dom","persona.tel_of","persona.celular","persona.email")
+                      ->select("instructor.id_ins","persona.id_pe","persona.nombre","persona.apellidos","persona.ci","departamento.sigla","persona.tel_dom","persona.tel_of","persona.celular","persona.email")
                       ->get();
         
         if($ins->isEmpty()){
-            return view('instructor.findInstructor', array('instructor' => '',
-                                                           'estado' => false,
-                                                           'mensaje' => 'No se tuvieron coincidencias con: '.$request->nom));
+            if($request->instructor){
+                return view('instructor.findInstructor', array('instructor' => '',
+                                                                'estado' => false,
+                                                                'mensaje' => 'No se tuvieron coincidencias con: '.$request->nom));
+            }else{
+                echo 'No se tuvieron coincidencias con: '.$request->nom;
+            }
         }else{
-            return view('instructor.findInstructor', array('instructor' => $ins,
-                                                           'estado' => true));
+            if($request->instructor){
+                return view('instructor.findInstructor', array('instructor' => $ins,
+                                                               'estado' => true));
+            }else{
+                echo $this->tabla($ins);
+            }
         }
+    }
+
+    private function tabla($ins){
+        $todo = "";
+        foreach($ins as $key => $i){
+            $todo .= "<tr data-id='".$i->id_ins."' data-nombre='".$i->nombre."' data-apellidos='".$i->apellidos."'>";
+            $todo .= "<td>".$i->nombre." ".$i->apellidos."</td>";
+            $todo .= "<td><input type='radio' name='sel' value='".$i->id_ins."' class='accion'></td>";
+            $todo .= "</td>";
+        }
+
+        return $todo;
     }
 
     /**
@@ -246,8 +266,10 @@ class InstructorController extends Controller
         }
         $p2->save();
         
-        $this->agregarCurso($request->id_ins,$request->espe);
-        $this->eliminarCurso($request->id_ins,$request->espe);
+        if(is_array($request->espe)){
+            $this->agregarCurso($request->id_ins,$request->espe);
+            $this->eliminarCurso($request->id_ins,$request->espe);
+        }
 
         Notification::success("La modificación se realizó correctamente.");
         return redirect('findInstructor');

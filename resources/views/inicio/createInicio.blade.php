@@ -38,12 +38,7 @@
             <div class="box-body">
                 <div class="row">
                     <div class="form-group col-md-6 col-sm-6">
-                        <label for="mes">Mes de Cronograma:</label>
-                        <input class="form-control" type="text" name="mes" id="mes" value="{{ $mes[$c->mes] }}" disabled>
-                    </div>
-                    <div class="form-group col-md-6 col-sm-6">
-                        <label for="gestion">Gestión de Cronograma *:</label>
-                        <input class="form-control" type="text" name="gestion" id="gestion" value="{{ $c->gestion }}" disabled>
+                        <label for="mes">Mes / Gestión: </label> {{ $mes[$c->mes] }} / {{ $c->gestion }}
                     </div>
                 </div>
 
@@ -57,15 +52,22 @@
                 <div class="row" id="seleccionCursoD" name="seleccionCursoD">
                     <div class="form-group col-md-3 col-sm-3">
                         <label for="dur">Duración *:</label>
-                        <input class="form-control" name="dur" id="dur" placeholder="Duración" type="text" value="{{ $c->duracion }}" disabled>
-                        <input type="hidden" name="duracion" id="duracion" value="{{ $c->duracion }}">
+                         @if ($c->d == 0)
+                            <input class="form-control" name="dur" id="dur" placeholder="Duración" type="text" value="{{ $c->duracion }}" disabled>
+                            <input type="hidden" name="du" id="du" value="{{ $c->d }}">
+                         @else
+                            <input class="form-control" name="dur" id="dur" placeholder="Duración" type="text" value="{{ $c->duracion }}" disabled>
+                            <input type="hidden" name="du" id="du" value="{{ $c->d }}">
+                         @endif
                     </div>
                     <div class="form-group col-md-3 col-sm-3">
                         <label for="pre">Precio:</label>
                         @if($c->p == 0)
-                            <input class="form-control" name="pre" id="pre" placeholder="Precio" type="text" value="{{ $c->precio }}" disabled>
+                            <input class="form-control" name="pre" id="pre"placeholder="Precio" type="text" value="{{ $c->precio }}" disabled>
+                            <input class="form-control" name="p" id="p" placeholder="Precio" type="hidden" value="{{ $c->precio }}">
                         @else
                             <input class="form-control" name="pre" id="pre" placeholder="Precio" type="text" value="{{ $c->p }}" disabled>
+                            <input class="form-control" name="p" id="p" placeholder="Precio" type="hidden" value="{{ $c->p }}">
                         @endif
                     </div>
                     <div class="form-group col-md-3 col-sm-3">
@@ -98,20 +100,64 @@
                                 </tr>
                             </thead>
                             <tbody id="horario">
-                                @foreach (diasMod($c->dias,$c->horarios,'i') as $key => $dm)
+                                @foreach (diasMod($c->f_inicio,$c->dias,$c->horarios,'i') as $key => $dm)
                                     {!! $dm !!}
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="form-group" id="ventanaDis" name="ventanaDis">
-                    <label for="dis">Disponibilidad:</label>
-                <input class="form-control" name="dis" id="dis" placeholder="Disponibilidad" type="text" autocomplete="off" value="{{ $c->disponibilidad }}">
+                <div class="row">
+                    <div class="form-group  col-md-6 col-sm-6">
+                        <label for="dis">Disponibilidad:</label>
+                        <input class="form-control" name="dis" id="dis" placeholder="Disponibilidad" type="number" autocomplete="off" value="{{ $c->disponibilidad }}">
+                    </div>
+                    <div class="form-group  col-md-6 col-sm-6">
+                        <label for="aula">Aula:</label>
+                        <select name="aula" id="aula" class="form-control">
+                            @foreach ($aula as $key => $a)
+                                <option value="{{ $a->id_aul }}">Aula: {{ $a->numero }} - Cap.: {{ $a->num_pc }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group" id="ventanaObs" name="ventanaObs">
+
+                <!-- BUSQUEDA DE INSTRUCTOR -->
+                <div class="row" id="ventanaBuscar" name="ventanaBuscar">
+                    <div class="form-group col-md-10 col-sm-10">
+                        <label for="nombre">Nombre Instructor *:</label>
+                        <input class="form-control" name="nombre" id="nombre" placeholder="Nombre" type="text" autocomplete="off" required>
+                    </div>
+                    <div class="form-group col-md-2 col-sm-2">
+                        <a href="#" name="myajax" id="myajax" class="btn btn-danger"><i class="glyphicon glyphicon-search"></i></a>
+                    </div>
+                </div>
+                <div class="row" id="ventanaResul" name="ventanaResul" style="display:none">
+                    <div class="col-md-12">
+                        <table class="table table-hover table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <td><strong>Nombre</strong></td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="resul" nom="resul">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- FIN DE INSTRUCTOR -->
+
+                <div class="form-group" id="seleccionIns" style="display:none">
+                    <label for="ins">Instructor:</label>
+                    <input type="text" name="nomIns" id="nomIns" class="form-control" disabled>
+                    <input type="hidden" name="idIns" id="idIns">
+                </div>
+
+                <div class="form-group">
                     <label for="obs">Observaciones:</label>
-                <textarea name="obs" id="obs" cols="30" rows="5" class="form-control">{{ $c->obs }}</textarea>
+                    <textarea name="obs" id="obs" cols="30" rows="5" class="form-control">{{ $c->obs }}</textarea>
                 </div>
             </div>
             <!-- /.box-body -->
@@ -338,5 +384,50 @@ $(document).on('click', '#dias', function(){
         showInputs: false
     });
 });
+
+/* PARA BUSCAR INSTRUCTOR */
+$('#myajax').click(function(){
+    var nombre = $("#nombre").val();
+    if(nombre != ''){
+        $.ajax({
+            url:'{{ url("findInstructor") }}',
+            data:"nom="+nombre+"&_token={{ csrf_token() }}",
+            type:'post',
+            success: function(response){
+                $("#ventanaResul").show(1000);
+                $("#resul").html(response);
+            },
+            statusCode:{
+                404: function(){
+                    alert('web not found');
+                }
+            },
+            error: function(x,xs,xt){
+                //window.open(JSON.stringify(x));
+                //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
+            }
+        });
+    }else{
+        alert("Ingrese el Código o nombre del curso.");
+    }
+});
+
+$("#ventanaResul").on("click",".accion",function(){
+    $("#ventanaResul").hide(1000);
+    $("#ventanaBuscar").hide(1000);
+
+    $("#seleccionIns").show(1000);
+    $("#seleccionCursoD").show(1000);
+
+    var row = $(this).parents('tr');
+    var id = row.data('id');
+    var nom = row.data('nombre');
+    var ape = row.data('apellidos');
+
+    $("#idIns").val(id);
+    $("#nomIns").val(nom + " " + ape);
+
+});
+/* FIN DE BUSQUEDA */
 
 @endsection

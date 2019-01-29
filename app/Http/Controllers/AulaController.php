@@ -26,7 +26,7 @@ class AulaController extends Controller
      */
     public function show(Request $request)
     {
-        $aula = Aula::where('numero','=',$request->num)->get();
+        $aula = Aula::where('numero','like','%'.$request->num.'%')->get();
 
         if(count($aula) > 0){
             return view('aula.findAula', array('aula' => $aula,
@@ -56,18 +56,24 @@ class AulaController extends Controller
      */
     public function store(Request $request)
     {
-        $aula = new Aula;
+        $rules = array(
+            'numero' => 'required|digits_between:1,2',
+            'num_pc' => 'required|digits_between:1,3'
+        );
+        $messages = array(
+            'numero.required' => 'Esta información es requerida. Ingrese un número',
+            'numero.digits_between' => 'Ingrese en Número de Aula entre los rangos de 1 a 99',
+            'num_pc.required' => 'Esta información es requerida. Ingrese un número.',
+            'num_pc.digits_between' => 'Ingrese un número en Capacidad entre los rangos de 1 a 99.'
+        );
 
-        $v = \Validator::make($request->all(), [
-            'numero' => 'required|digits_between:1,99',
-            'num_pc' => 'required|digits_between:1,100',
-            'descripcion' => 'required'
-        ]);
+        $v = \Validator::make($request->all(), $rules, $messages);
 
         if($v->fails()){
             return redirect()->back()->withInput()->withErrors($v->errors());
         }
 
+        $aula = new Aula;
         $aula->numero = $request->numero;
         $aula->num_pc = $request->num_pc;
         $aula->descripcion = $request->descripcion;
@@ -100,18 +106,24 @@ class AulaController extends Controller
      */
     public function update(Request $request)
     {
-        $aula = Aula::find($request->id);
+        $rules = array(
+            'numero' => 'required|digits_between:1,2',
+            'num_pc' => 'required|digits_between:1,3'
+        );
+        $messages = array(
+            'numero.required' => 'Esta información es requerida. Ingrese un número',
+            'numero.digits_between' => 'Ingrese en Número de Aula entre los rangos de 1 a 99',
+            'num_pc.required' => 'Esta información es requerida. Ingrese un número.',
+            'num_pc.digits_between' => 'Ingrese un número en Capacidad entre los rangos de 1 a 99.'
+        );
 
-        $v = \Validator::make($request->all(), [
-            'numero' => 'required|digits_between:1,99',
-            'num_pc' => 'required|digits_between:1,100',
-            'descripcion' => 'required'
-        ]);
+        $v = \Validator::make($request->all(), $rules, $messages);
 
         if($v->fails()){
             return redirect()->back()->withInput()->withErrors($v->errors());
         }
 
+        $aula = Aula::find($request->id);
         $aula->numero = $request->numero;
         $aula->num_pc = $request->num_pc;
         $aula->descripcion = $request->descripcion;

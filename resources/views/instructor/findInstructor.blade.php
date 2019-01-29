@@ -22,6 +22,7 @@
         <div class="col-xs-10">
           <label for="nom">Nombre o Apellido a buscar:</label>
           <input class="form-control" id="nom" name="nom" placeholder="Nombre o Apellido" type="text">
+          <input type="hidden" name="instructor" id="instructor" value="true">
         </div>
         <div class="col-xs-2">
           {{-- Boton Buscar --}}

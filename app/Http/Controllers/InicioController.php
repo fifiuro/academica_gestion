@@ -6,6 +6,7 @@ use App\Cronograma;
 use App\Curso;
 use App\Horario;
 use App\Feriado;
+use App\Aula;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Notification;
@@ -50,6 +51,7 @@ class InicioController extends Controller
                                     'cronograma.obs',
                                     'cronograma.estado',
                                     DB::raw('cronograma.precio as p'),
+                                    DB::raw('cronograma.duracion as d'),
                                     'horario.id_ho',
                                     'horario.dias',
                                     'horario.horarios',
@@ -60,8 +62,10 @@ class InicioController extends Controller
                                     'curso.duracion',
                                     'curso.precio')
                            ->get();
+        
+        $aula = Aula::where('estado','=','1')->get();
 
-        return view('inicio.createInicio', array("cronograma" => $crono, 'mes' => mes(), 'anio' => anio()));
+        return view('inicio.createInicio', array("cronograma" => $crono, 'mes' => mes(), 'anio' => anio(), 'aula' => $aula));
     }
 
     /**
@@ -84,6 +88,7 @@ class InicioController extends Controller
         $rules = array (
             'id_cr' => 'required',
             'id_cur' => 'required',
+            'idIns' => 'required',
             'fechaInicio' => 'required',
             'h' => 'required',
             'd' => 'required',
@@ -95,8 +100,11 @@ class InicioController extends Controller
 
         echo "ID de cronograma: ".$request->id_cr."<br>";
         echo "ID de curso: ".$request->id_cur."<br>";
-        echo "Duracion: ".$request->duracion."<br>";
-        echo "Precio: ".$request->pre."<br>";
+        echo "ID de Instructor: ".$request->idIns."<br>";
+        echo "Duracion Cambiado: ".$request->dur."<br>";
+        echo "Duracion Original: ".$request->du."<br>";
+        echo "Precio Cambiado: ".$request->pre."<br>";
+        echo "Precio Orignal: ".$request->p."<br>";
         echo "Fecha de Inicio: ".$request->fechaInicio."<br>";
         print_r($request->f);
         echo "<br>";
@@ -105,6 +113,7 @@ class InicioController extends Controller
         print_r($request->d);
         echo "<br>";
         echo "Disponibilidad: ".$request->dis."<br>";
+        echo "Aula: ".$request->aula."<br>";
         echo "Observaciones: ".$request->obs."<br>";
 
         /* GUARDA DATOS DE CRONOGRAMA */
@@ -124,7 +133,7 @@ class InicioController extends Controller
         $crono->save();
         /* FIN DE GUARDAR DATOS */
         /** GUARDAR DATOS DE HORARIO */
-        $feriado = Feriado::where('estado','=',1)->get();
+        /*$feriado = Feriado::where('estado','=',1)->get();
         $hora = Horario::find($request->id_ho);
 
         $dias = implode(',',$request->d);
@@ -132,7 +141,7 @@ class InicioController extends Controller
         if($request->dur > 0){
             $duracion = $request->dur;
         }else{
-            $duracion = $request->duracion;
+            $duracion = $request->du;
         }
         
         $hora->dias = $dias;
@@ -143,8 +152,8 @@ class InicioController extends Controller
 
         $hora->save();
         /** FIN DE GUARDAR DATOS */
-        Notification::success("El registro se Inicio correctamente.");
-        return redirect('findCronograma');
+        /*Notification::success("El registro se Inicio correctamente.");
+        return redirect('findCronograma');*/
     }
 
     /**

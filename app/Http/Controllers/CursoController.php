@@ -52,6 +52,7 @@ class CursoController extends Controller
             }
         }
     }
+    
     private function tabla($curso){
         $todo = "";
         foreach($curso as $key => $c){

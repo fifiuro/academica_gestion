@@ -17,7 +17,7 @@ class CreateAulasTable extends Migration
             $table->increments('id_aul');
             $table->integer('numero');
             $table->integer('num_pc');
-            $table->string('descripcion');
+            $table->string('descripcion')->nullable();
             $table->boolean('estado');
             $table->timestamps();
         });
