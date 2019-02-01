@@ -82,7 +82,17 @@ class CronogramaController extends Controller
      */
     public function store(Request $request)
     {
-        $messages = array(
+        $feriado = Feriado::where('estado','=',1)->get();
+
+        if($request->dur > 0){
+            $duracion = $request->dur;
+        }else{
+            $duracion = $request->duracion;
+        }
+
+        echo finalizacion(formatoFecha($request->fechaInicio),$request->d,$request->h,$duracion,$feriado);
+        
+        /*$messages = array(
             'mes.required' => 'El Mes de cronograma es necesario.',
             'gestion.required' => 'La Gestion es necesario.',
             'id_cur.required' => 'No se selecciono ningun curso.',
@@ -102,7 +112,7 @@ class CronogramaController extends Controller
         $this->validate($request, $rules, $messages);
 
         /* GUARDA DATOS DE CRONOGRAMA */
-        $crono = new Cronograma;
+        /*$crono = new Cronograma;
 
         $crono->id_cu = $request->id_cur;
         if(isset($request->pre) & isset($request->dur)){
@@ -124,7 +134,7 @@ class CronogramaController extends Controller
         $insertId = $crono->id_cr;
         /* FIN DE GUARDAR DATOS */
         /** GUARDAR DATOS DE HORARIO */
-        $feriado = Feriado::where('estado','=',1)->get();
+        /*$feriado = Feriado::where('estado','=',1)->get();
         $hora = new Horario;
 
         $dias = implode(',',$request->d);
@@ -144,8 +154,8 @@ class CronogramaController extends Controller
 
         $hora->save();
         /** FIN DE GUARDAR DATOS */
-        Notification::success("El registro se realizó correctamente.");
-        return redirect('findCronograma');
+        /*Notification::success("El registro se realizó correctamente.");
+        return redirect('findCronograma');*/
     }
 
     /**

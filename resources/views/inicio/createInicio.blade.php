@@ -100,7 +100,7 @@
                                 </tr>
                             </thead>
                             <tbody id="horario">
-                                @foreach (diasMod($c->f_inicio,$c->dias,$c->horarios,'i') as $key => $dm)
+                                @foreach (diasMod($c->f_inicio, $c->f_fin, $c->dias, $c->horarios, 'i') as $key => $dm)
                                     {!! $dm !!}
                                 @endforeach
                             </tbody>
@@ -147,12 +147,18 @@
                         </table>
                     </div>
                 </div>
-                <!-- FIN DE INSTRUCTOR -->
+                <!-- FIN DE BUSQUEDA DE INSTRUCTOR -->
 
-                <div class="form-group" id="seleccionIns" style="display:none">
-                    <label for="ins">Instructor:</label>
-                    <input type="text" name="nomIns" id="nomIns" class="form-control" disabled>
-                    <input type="hidden" name="idIns" id="idIns">
+                <div class="row" id="seleccionIns" style="display:none">
+                    <div class="form-group col-md-6">
+                        <label for="ins">Instructor:</label>
+                        <input type="text" name="nomIns" id="nomIns" class="form-control" disabled>
+                        <input type="hidden" name="idIns" id="idIns">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="ins">Pago por hora:</label>
+                        <input type="number" name="chora" id="chora" value="0" class="form-control">
+                    </div>
                 </div>
 
                 <div class="form-group">
