@@ -30,35 +30,34 @@ class CronogramaController extends Controller
      */
     public function show(Request $request)
     {
-        $crono = Cronograma::join('curso','cronograma.id_cu','=','curso.id_cu')
-                           ->join('horario','cronograma.id_cr','=','horario.id_cr')
-                           ->where('curso.codigo','like','%'.$request->cod.'%')
-                           ->Where('curso.nombre','like','%'.$request->nom.'%')
-                           ->where('cronograma.mes','=',$request->mes)
-                           ->where('cronograma.gestion','=',$request->gestion)
-                           ->where('cronograma.estado','=',1)
-                           ->select("cronograma.id_cr",
-                                "curso.codigo",
-                                "curso.nombre",
-                                "curso.duracion",
-                                "horario.f_inicio",
-                                "horario.f_fin",
-                                "horario.horarios",
-                                "horario.dias",
-                                "cronograma.estado")
-                           ->get();
+        $crono = DB::select("select c.id_cr, 
+                                    cu.codigo, 
+                                    cu.nombre, 
+                                    cu.duracion,
+                                    (select f_inicio from horario where id_cr = c.id_cr limit 1) as f_inicio,
+                                    (select f_fin from horario where id_cr = c.id_cr limit 1) as f_fin,
+                                    (select horarios from horario where id_cr = c.id_cr limit 1) as horarios,
+                                    (select dias from horario where id_cr = c.id_cr limit 1) as dias,
+                                    c.estado
+                            from cronograma as c
+                                inner join curso as cu on (c.id_cu = cu.id_cu)
+                            where
+                                cu.codigo like '%".$request->cod."%' and 
+                                cu.nombre like '%".$request->nom."%' and 
+                                c.gestion = ".$request->gestion." and
+                                c.mes = ".$request->mes);
 
-        if($crono->isEmpty()){
+        if(count($crono) > 0){
+            return view('cronograma.findCronograma', array("cronograma" => $crono, 
+                                                           'estado' => true, 
+                                                           'mes' => mes(), 
+                                                           'anio' => anio()
+                                                        ));
+        }else{
             return view('cronograma.findCronograma', array('cronograma' => '',
                                                            'estado' => false,
                                                            'mensaje' => 'No se tuvieron coincidencias.',
                                                            'mes' => mes(),
-                                                           'anio' => anio()
-                                                        ));
-        }else{
-            return view('cronograma.findCronograma', array("cronograma" => $crono, 
-                                                           'estado' => true, 
-                                                           'mes' => mes(), 
                                                            'anio' => anio()
                                                         ));
         }
@@ -82,17 +81,7 @@ class CronogramaController extends Controller
      */
     public function store(Request $request)
     {
-        $feriado = Feriado::where('estado','=',1)->get();
-
-        if($request->dur > 0){
-            $duracion = $request->dur;
-        }else{
-            $duracion = $request->duracion;
-        }
-
-        echo finalizacion(formatoFecha($request->fechaInicio),$request->d,$request->h,$duracion,$feriado);
-        
-        /*$messages = array(
+        $messages = array(
             'mes.required' => 'El Mes de cronograma es necesario.',
             'gestion.required' => 'La Gestion es necesario.',
             'id_cur.required' => 'No se selecciono ningun curso.',
@@ -112,7 +101,7 @@ class CronogramaController extends Controller
         $this->validate($request, $rules, $messages);
 
         /* GUARDA DATOS DE CRONOGRAMA */
-        /*$crono = new Cronograma;
+        $crono = new Cronograma;
 
         $crono->id_cu = $request->id_cur;
         if(isset($request->pre) & isset($request->dur)){
@@ -134,7 +123,7 @@ class CronogramaController extends Controller
         $insertId = $crono->id_cr;
         /* FIN DE GUARDAR DATOS */
         /** GUARDAR DATOS DE HORARIO */
-        /*$feriado = Feriado::where('estado','=',1)->get();
+        $feriado = Feriado::where('estado','=',1)->get();
         $hora = new Horario;
 
         $dias = implode(',',$request->d);
@@ -154,8 +143,8 @@ class CronogramaController extends Controller
 
         $hora->save();
         /** FIN DE GUARDAR DATOS */
-        /*Notification::success("El registro se realizó correctamente.");
-        return redirect('findCronograma');*/
+        Notification::success("El registro se realizó correctamente.");
+        return redirect('findCronograma');
     }
 
     /**
@@ -167,12 +156,27 @@ class CronogramaController extends Controller
     public function edit($id)
     {
         $crono = Cronograma::join('curso','cronograma.id_cu','=','curso.id_cu')
-                           ->join('horario','cronograma.id_cr','=','horario.id_cr')
                            ->where('cronograma.id_cr','=',$id)
-                           ->select('cronograma.id_cr','cronograma.gestion','cronograma.mes','cronograma.disponibilidad','cronograma.obs','cronograma.estado','horario.id_ho','horario.dias','horario.horarios','horario.f_inicio','curso.id_cu','curso.codigo','curso.nombre','curso.duracion','curso.precio')
+                           ->select('cronograma.id_cr',
+                                    'cronograma.gestion',
+                                    'cronograma.mes',
+                                    'cronograma.disponibilidad',
+                                    'cronograma.obs',
+                                    'cronograma.estado',
+                                    'curso.id_cu',
+                                    'curso.codigo',
+                                    'curso.nombre',
+                                    'curso.duracion',
+                                    'curso.precio')
                            ->get();
 
-        return view('cronograma.updateCronograma', array("cronograma" => $crono, 'mes' => mes(), 'anio' => anio()));
+        $horario = Horario::where('id_cr','=',$id)->get();
+
+        $inicio = Horario::where('id_cr','=',$id)
+                         ->select('f_inicio')
+                         ->get();
+
+        return view('cronograma.updateCronograma', array("cronograma" => $crono, "horario" => $horario, 'mes' => mes(), 'anio' => anio()));
     }
 
     /**

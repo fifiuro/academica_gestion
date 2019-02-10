@@ -34,11 +34,10 @@
             {{ csrf_field() }}
             @foreach ($cronograma as $key => $c)
             <input type="hidden" name="id_cr" id="id_cr" value="{{ $c->id_cr }}">
-            <input type="hidden" name="id_ho" id="id_ho" value="{{ $c->id_ho }}">
             <div class="box-body">
                 <div class="row">
                     <div class="form-group col-md-6 col-sm-6">
-                        <label for="mes">Mes de Cronograma *:</label>
+                        <label for="mes">Mes de Cronograma *: </label>
                         <select name="mes" id="mes" class="form-control" required>
                            @for ($i=0; $i<13; $i++)
                             @if (array_key_exists($i,$mes))
@@ -111,8 +110,23 @@
                                 </tr>
                             </thead>
                             <tbody id="horario">
-                                @foreach (diasMod($c->dias,$c->horarios) as $key => $dm)
-                                    {!! $dm !!}
+                                @foreach ($horario as $key => $h)
+                                    <tr>
+                                        <td>
+                                            {{ formatoFechaReporte($h->f_inicio) }} - {{ formatoFechaReporte($h->f_fin) }}
+                                            <input type="hidden" name="f[]" id="f" value="{{ formatoFechaReporte($h->f_inicio) }}-{{ formatoFechaReporte($h->f_fin) }}">
+                                            <input type="hidden" name="id_ho" id="id_ho" value="{{ $h->id_ho }}">
+                                        </td>
+                                        <td>
+                                            {{ dias($h->dias) }}
+                                            <input type="hidden" name="d[]" id="d" value="{{ $h->dias }}">
+                                        </td>
+                                        <td>
+                                            {{ horarios($h->horarios) }}
+                                            <input type="hidden" name="h[]" id="h" value="{{ $h->horarios }}">
+                                        </td>
+                                        <td><button type="button" class="btn btn-danger" id="eliminar">ELIMINAR</button></td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>

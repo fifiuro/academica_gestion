@@ -33,7 +33,7 @@ class InicioController extends Controller
      */
     public function show($id)
     {
-        //
+        $cronograma = Cronograma::where();
     }
 
     /**
@@ -55,10 +55,7 @@ class InicioController extends Controller
                                     DB::raw('cronograma.precio as p'),
                                     DB::raw('cronograma.duracion as d'),
                                     'horario.id_ho',
-                                    'horario.dias',
-                                    'horario.horarios',
                                     'horario.f_inicio',
-                                    'horario.f_fin',
                                     'curso.id_cu',
                                     'curso.codigo',
                                     'curso.nombre',
@@ -66,9 +63,11 @@ class InicioController extends Controller
                                     'curso.precio')
                            ->get();
         
+        $horario = Horario::where('id_cr','=',$id)->get();
+        
         $aula = Aula::where('estado','=','1')->get();
 
-        return view('inicio.createInicio', array("cronograma" => $crono, 'mes' => mes(), 'anio' => anio(), 'aula' => $aula));
+        return view('inicio.createInicio', array("cronograma" => $crono, 'horario' => $horario, 'mes' => mes(), 'anio' => anio(), 'aula' => $aula));
     }
 
     /**
@@ -79,24 +78,6 @@ class InicioController extends Controller
      */
     public function store(Request $request)
     {
-        /*echo "ID de cronograma: ".$request->id_cr."<br>";
-        echo "ID de curso: ".$request->id_cur."<br>";
-        echo "ID de Instructor: ".$request->idIns."<br>";
-        echo "ID de Horario: ".$request->id_ho."<br>";
-        echo "Duracion Cambiado: ".$request->dur."<br>";
-        echo "Duracion Original: ".$request->du."<br>";
-        echo "Precio Cambiado: ".$request->pre."<br>";
-        echo "Precio Orignal: ".$request->p."<br>";
-        echo "Fecha de Inicio: ".$request->fechaInicio."<br>";
-        print_r($request->f);
-        echo "<br>";
-        print_r($request->h);
-        echo "<br>";
-        print_r($request->d);
-        echo "<br>";
-        echo "Disponibilidad: ".$request->dis."<br>";
-        echo "Aula: ".$request->aula."<br>";
-        echo "Observaciones: ".$request->obs."<br>";*/
         $messages = array(
             'id_cr.required' => 'No es ningun inicio de curso valido.',
             'id_cur.required' => 'No se selecciono ningun curso.',
@@ -167,12 +148,12 @@ class InicioController extends Controller
             return true;
         }elseif(count($f) > 1){
             for($i=0; $i<count($f); $i++){
-                $fecha = explode('-',$f);
+                $fecha = explode('-',$f[$i]);
                 if($i == 0){
                     $horaM = Horario::find($id);
 
-                    $horaM->dias = implode(',', $d);
-                    $horaM->horarios = implode(',', $h);
+                    $horaM->dias = $d[$i];
+                    $horaM->horarios = $h[$i];
                     $horaM->f_inicio = formatoFecha($fecha[0]);
                     $horaM->f_fin = formatoFecha($fecha[1]);
                     $horaM->save();
@@ -180,8 +161,8 @@ class InicioController extends Controller
                     $horaN = new Horario;
 
                     $horaN->id_cr = $id_cr;
-                    $horaN->dias = implode(',', $d);
-                    $horaN->horarios = implode(',', $h);
+                    $horaN->dias = $d[$i];
+                    $horaN->horarios = $h[$i];
                     $horaN->f_inicio = formatoFecha($fecha[0]);
                     $horaN->f_fin = formatoFecha($fecha[1]);
                     $horaN->estado = true;

@@ -23,7 +23,7 @@
             <label for="cod">Código:</label>
             <input class="form-control" id="cod" name="cod" placeholder="Código" type="text" autocomplete="off">
         </div>
-        <div class="col-xs-5">
+        <div class="col-xs-4">
             <label for="nom">Nombre Curso:</label>
             <input class="form-control" id="nom" name="nom" placeholder="Nombre Curso" type="text" autocomplete="off">
         </div>
@@ -47,7 +47,7 @@
                 @endforeach
             </select>
         </div>
-        <div class="col-xs-1">
+        <div class="col-xs-2">
           {{-- Boton Buscar --}}
           <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i></button>
           {{-- Boton Nuevo --}}

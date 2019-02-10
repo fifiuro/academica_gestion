@@ -44,6 +44,7 @@ function dias($d){
     return $m;
 }
 
+/* Esta funcion no se utiliza */
 function diasMod($fi,$ff,$d,$h,$t=''){
     $dias = array('','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo');
     $d = explode(',',$d);
@@ -106,16 +107,21 @@ function diasMod($fi,$ff,$d,$h,$t=''){
             
         }
     }
-    if($m != '' and $n != ''){
-        if($t == 'i'){
+
+    if($m != '' and $n != '')
+    {
+        if($t == 'i')
+        {
             array_push($todo, '<tr><td>'.formatoFechaReporte($fi).' - '.formatoFechaReporte($ff).'<input type="hidden" name="f[]" value="'.formatoFechaReporte($fi).'-'.formatoFechaReporte($ff).'"></td><td>'.trim($m,',').'<input type="hidden" name="d[]" value="'.trim($md1,',').'"></td><td>'.trim($n,',').'<input type="hidden" name="h[]" value="'.trim($mh1,',').'"></td><td><button type="button" class="btn btn-danger" id="eliminar">ELIMINAR</button></td></tr>');
         }else{
             array_push($todo, '<tr><td>'.formatoFechaReporte($fi).' - '.formatoFechaReporte($ff).'<input type="hidden" name="f[]" value="'.formatoFechaReporte($fi).' - '.formatoFechaReporte($ff).'"></td><td>'.trim($m,',').'<input type="hidden" name="d[]" value="'.trim($md1,',').'"></td><td>'.trim($n,',').'<input type="hidden" name="h[]" value="'.trim($mh1,',').'"></td><td><button type="button" class="btn btn-danger" id="eliminar">ELIMINAR</button></td></tr>');
         }
     }
-    if($r != '' and $s != ''){
-        if($t == 'i'){
-            array_push($todo, '<tr><td>'.formatoFechaReporte($fi).' - '.formatoFechaReporte($ff).'<input type="hidden" name="f[]" value="'.formatoFechaReporte($fi).'-'.formatoFechaReporte($ff).'"><td><td>'.trim($r,',').'<input type="hidden" name="d[]" value="'.trim($md2,',').'"></td><td>'.trim($s,',').'<input type="hidden" name="h[]" value="'.trim($mh2,',').'"></td><td><button type="button" class="btn btn-danger" id="eliminar">ELIMINAR</button></td></tr>');
+    if($r != '' and $s != '')
+    {
+        if($t == 'i')
+        {
+            array_push($todo, '<tr><td>'.formatoFechaReporte($fi).' - '.formatoFechaReporte($ff).'<input type="hidden" name="f[]" value="'.formatoFechaReporte($fi).'-'.formatoFechaReporte($ff).'"></td><td>'.trim($r,',').'<input type="hidden" name="d[]" value="'.trim($md2,',').'"></td><td>'.trim($s,',').'<input type="hidden" name="h[]" value="'.trim($mh2,',').'"></td><td><button type="button" class="btn btn-danger" id="eliminar">ELIMINAR</button></td></tr>');
         }else{
             array_push($todo, '<tr><td>'.formatoFechaReporte($fi).' - '.formatoFechaReporte($ff).'<input type="hidden" name="f[]" value="'.formatoFechaReporte($fi).'-'.formatoFechaReporte($ff).'"></td><td>'.trim($r,',').'<input type="hidden" name="d[]" value="'.trim($md2,',').'"></td><td>'.trim($s,',').'<input type="hidden" name="h[]" value="'.trim($mh2,',').'"></td><td><button type="button" class="btn btn-danger" id="eliminar">ELIMINAR</button></td></tr>');
         }
@@ -179,17 +185,7 @@ function finalizacion($fecha, $dias, $horas, $duracion, $feriado){
     $horas = implode(",",$horas);
     $horas = explode(",",$horas);
 
-    echo "DATOS DE INICIO<BR>";
-    echo "Duracion: ".$duracion."<br>";
-    echo "Fecha Inicio: ".date("Y-m-d",$fecha)."<br>";
-    echo "Dias: ";
-    print_r($dias);
-    echo "<br>";
-    echo "Horas: ";
-    print_r($horas);
-    echo "<br>";
-    echo "------------------------------------<br>";
-    while($duracion > 0){
+    while($duracion >= 0){
         $formateado = date('Y-m-j',$fecha);
         if(in_array($formateado,$fer)){
 
@@ -201,7 +197,7 @@ function finalizacion($fecha, $dias, $horas, $duracion, $feriado){
             }
         }
 
-        if($duracion == 0){
+        if($duracion <= 0){
             
         }else{
             $fecha = strtotime('+1 day', $fecha);

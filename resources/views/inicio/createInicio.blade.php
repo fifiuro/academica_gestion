@@ -100,8 +100,22 @@
                                 </tr>
                             </thead>
                             <tbody id="horario">
-                                @foreach (diasMod($c->f_inicio, $c->f_fin, $c->dias, $c->horarios, 'i') as $key => $dm)
-                                    {!! $dm !!}
+                                @foreach ($horario as $key => $h)
+                                    <tr>
+                                        <td>
+                                            {{ formatoFechaReporte($h->f_inicio) }} - {{ formatoFechaReporte($h->f_fin) }}
+                                            <input type="hidden" name="f[]" id="f" value="{{ formatoFechaReporte($h->f_inicio) }}-{{ formatoFechaReporte($h->f_fin) }}">
+                                        </td>
+                                        <td>
+                                            {{ dias($h->dias) }}
+                                            <input type="hidden" name="d[]" id="d" value="{{ $h->dias }}">
+                                        </td>
+                                        <td>
+                                            {{ horarios($h->horarios) }}
+                                            <input type="hidden" name="h[]" id="h" value="{{ $h->horarios }}">
+                                        </td>
+                                        <td><button type="button" class="btn btn-danger" id="eliminar">ELIMINAR</button></td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -325,7 +339,7 @@ $("#asignacion").on("click", function(){
             }
         }
     }
-    $("#horario").append('<tr><td><input type="hidden" name="f[]" value="' + $("#fInicio").val() + ' - ' + $("#fFin").val() + '">' + $("#fInicio").val() + ' - ' + $("#fFin").val() + '</td><td>' + d + '<input type="hidden" name="d[]" value="' + nd + '"></td><td>' + $("#horaInicio").val() + ' - ' + $("#horaFin").val() + '<input type="hidden" name="h[]" value="' + hd + '"></td><td><button type="button" class="btn btn-danger" id="eliminar">ELIMINAR</button></td></tr>');
+    $("#horario").append('<tr><td><input type="hidden" name="f[]" value="' + $("#fInicio").val() + '-' + $("#fFin").val() + '">' + $("#fInicio").val() + ' - ' + $("#fFin").val() + '</td><td>' + d + '<input type="hidden" name="d[]" value="' + nd + '"></td><td>' + $("#horaInicio").val() + ' - ' + $("#horaFin").val() + '<input type="hidden" name="h[]" value="' + hd + '"></td><td><button type="button" class="btn btn-danger" id="eliminar">ELIMINAR</button></td></tr>');
 
     $("#myModal").modal('hide');
     
