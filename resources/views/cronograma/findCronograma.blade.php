@@ -71,8 +71,12 @@
             @foreach($cronograma as $key => $c)
             <tr>
               <td>
+                @if($c->estado == 2)
+                  <i class="fa fa-fw fa-star text-yellow"></i>
+                @endif
                 <a href="https://www.cognos-capacitacion.com/cursos/Cont/{{ $c->codigo }}" target="_blank">{{ $c->codigo }}</a>: {{ $c->nombre }}<br>
-                <strong>Duraci&oacute;n</strong>: {{ $c->duracion }}</td>
+                <strong>Duraci&oacute;n</strong>: {{ $c->duracion }}
+              </td>
               <td>{{ formatoFechaReporte($c->f_inicio) }} - {{ formatoFechaReporte($c->f_fin) }}</td>
               <td>{{ horarios($c->horarios) }}</td>
               <td>{{ dias($c->dias) }}</td>

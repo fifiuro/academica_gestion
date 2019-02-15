@@ -132,10 +132,79 @@
                         </table>
                     </div>
                 </div>
-                <div class="form-group" id="ventanaDis" name="ventanaDis">
-                    <label for="dis">Disponibilidad:</label>
-                <input class="form-control" name="dis" id="dis" placeholder="Disponibilidad" type="text" autocomplete="off" value="{{ $c->disponibilidad }}">
+                <div class="row">
+                    <div class="form-group col-md-3" id="ventanaDis" name="ventanaDis">
+                        <label for="dis">Disponibilidad:</label>
+                        <input class="form-control" name="dis" id="dis" placeholder="Disponibilidad" type="text" autocomplete="off" value="{{ $c->disponibilidad }}">
+                    </div>
+                    @if($c->estado == 2)
+                        <div class="form-group  col-md-3 col-sm-6">
+                            <label for="aula">Aula:</label>
+                            <select name="aula" id="aula" class="form-control">
+                                @foreach ($aula as $key => $a)
+                                    @if($c->id_aul == $a->id_aul)
+                                        <option value="{{ $a->id_aul }}" selected>Aula: {{ $a->numero }} - Cap.: {{ $a->num_pc }}</option>
+                                    @else
+                                        <option value="{{ $a->id_aul }}">Aula: {{ $a->numero }} - Cap.: {{ $a->num_pc }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                        @foreach($instructor as $key => $i)
+                            <div class="form-group col-md-3">
+                                <label for="ins">Instructor:</label>
+                                <input type="text" name="nomIns" id="nomIns" class="form-control" value="{{ $i->nombre }} {{ $i->apellidos }}" disabled>
+                                <input type="hidden" name="idIns" id="idIns" value="{{ $i->id_ins }}">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="ins">Pago por hora:</label>
+                                <input type="number" name="chora" id="chora" class="form-control" value="{{ $i->c_hora }}">
+                            </div>
+                        @endforeach
+                    @endif
                 </div>
+
+                @if($c->estado == 2)
+                <!-- BUSQUEDA DE INSTRUCTOR -->
+                <div class="row alert-success" id="ventanaBuscar" name="ventanaBuscar">
+                    <div class="form-group col-md-10 col-sm-10">
+                        <label for="nombre">Nombre Instructor *:</label>
+                        <input class="form-control" name="nombre" id="nombre" placeholder="Nombre" type="text" autocomplete="off" required>
+                    </div>
+                    <div class="form-group col-md-2 col-sm-2">
+                        <a href="#" name="myajax" id="myajax" class="btn btn-danger"><i class="glyphicon glyphicon-search"></i></a>
+                    </div>
+                </div>
+                <div class="row" id="ventanaResul" name="ventanaResul" style="display:none">
+                    <div class="col-md-12">
+                        <table class="table table-hover table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <td><strong>Nombre</strong></td>
+                                    <td></td>
+                                </tr>
+                            </thead>
+                            <tbody id="resul" nom="resul">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- FIN DE BUSQUEDA DE INSTRUCTOR -->
+
+                <!-- <div class="row" id="seleccionIns" style="display:none">
+                    <div class="form-group col-md-6">
+                        <label for="ins">Instructor:</label>
+                        <input type="text" name="nomIns" id="nomIns" class="form-control" disabled>
+                        <input type="hidden" name="idIns" id="idIns">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="ins">Pago por hora:</label>
+                        <input type="number" name="chora" id="chora" value="0" class="form-control">
+                    </div>
+                </div> -->
+                @endif
+
                 <div class="form-group" id="ventanaObs" name="ventanaObs">
                     <label for="obs">Observaciones:</label>
                 <textarea name="obs" id="obs" cols="30" rows="5" class="form-control">{{ $c->obs }}</textarea>
@@ -371,5 +440,49 @@ $(document).on('click', '#dias', function(){
         showInputs: false
     });
 });
+/* PARA BUSCAR INSTRUCTOR */
+$('#myajax').click(function(){
+    var nombre = $("#nombre").val();
+    if(nombre != ''){
+        $.ajax({
+            url:'{{ url("findInstructor") }}',
+            data:"nom="+nombre+"&_token={{ csrf_token() }}",
+            type:'post',
+            success: function(response){
+                $("#ventanaResul").show(1000);
+                $("#resul").html(response);
+            },
+            statusCode:{
+                404: function(){
+                    alert('web not found');
+                }
+            },
+            error: function(x,xs,xt){
+                //window.open(JSON.stringify(x));
+                //alert('error: ' + JSON.stringify(x) +"\n error string: "+ xs + "\n error throwed: " + xt);
+            }
+        });
+    }else{
+        alert("Ingrese el Código o nombre del curso.");
+    }
+});
+
+$("#ventanaResul").on("click",".accion",function(){
+    $("#ventanaResul").hide(1000);
+    $("#ventanaBuscar").hide(1000);
+
+    $("#seleccionIns").show(1000);
+    $("#seleccionCursoD").show(1000);
+
+    var row = $(this).parents('tr');
+    var id = row.data('id');
+    var nom = row.data('nombre');
+    var ape = row.data('apellidos');
+
+    $("#idIns").val(id);
+    $("#nomIns").val(nom + " " + ape);
+
+});
+/* FIN DE BUSQUEDA */
 
 @endsection

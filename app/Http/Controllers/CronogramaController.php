@@ -6,6 +6,9 @@ use App\Cronograma;
 use App\Curso;
 use App\Horario;
 use App\Feriado;
+use App\Instructor;
+use App\Aula;
+use App\InicioAula;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Notification;
@@ -156,6 +159,7 @@ class CronogramaController extends Controller
     public function edit($id)
     {
         $crono = Cronograma::join('curso','cronograma.id_cu','=','curso.id_cu')
+                           ->leftJoin('inicio_aula','cronograma.id_cr','=','inicio_aula.id_cr')
                            ->where('cronograma.id_cr','=',$id)
                            ->select('cronograma.id_cr',
                                     'cronograma.gestion',
@@ -167,7 +171,9 @@ class CronogramaController extends Controller
                                     'curso.codigo',
                                     'curso.nombre',
                                     'curso.duracion',
-                                    'curso.precio')
+                                    'curso.precio',
+                                    'inicio_aula.id_aul'
+                                    )
                            ->get();
 
         $horario = Horario::where('id_cr','=',$id)->get();
@@ -175,8 +181,22 @@ class CronogramaController extends Controller
         $inicio = Horario::where('id_cr','=',$id)
                          ->select('f_inicio')
                          ->get();
+        
+        $instructor = Instructor::join('persona','instructor.id_pe','=','persona.id_pe')
+                                ->join('inicio_instructor','instructor.id_ins','=','inicio_instructor.id_ins')
+                                ->where('inicio_instructor.id_cr','=',$id)
+                                ->where('inicio_instructor.estado','=',1)
+                                ->get();
 
-        return view('cronograma.updateCronograma', array("cronograma" => $crono, "horario" => $horario, 'mes' => mes(), 'anio' => anio()));
+        $aula = Aula::where('estado','=',1)->get();
+
+        return view('cronograma.updateCronograma', array('cronograma' => $crono, 
+                                                         'horario' => $horario, 
+                                                         'instructor' => $instructor, 
+                                                         'aula' => $aula,
+                                                         'mes' => mes(), 
+                                                         'anio' => anio()
+                                                        ));
     }
 
     /**

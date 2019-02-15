@@ -219,7 +219,59 @@ class InicioController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $messages = array(
+            'id_cr.required' => 'No es ningun inicio de curso valido.',
+            'id_cur.required' => 'No se selecciono ningun curso.',
+            'fechaInicio.required' => 'La Fecha de Inicio es necesario.',
+            'h.required' => 'Es necesario definir el horario.',
+            'd.required' => 'Es necesaio los dias a pasar clases.',
+            'f.required' => 'Es necesaio las fechas de Inicio y Fin.',
+            'dis.required' => 'Disponiblidad debe ser mayor a 0'
+        );
+        $rules = array (
+            'id_cr' => 'required',
+            'id_cur' => 'required',
+            'idIns' => 'required',
+            'fechaInicio' => 'required',
+            'h' => 'required',
+            'd' => 'required',
+            'f' => 'required',
+            'dis' => 'required'
+        );
+
+        $this->validate($request, $rules, $messages);
+
+        /* GUARDA DATOS DE CRONOGRAMA */
+        $crono = Cronograma::find($request->id_cr);
+
+        if(isset($request->pre) & isset($request->dur)){
+            $crono->precio = $request->pre;
+            $crono->duracion = $request->dur;
+        }else{
+            $crono->precio = 0;
+            $crono->duracion = 0;
+        }
+        $crono->disponibilidad = $request->dis;
+        $crono->obs = $request->obs;
+        $crono->estado = 2;
+
+        $crono->save();
+        /* FIN DE GUARDAR DATOS */
+
+        /** GUARDAR DATOS DE HORARIO */
+        $this->asigHorario($request->f, $request->h, $request->d, $request->id_ho, $request->id_cr);
+        /** FIN DE GUARDAR DATOS */
+
+        /** GUARDAR DATOS DE ASIGNACION DE INSTRUCTOR */
+        $this->asigInstructor($request->idIns, $request->id_cr, $request->chora);
+        /** FIN DE GUARDAR DATOS */
+
+        /** GUARDAR DATOS DE ASIGNACION DE AULA */
+        $this->asigAula($request->id_cr, $request->aula);
+        /** FIN DE GUARDAR DATOS */
+
+        Notification::success("El registro de Inicio se realizó correctamente.");
+        return redirect('findCronograma');
     }
 
     /**
