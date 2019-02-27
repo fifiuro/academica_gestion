@@ -238,6 +238,27 @@ Route::group(['middleware' => 'auth'], function() {
     // Eliminar los datos del Inicio
     Route::post('destroyInicio','InicioController@destroy');
     /* ACCIONES  */
+
+    /* ACCIONES A INTERES */
+    // Formulario de busqueda de Interes
+    Route::get('findInteres','InteresController@index');
+    // Resultado de la busqueda de Interes
+    Route::post('findInteres','InteresController@show');
+    // Formulario de Nuevo Interes
+    Route::get('createInteres','InteresController@create');
+    // Datos del Formulario con los datos del Nuevo Interes
+    Route::post('storeInteres','InteresController@store');
+    // Formulario con los Datos a Modificar
+    Route::get('editInteres/{id}','InteresController@edit');
+    // Pregunta de eliminacion del registro del Interes
+    Route::get('confirmInteres/{id}/{pe}','InteresController@confirmation');
+    // Eliminar los datos del Interes
+    Route::post('destroyInteres','InteresController@destroy');
+    // Agregar un Interese de Curso a una persona existente
+    Route::post('addInteres','InteresController@addInteres');
+    // Eliminar todos los Intereses de curso de una persona
+    Route::get('allDestroyInteres/{id}','InteresController@allDestroyInteres');
+    /* ACCIONES  */
 });
 
 Auth::routes();

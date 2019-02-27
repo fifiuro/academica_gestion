@@ -156,7 +156,7 @@ class AulaController extends Controller
         $aula = Aula::find($request->id);
         $aula->delete();
 
-        Notification::success('El registro fue Eliminado');
+        Notification::success('El registro fue Eliminado.');
         return redirect('findAula');
     }
 }

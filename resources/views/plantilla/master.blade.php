@@ -132,6 +132,7 @@
 
             <!-- Main content -->
             <section class="content">
+                @notification()
                 @yield('contenido')
             </section>
             <!-- /.content -->

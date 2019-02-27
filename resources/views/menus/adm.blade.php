@@ -70,7 +70,7 @@
                 <i class="fa fa-circle-o"></i> Alumno</a>
         </li>
         <li>
-            <a href="#">
+            <a href="{{ url('findInteres') }}">
                 <i class="fa fa-circle-o"></i> Interesado</a>
         </li>
         <li>
