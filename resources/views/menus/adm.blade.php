@@ -27,6 +27,14 @@
             <a href="{{ url('findAula') }}">
                 <i class="fa fa-circle-o"></i> Aulas</a>
         </li>
+        <li>
+            <a href="{{ url('findPago') }}">
+                <i class="fa fa-circle-o"></i> Tipos de Pago</a>
+        </li>
+        <li>
+            <a href="{{ url('findDocumento') }}">
+                <i class="fa fa-circle-o"></i> Documentos Respaldo</a>
+        </li>
     </ul>
 </li>
 <li class="treeview">

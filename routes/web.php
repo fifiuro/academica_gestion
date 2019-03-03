@@ -109,6 +109,44 @@ Route::group(['middleware' => 'auth'], function() {
     // Eliminar los datos del Aula
     Route::post('destroyAula','AulaController@destroy');
 
+    /* ACCIONES A TIPO PAGO */
+    // Formulario de busqueda de Pago
+    Route::get('findPago','PagoController@index');
+    // Resultado de la busqueda de Pago
+    Route::post('findPago','PagoController@show');
+    // Formulario de Nuevo Pago
+    Route::get('createPago','PagoController@create');
+    // Datos del Formulario con los datos del Nuevo Pago
+    Route::post('storePago','PagoController@store');
+    // Formulario con los Datos a Modificar del Pago
+    Route::get('editPago/{id}','PagoController@edit');
+    // datos del Formulario con los datos a modificar Pago
+    Route::post('updatePago','PagoController@update');
+    // Pregunta de eliminacion del registro del Pago
+    Route::get('confirmPago/{id}','PagoController@confirmation');
+    // Eliminar los datos del Pago
+    Route::post('destroyPago','PagoController@destroy');
+    /* ACCIONES */
+
+    /* ACCIONES A DOCUMENTOS RESPALDO */
+    // Formulario de busqueda de Documento
+    Route::get('findDocumento','DocumentoController@index');
+    // Resultado de la busqueda de Documento
+    Route::post('findDocumento','DocumentoController@show');
+    // Formulario de Nuevo Documento
+    Route::get('createDocumento','DocumentoController@create');
+    // Datos del Formulario con los datos del Nuevo Documento
+    Route::post('storeDocumento','DocumentoController@store');
+    // Formulario con los Datos a Modificar del Documento
+    Route::get('editDocumento/{id}','DocumentoController@edit');
+    // datos del Formulario con los datos a modificar Documento
+    Route::post('updateDocumento','DocumentoController@update');
+    // Pregunta de eliminacion del registro del Documento
+    Route::get('confirmDocumento/{id}','DocumentoController@confirmation');
+    // Eliminar los datos del Documento
+    Route::post('destroyDocumento','DocumentoController@destroy');
+    /* ACCIONES */
+
     /* ACCIONES AL PERSONAL COGNOS */
     // Formulario de busqueda de Personal
     Route::get('findPersonal','PersonalController@index');
