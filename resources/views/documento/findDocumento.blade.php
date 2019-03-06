@@ -56,11 +56,11 @@
               </td>
               <td>
                 {{-- Boton Editar --}}
-                <a href="{{ url('editDocumento/'.$a->id_aul) }}" class="btn btn-warning">
+                <a href="{{ url('editDocumento/'.$d->id_doc) }}" class="btn btn-warning">
                   <i class="glyphicon glyphicon-pencil"></i>
                 </a>
                 {{-- Boton Eliminar --}}
-                <a href="{{ url('confirmDocumento/'.$a->id_aul) }}" class="btn btn-danger">
+                <a href="{{ url('confirmDocumento/'.$d->id_doc) }}" class="btn btn-danger">
                   <i class="glyphicon glyphicon-trash"></i>
                 </a>
               </td>

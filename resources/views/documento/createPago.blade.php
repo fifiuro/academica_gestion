@@ -5,7 +5,7 @@
 @endsection 
 
 @section('tituloPag')
-    NUEVO DOCUMENTO DE RESPALDO
+    NUEVO TIPO DE PAGO
 @endsection
 
 @section('subtituloPag')
@@ -26,23 +26,23 @@
     <div class="box box-primary">
         <!-- /.box-header -->
         <!-- form start -->
-        <form name="form" id="form" role="form" method="POST" action="{{ url('storeDocumento') }}">
+        <form name="form" id="form" role="form" method="POST" action="{{ url('storePago') }}">
             {{ csrf_field() }}
             <div class="box-body">
                 <div class="form-group">
-                    <label for="doc">Documento de Respaldo:</label>
-                    <input class="form-control" name="doc" id="doc" placeholder="Documento de Respaldo" type="text" value="{{ old('doc') }}" required>
+                    <label for="tipo">Tipo de Pago:</label>
+                    <input class="form-control" name="tipo" id="tipo" placeholder="Tipo de Pago" type="text" value="{{ old('numero') }}" required>
                 </div>
                 <div class="form-group">
                     <label for="des">Descripción:</label>
-                    <textarea name="des" id="des" cols="30" rows="5" class="form-control">{{ old('des') }}</textarea>
+                    <textarea name="des" id="des" cols="30" rows="5" class="form-control">{{ old('descripcion') }}</textarea>
                 </div>
             </div>
             <!-- /.box-body -->
 
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary" name="guardar" id="guardar">GUARDAR</button>
-                <a href="{{ url('findDocumento') }}" class="btn btn-danger">CANCELAR</a>
+                <a href="{{ url('findPago') }}" class="btn btn-danger">CANCELAR</a>
             </div>
         </form>
     </div>

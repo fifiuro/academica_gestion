@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Documento;
 use Illuminate\Http\Request;
+use Notification;
 
 class DocumentoController extends Controller
 {
@@ -72,7 +73,7 @@ class DocumentoController extends Controller
         $doc = new Documento;
         $doc->documento = $request->doc;
         $doc->descripcion = $request->des;
-        $doc-save();
+        $doc->save();
         
         Notification::success('El registro de Tipo de Documento se realizó correctamente.');
         return redirect('findDocumento');
@@ -86,7 +87,7 @@ class DocumentoController extends Controller
      */
     public function edit($id)
     {
-        $doc = Docuemento::find($id);
+        $doc = Documento::find($id);
 
         return view('documento.updateDocumento', array('doc' => $doc));
     }
@@ -118,7 +119,7 @@ class DocumentoController extends Controller
         $doc->documento = $request->doc;
         $doc->descripcion = $request->des;
         $doc->estado = $request->estado;
-        $doc-save();
+        $doc->save();
         
         Notification::success('La modificación de Tipo de Documento se realizó correctamente.');
         return redirect('findDocumento');
@@ -141,7 +142,7 @@ class DocumentoController extends Controller
      * @param  \App\Documento  $documento
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Documento $documento)
+    public function destroy(Request $request)
     {
         $doc = Documento::find($request->id);
         $doc->delete();

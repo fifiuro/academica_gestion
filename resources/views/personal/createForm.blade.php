@@ -20,7 +20,6 @@
         @endforeach
     </div>
 @endif
-</br>
 <div class="col-md-2"></div>
 <div class="col-md-8 col-sm-12 col-12">
     <div class="box box-primary">
