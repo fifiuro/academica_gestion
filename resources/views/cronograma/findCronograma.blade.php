@@ -30,12 +30,19 @@
         <div class="col-xs-2">
             <label for="mes">Mes:</label>
             <select name="mes" id="mes" class="form-control" required>
-                <option value="" selected></option>
-                @for ($i=0; $i<13; $i++)
-                  @if (array_key_exists($i,$mes))
-                      <option value="{{ $i }}">{{ $mes[$i] }}</option>
-                  @endif
-                @endfor
+                <option value=""></option>
+                <option value="1">Enero</option>
+                <option value="2">Febero</option>
+                <option value="3">Marzo</option>
+                <option value="4">Abril</option>
+                <option value="5">Mayo</option>
+                <option value="6">Junio</option>
+                <option value="7">Julio</option>
+                <option value="8">Agosto</option>
+                <option value="9">Setiembre</option>
+                <option value="10">Octubre</option>
+                <option value="11">Noviembre</option>
+                <option value="12">Diciembre</option>
             </select>
         </div>
         <div class="col-xs-2">

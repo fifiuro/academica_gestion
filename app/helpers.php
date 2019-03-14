@@ -217,3 +217,58 @@ function numeroHorasDia($hora, $clave){
 
     return $hor;
 }
+
+/** Listaod de cursos para Inscripciones */
+function listadoCursos($curso){
+    $actual = '';
+    $count = 1;
+    $show = '';
+
+    foreach($curso as $key => $c){
+        switch ($count) {
+            case '1':
+                $actual = $c->id_cr;
+                $count = $count + 1;
+                $show = '<tr>';
+                $show .= '<td><strong>'.$c->codigo.'</strong>: '.$c->nombre .'<br>';
+                if ($c->dur_cro != 0){
+                    $show .= '<strong>Duración:</strong> '.$c->dur_cro;
+                }else{
+                    $show .= '<strong>Duración:</strong> '.$c->dur_cur;
+                }
+                $show .= '</td>';
+                $show .= '<td>'.formatoFechaReporte($c->f_inicio).'</td>';
+                $show .= '<td>'.dias($c->dias).' '.horarios($c->horarios);
+                break;
+            
+            default:
+                if($actual == $c->id_cr){
+                    $show .= '<br>'.dias($c->dias).' '.horarios($c->horarios);
+                }else{
+                    $show .= '</td>';
+                    $show .= '<td>'.$c->total.'</td>';
+                    $show .= '</tr>';
+                    $actual = $c->id_cr;
+
+                    $show .= '<tr>';
+                    $show .= '<td><strong>'.$c->codigo.'</strong>: '.$c->nombre .'<br>';
+                    if ($c->dur_cro != 0){
+                        $show .= '<strong>Duración:</strong> '.$c->dur_cro;
+                    }else{
+                        $show .= '<strong>Duración:</strong> '.$c->dur_cur;
+                    }
+                    $show .= '</td>';
+                    $show .= '<td>'.formatoFechaReporte($c->f_inicio).'</td>';
+                    $show .= '<td>'.dias($c->dias).' '.horarios($c->horarios);
+                }
+                break;
+        }
+
+        if($c === end($curso)){
+            $show .= '</td>';
+            $show .= '<td>'.$c->total.'</td>';
+            $show .= '</tr>';
+        }
+    }
+    echo $show;
+}

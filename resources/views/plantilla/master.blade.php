@@ -32,6 +32,8 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/select2/select2.min.css') }}">
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') }}">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('assets/plugins/datatables/dataTables.bootstrap.css') }}">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn t work if you view the page via file:// -->
@@ -197,6 +199,9 @@
     <script src="{{ asset('assets/bower_components/input-mask/jquery.inputmask.js') }}"></script>
     <script src="{{ asset('assets/bower_components/input-mask/jquery.inputmask.date.extensions.js') }}"></script>
     <script src="{{ asset('assets/bower_components/input-mask/jquery.inputmask.extensions.js') }}"></script>
+    <!-- DataTables -->
+    <script src="{{ asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
 
     <script type="text/javascript">
         $(document).ready(function() {

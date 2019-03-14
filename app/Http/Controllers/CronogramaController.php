@@ -299,4 +299,25 @@ class CronogramaController extends Controller
         return redirect('findCronograma');
     }
 
+    /**
+     * Listado de todos los cursos segun al mes y usuario.
+     *
+     * @param  int  $mes
+     * @param  inst $us
+     * @return \Illuminate\Http\Response
+     */
+    public function listCronograma($me, $gestion)
+    {
+        $crono = DB::select('select c.id_cr, c.id_cu, cu.codigo, cu.nombre, count(id_pe) as interesados 
+                            from cronograma as c
+                                left join interes as i on (c.id_cu = i.id_cu)
+                                inner join curso as cu on (c.id_cu = cu.id_cu)
+                            where
+                                c.id = '.Auth::user()->id_pe.' and
+                                c.mes = '.$mes.' and
+                                c.gestion = '.$gestion.' and
+                                c.estado = 1
+                            group by c.id_cu;')->get();
+    }
+
 }

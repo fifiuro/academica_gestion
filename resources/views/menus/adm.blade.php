@@ -94,8 +94,8 @@
     </a>
 </li>
 <li>
-    <a href="{{ url('createInicio') }}">
-        <i class="fa fa-check"></i>
-        <span>INICIO</span>
+    <a href="{{ url('findInscripcion') }}">
+        <i class="fa fa-child"></i>
+        <span>INSCRIPCIONES</span>
     </a>
 </li>

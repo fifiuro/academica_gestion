@@ -297,6 +297,27 @@ Route::group(['middleware' => 'auth'], function() {
     // Eliminar todos los Intereses de curso de una persona
     Route::get('allDestroyInteres/{id}','InteresController@allDestroyInteres');
     /* ACCIONES  */
+
+    /* ACCIONES A INSCRIPCION */
+    // Formulario de busqueda de Inscripcion
+    Route::get('findInscripcion','InscripcionController@index');
+    // Resultado de la busqueda de Inscripcion
+    Route::post('findInscripcion','InscripcionController@show');
+    // Formulario de Nuevo Inscripcion
+    Route::get('createInscripcion','InscripcionController@create');
+    // Datos del Formulario con los datos del Nuevo Inscripcion
+    Route::post('storeInscripcion','InscripcionController@store');
+    // Formulario con los Datos a Modificar
+    Route::get('editInscripcion/{id}','InscripcionController@edit');
+    // Pregunta de eliminacion del registro del Inscripcion
+    Route::get('confirmInscripcion/{id}/{pe}','InscripcionController@confirmation');
+    // Eliminar los datos del Inscripcion
+    Route::post('destroyInscripcion','InscripcionController@destroy');
+    // Agregar un Inscripcione de Curso a una persona existente
+    Route::post('addInscripcion','InscripcionController@addInscripcion');
+    // Eliminar todos los Inscripciones de curso de una persona
+    Route::get('allDestroyInscripcion/{id}','InscripcionController@allDestroyInscripcion');
+    /* ACCIONES  */
 });
 
 Auth::routes();
