@@ -152,10 +152,10 @@ function mes(){
 
     for($i=0; $i<count($m); $i++)
     {
-        if($i >= ($f+0))
-        {
+        //if($i >= ($f+0))
+        //{
             $ver = array_add($ver,$i,$m[$i]); 
-        }
+        //}
     }
 
     return $ver;

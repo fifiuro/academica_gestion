@@ -304,19 +304,53 @@ Route::group(['middleware' => 'auth'], function() {
     // Resultado de la busqueda de Inscripcion
     Route::post('findInscripcion','InscripcionController@show');
     // Formulario de Nuevo Inscripcion
-    Route::get('createInscripcion','InscripcionController@create');
+    Route::get('createInscripcion/{id}','InscripcionController@create');
     // Datos del Formulario con los datos del Nuevo Inscripcion
     Route::post('storeInscripcion','InscripcionController@store');
     // Formulario con los Datos a Modificar
     Route::get('editInscripcion/{id}','InscripcionController@edit');
     // Pregunta de eliminacion del registro del Inscripcion
-    Route::get('confirmInscripcion/{id}/{pe}','InscripcionController@confirmation');
+    Route::post('updateInscripcion','InscripcionController@update');
+    // Pregunta de eliminacion del registro del Inicio
+    Route::get('confirmInscripcion/{id}','InscripcionController@confirmation');
     // Eliminar los datos del Inscripcion
     Route::post('destroyInscripcion','InscripcionController@destroy');
     // Agregar un Inscripcione de Curso a una persona existente
     Route::post('addInscripcion','InscripcionController@addInscripcion');
     // Eliminar todos los Inscripciones de curso de una persona
     Route::get('allDestroyInscripcion/{id}','InscripcionController@allDestroyInscripcion');
+    /* ACCIONES  */
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /* ACCIONES A ALUMNO */
+    // Formulario de busqueda de Alumno
+    Route::get('findAlumno','AlumnoController@index');
+    // Resultado de la busqueda de Alumno
+    Route::post('findAlumno','AlumnoController@show');
+    // Formulario de Nuevo Alumno
+    Route::get('createAlumno/{id}','AlumnoController@create');
+    // Datos del Formulario con los datos del Nuevo Alumno
+    Route::post('storeAlumno','AlumnoController@store');
+    // Formulario con los Datos a Modificar
+    Route::get('editAlumno/{id}','AlumnoController@edit');
+    // Pregunta de eliminacion del registro del Alumno
+    Route::get('confirmAlumno/{id}/{pe}','AlumnoController@confirmation');
+    // Eliminar los datos del Alumno
+    Route::post('destroyAlumno','AlumnoController@destroy');
+    // Agregar un Alumno de Curso a una persona existente
+    Route::post('addAlumno','AlumnoController@addAlumno');
+    // Eliminar todos los Alumnoes de curso de una persona
+    Route::get('allDestroyAlumno/{id}','AlumnoController@allDestroyAlumno');
+    // Otro para buscar Alumno como tambien Interesado
+    Route::post('findAluInt','AlumnoController@findAluInt');
     /* ACCIONES  */
 });
 

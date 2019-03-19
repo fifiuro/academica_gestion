@@ -31,7 +31,7 @@
           {{-- Boton Buscar --}}
           <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-search"></i></button>
           {{-- Boton Nuevo --}}
-          <a href="{{ url('createInscripcion') }}" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i></a>
+          {{-- <a href="{{ url('createInscripcion') }}" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i></a> --}}
         </div>
       </div>
     </form>
@@ -42,18 +42,19 @@
         <table class="table">
           <tbody>
             <tr>
-              <th>Nombre</th>
+              <th>Partipante</th>
               <th>Cursos</th>
+              <th>Estado</th>
               <th>Acciones</th>
             </tr>
             @foreach($ins as $key => $i)
             <tr>
-              <td>{{ $i->nombre }} {{ $i->apellidos }}</td>
-              <td>{{ $i->cursos }}</td>
+              <td>{{ $i->alumno }}</td>
+              <td>{{ $i->curso }}</td>
               <td>
-                @if ($i->estado)
+                @if ($i->estado == 1)
                   <i class="glyphicon glyphicon-ok btn-lg" style="color:green;"></i>
-                @else
+                @elseif ($i->estado == 2)
                   <i class="glyphicon glyphicon-remove" style="color:red;"></i>  
                 @endif
               </td>

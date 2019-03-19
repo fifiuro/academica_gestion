@@ -102,6 +102,12 @@
                     <i class="fa fa-check"></i>
                   </a>
                 @endif
+                {{-- Boton Inscribir a Curso --}}
+                @if ($c->estado == 2)
+                  <a href="{{ url('createInscripcion/'.$c->id_cr) }}" class="btn btn-info">
+                    <i class="fa fa-child"></i>
+                  </a>
+                @endif
               </td>
             </tr>
             @endforeach

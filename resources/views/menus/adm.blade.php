@@ -81,10 +81,6 @@
             <a href="{{ url('findInteres') }}">
                 <i class="fa fa-circle-o"></i> Interesado</a>
         </li>
-        <li>
-            <a href="#">
-                <i class="fa fa-circle-o"></i> Empresas</a>
-        </li>
     </ul>
 </li>
 <li>
