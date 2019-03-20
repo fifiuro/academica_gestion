@@ -74,7 +74,7 @@
     </a>
     <ul class="treeview-menu">
         <li>
-            <a href="#">
+            <a href="{{ url('findAlumno') }}">
                 <i class="fa fa-circle-o"></i> Alumno</a>
         </li>
         <li>
