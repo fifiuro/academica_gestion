@@ -51,12 +51,12 @@
                 <i class="fa fa-circle-o"></i> Personal Cognos</a>
         </li>
         <li>
-            <a href="{{ url('findCurso') }}">
-                <i class="fa fa-circle-o"></i> Cursos</a>
-        </li>
-        <li>
             <a href="{{ url('findInstructor') }}">
                 <i class="fa fa-circle-o"></i> Instructores</a>
+        </li>
+        <li>
+            <a href="{{ url('findCurso') }}">
+                <i class="fa fa-circle-o"></i> Cursos</a>
         </li>
         <li>
             <a href="{{ url('findEmpresa') }}">
@@ -94,4 +94,23 @@
         <i class="fa fa-child"></i>
         <span>INSCRIPCIONES</span>
     </a>
+</li>
+<li class="treeview">
+    <a href="#">
+        <i class="fa fa-calendar-check-o "></i>
+        <span>MALLA DE CURSOS</span>
+        <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+        </span>
+    </a>
+    <ul class="treeview-menu">
+        <li>
+            <a href="{{ url('#') }}">
+                <i class="fa fa-circle-o"></i> Lunes a viernes</a>
+        </li>
+        <li>
+            <a href="{{ url('#') }}">
+                <i class="fa fa-circle-o"></i> Sábado</a>
+        </li>
+    </ul>
 </li>

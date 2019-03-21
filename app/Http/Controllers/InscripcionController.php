@@ -8,6 +8,7 @@ use App\Cronograma;
 use App\Horario;
 use App\Aula;
 use App\Interes;
+use App\Alumno;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Notification;
@@ -158,9 +159,27 @@ class InscripcionController extends Controller
         }
         $ins->obs = $request->obs;
         $ins->save();
+
+        $alumno = new Alumno;
+        $alumno->id_pe = $request->idAlu;
+        $alumno->save();
+
+        $this->estadoInteres($request->idAlu,$request->id_cr);
         
         Notification::success('Se guardo correctamente la Inscripción.');
         return redirect('findInscripcion');
+    }
+
+    /**
+     * Cambiar el estado del curso a cual estaba interesado
+     */
+    public function estadoInteres($id_pe, $id_cr)
+    {
+        $curso = Cronograma::find($id_cr);
+
+        $interes = Interes::where('id_pe','=',$id_pe)
+                          ->where('id_cu','=',$curso->id_cu)
+                          ->update(['estado' => 2]);
     }
 
     /**

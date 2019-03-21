@@ -136,7 +136,7 @@
 
                 <!-- MUESTRA EL ALUMNO SELECCIONADO  -->
                 <div class="row" id="seleccionIns" style="display:none">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-12">
                         <label for="ins">Alumno:</label>
                         <input type="text" name="nomAlu" id="nomAlu" class="form-control" disabled>
                         <input type="hidden" name="idAlu" id="idAlu">

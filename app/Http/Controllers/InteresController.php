@@ -99,6 +99,7 @@ class InteresController extends Controller
         $persona->apellidos = $request->ape;
         $persona->email = $request->email;
         $persona->celular = $request->cel;
+        $persona->expedido = 4;
         $persona->save();
 
         $id_pe = $persona->id_pe;

@@ -291,22 +291,13 @@ class AlumnoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function findAluInt(Request $request)
-    {
-        /*$bus = DB::select('select Interes.id_pe, Interes.nombre, Interes.apellidos
-                            from
-                                (select distinct p.id_pe, p.nombre, p.apellidos from interes as i inner join persona as p on (i.id_pe = p.id_pe) where i.estado = true) as Interes
-                                left join (select distinct p.id_pe, p.nombre, p.apellidos from persona as p inner join inscripcion as i on (p.id_pe = i.id_pe)) as Inscrito
-                                            on (Interes.id_pe = Inscrito.id_pe)
-                            where concat(Interes.nombre," ",Interes.apellidos) like "%'.$request->nom.'%"');*/
-        $todo = DB::select("select distinct id_pe as id_int, nombre, apellidos 
-                            from interes as i
-                                inner join persona as p on (i.id_pe = p.id_pe)
-                            where concat(nombre,' ',apellidos) like '%".$request->nom."%'
-                            union
-                            select id_pe, nombre, apellidos 
-                            from alumno as a
-                                inner join persona as p on (a.id_pe = p.id_pe)
-                            where concat(nombre,' ',apellidos) like '%".$request->nom."%'");
+    {        
+        $todo = DB::select('select distinct * 
+                            from persona
+                            where 
+                                (id_pe in (select id_pe from alumno) or
+                                id_pe in (select id_pe from interes)) and
+                                concat(nombre," ",apellidos) like "%'.$request->nom.'%"');
 
         if(count($todo) == 0){
             echo 'No se tuvieron coincidencias con: '.$request->nom;
