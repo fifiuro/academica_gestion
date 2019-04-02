@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Persona;
 use App\Instructor;
 use App\Departamento;
+use App\Trabajo;
 use App\Curso;
 use App\Especialidad;
+use App\Empresa;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadFile;
 use Illuminate\Support\Facades\DB;
@@ -34,8 +36,9 @@ class InstructorController extends Controller
     {
         $ins = Persona::join("instructor","persona.id_pe","=","instructor.id_pe")
                       ->join("departamento","persona.expedido","=","departamento.id_dep")
+                      ->leftjoin("trabajo","persona.id_pe","=","trabajo.id_pe")
                       ->where(DB::raw("concat(persona.nombre,' ',persona.apellidos)"),"like","%".$request->nom."%")
-                      ->select("instructor.id_ins","persona.id_pe","persona.nombre","persona.apellidos","persona.ci","departamento.sigla","persona.tel_dom","persona.tel_of","persona.celular","persona.email")
+                      ->select("instructor.id_ins","persona.id_pe","persona.nombre","persona.apellidos","persona.ci","departamento.sigla","persona.tel_dom","persona.celular","persona.email")
                       ->get();
         
         if($ins->isEmpty()){
@@ -56,7 +59,8 @@ class InstructorController extends Controller
         }
     }
 
-    private function tabla($ins){
+    private function tabla($ins)
+    {
         $todo = "";
         foreach($ins as $key => $i){
             $todo .= "<tr data-id='".$i->id_ins."' data-nombre='".$i->nombre."' data-apellidos='".$i->apellidos."'>";
@@ -77,7 +81,11 @@ class InstructorController extends Controller
     {
         $depto = Departamento::all();
         $curso = Curso::all();
-        return view('instructor.createInstructor', array("depto" => $depto, 'curso' => $curso));
+        $emp = Empresa::all();
+        return view('instructor.createInstructor', array('depto' => $depto, 
+                                                         'curso' => $curso,
+                                                         'empresa' => $emp
+                                                        ));
     }
 
     /**
@@ -88,9 +96,6 @@ class InstructorController extends Controller
      */
     public function store(Request $request)
     {
-        $p1 = new Persona;
-        $p2 = new Instructor;
-        $e = new Especialidad;
         $nom_cvc = "";
         $nom_cvm = "";
 
@@ -104,7 +109,10 @@ class InstructorController extends Controller
         if($v->fails()){
             return redirect()->back()->withInput()->withErrors($v->errore());
         }
-
+        /**
+         * GUARDA REGISTRO EN LA TABLA PERSONA
+         */
+        $p1 = new Persona;
         $p1->nombre = $request->nom;
         $p1->apellidos = $request->ape;
         if($request->ci != ""){
@@ -115,43 +123,68 @@ class InstructorController extends Controller
             $p1->expedido = $request->dep;
         }
         $p1->tel_dom = $request->td;
-        $p1->tel_of = $request->to;
         $p1->celular = $request->cel;
         $p1->email = $request->email;
+        $p1->dir_dom = $request->dir_dom;
         $p1->save();
 
         $insertId = $p1->id_pe;
+        /* FIN DEL REGISTRO EN LA TABLA PERSONA */
 
+        /**
+         * GUARDA REGISTRO EN LA TABLA INSTRUCTOR
+         */
         $cont = 0;
-        if(count($request->cv) > 0)
-        {
-            $files = $request->file('cv');
+        if(is_array($request->cv)){
+            if(count($request->cv) > 0)
+            {
+                $files = $request->file('cv');
 
-            foreach($files as $file){
-                $extension = $file->getClientOriginalExtension();
-                if($extension == 'pdf' or $extension == 'PDF')
-                {
-                    $nom_file = $file->getClientOriginalName();
-                    \Storage::disk('local')->put($nom_file, \File::get($file));
-                    if($cont == 0){
-                        $nom_cvc = $nom_file;
-                        $cont++;
-                    }else{
-                        $nom_cvm = $nom_file;
+                foreach($files as $file){
+                    $extension = $file->getClientOriginalExtension();
+                    if($extension == 'pdf' or $extension == 'PDF')
+                    {
+                        $nom_file = $file->getClientOriginalName();
+                        \Storage::disk('local')->put($nom_file, \File::get($file));
+                        if($cont == 0){
+                            $nom_cvc = $nom_file;
+                            $cont++;
+                        }else{
+                            $nom_cvm = $nom_file;
+                        }
                     }
                 }
             }
         }
 
+        $p2 = new Instructor;
         $p2->id_pe = $insertId;
         $p2->obs = $request->obs;
         $p2->cvc = $nom_cvc;
         $p2->cvm = $nom_cvm;
-
         $p2->save();
 
         $insertInstructor = $p2->id_ins;
+        /* FIN DEL REGISTRO EN LA TABLA INSTRUCTOR */
 
+        /** GUARDAR REGISTROS EN LA TABLA TRABAJO */
+        $p3 = new Trabajo;
+        $p3->id_pe = $insertId;
+        if($request->id_em != ''){
+            $p3->id_em = $request->id_em;
+        }else{
+            $p3->id_em = 1;
+        }
+        $p3->direccion = $request->direccion_em;
+        $p3->telefono = $request->telefono_e;
+        $p3->estado = true;
+        $p3->save();
+        /** FIN DEL REGHISTRO DE LA TABLA TRABAJO */
+
+        /**
+         * GUARDA REGITROS EN LA TABLA ESPECIALIDAD
+         */
+        $e = new Especialidad;
         foreach($request->espe as $key => $es){
             $dataSet[] = [
                 "id_cu" => $es,
@@ -163,6 +196,7 @@ class InstructorController extends Controller
         if(count($dataSet) > 0){
             $e->insert($dataSet);
         }
+        /* FIN DEL REGISTRO DE LA TABLA ESPECIALIDAD */
 
         Notification::success("El registro se realizó correctamente.");
         return redirect('findInstructor');
@@ -182,16 +216,29 @@ class InstructorController extends Controller
 
         $depto = Departamento::all();
 
-        $esp = DB::select("select c.id_cu, c.nombre, ei.id_ins 
-                                from curso as c
-                                    left join (select e.id_cu, e.id_ins 
-                                            from especialidad as e 
-                                                    inner join instructor as i on (e.id_ins = i.id_ins) 
-                                            where i.id_pe = '".$id."') as ei on (c.id_cu = ei.id_cu)");
-        //dd($esp);
+        $esp = Especialidad::join('instructor','instructor.id_ins','=','especialidad.id_ins')
+                           ->where('instructor.id_pe','=',$id)
+                           ->select('id_cu')
+                           ->get();
+        
+        $otro = array();
+        foreach($esp as $key => $e){
+            array_push($otro,$e->id_cu);
+        }
+        
+        $trabajo = Trabajo::where('id_pe','=',$id)
+                          ->where('estado','=',true)
+                          ->get();
+
+        $emp = Empresa::all();
+        $curso = Curso::all();
+
         return view('instructor.updateInstructor', array("ins" => $ins, 
+                                                         "trabajo" => $trabajo,
                                                          "depto" => $depto, 
-                                                         "espe" => $esp));
+                                                         "espe" =>  $otro,
+                                                         "empresa" => $emp,
+                                                         "curso" => $curso));
     }
 
     /**
@@ -206,10 +253,6 @@ class InstructorController extends Controller
         $nom_cvc = "";
         $nom_cvm = "";
 
-        $p1 = Persona::find($request->id_pe);
-        $p2 = Instructor::find($request->id_ins);
-        $e = Especialidad::find($request->id_ins);
-
         $v = \Validator::make($request->all(), [
             'nom' => 'required',
             'ape' => 'required',
@@ -222,54 +265,90 @@ class InstructorController extends Controller
             return redirect()->back()->withInput()->withErrors($v->errors());
         }
 
+        /**
+         * GUARDA MODIFICACIONES EN LA TABLA PERSONA
+         */
+        $p1 = Persona::find($request->id_pe);
         $p1->nombre = $request->nom;
         $p1->apellidos = $request->ape;
-        $p1->ci = $request->ci;
-        $p1->expedido = $request->dep;
+        if($request->ci != ""){
+            $p1->ci = $request->ci;
+            $p1->expedido = $request->dep;
+        }else{
+            $p1->ci = "";
+            $p1->expedido = $request->dep;
+        }
         $p1->tel_dom = $request->td;
-        $p1->tel_of = $request->to;
         $p1->celular = $request->cel;
         $p1->email = $request->email;
+        $p1->dir_dom = $request->dir_dom;
         $p1->save();
 
-        $files = $request->file('cv');
+        /* FIN DE LA MODIFICACION EN LA TABLA PERSONA */
 
-        if(!is_null($request->file('cv'))){
-            for($i=0; $i<2; $i++){
-                if(array_key_exists($i,$files)){
-                    switch ($i) {
-                        case '0':
-                            if(\File::exists(public_path('almacen/'.$request->cvc))){
-                                \File::delete(public_path('almacen/'.$request->cvc));
-                            }
-                            $nom_cvc = $files[$i]->getClientOriginalName();
-                            \Storage::disk('local')->put($nom_cvc, \File::get($files[$i]));
-                            break;
-                        case '1':
-                            if(\File::exists(public_path('almacen/'.$request->cvm))){
-                                \File::delete(public_path('almacen/'.$request->cvm));
-                            }
-                            $nom_cvm = $files[$i]->getClientOriginalName();
-                            \Storage::disk('local')->put($nom_cvm, \File::get($files[$i]));
-                            break;
+        /**
+         * GUARDA MODIFICACIONES EN LA TABLA INSTRUCTOR
+         */
+        $cont = 0;
+        if(is_array($request->cv)){
+            if(count($request->cv) > 0)
+            {
+                $files = $request->file('cv');
+
+                foreach($files as $file){
+                    $extension = $file->getClientOriginalExtension();
+                    if($extension == 'pdf' or $extension == 'PDF')
+                    {
+                        $nom_file = $file->getClientOriginalName();
+                        \Storage::disk('local')->put($nom_file, \File::get($file));
+                        if($cont == 0){
+                            $nom_cvc = $nom_file;
+                            $cont++;
+                        }else{
+                            $nom_cvm = $nom_file;
+                        }
                     }
                 }
             }
         }
 
+        $p2 = Instructor::find($request->id_ins);
         $p2->obs = $request->obs;
-        if($nom_cvc != ""){
-            $p2->cvc = $nom_cvc;
-        }
-        if($nom_cvm != ""){
-            $p2->cvm = $nom_cvm;
-        }
+        $p2->cvc = $nom_cvc;
+        $p2->cvm = $nom_cvm;
         $p2->save();
+
+        $insertInstructor = $p2->id_ins;
+        /* FIN DE LA MODIFICACION EN LA TABLA INSTRUCTOR */
+
+        /** MODIFICAR REGISTROS EN LA TABLA TRABAJO */
+        if(isset($request->id_em)){
+            $p3 = Trabajo::find($request->id_tra);
+            $p3->id_pe = $request->id_pe;
+            $p3->id_em = $request->id_em;
+            $p3->direccion = $request->direccion_em;
+            $p3->telefono = $request->telefono_em;
+            $p3->estado = true;
+            $p3->save();
+        }else{
+            $p3 = new Trabajo;
+            $p3->id_pe = $request->id_pe;
+            $p3->id_em = $request->id_em;
+            $p3->direccion = $request->direccion_em;
+            $p3->telefono = $request->telefono_em;
+            $p3->estado = true;
+            $p3->save();
+        }
+        /** FIN DE LA MODIFICACION DE LA TABLA TRABAJO */
         
+        /**
+         * MODIFICAR REGITROS EN LA TABLA ESPECIALIDAD
+         */
         if(is_array($request->espe)){
             $this->agregarCurso($request->id_ins,$request->espe);
             $this->eliminarCurso($request->id_ins,$request->espe);
         }
+        /* FIN DE LA MODIFICACION DE LA TABLA ESPECIALIDAD */
 
         Notification::success("La modificación se realizó correctamente.");
         return redirect('findInstructor');

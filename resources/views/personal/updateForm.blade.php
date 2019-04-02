@@ -72,6 +72,10 @@
                     <input class="form-control" name="email" id="email" placeholder="Email" type="text" value="{{ $p->email }}" required>
                 </div>
                 <div class="form-group">
+                    <label for="dir_dom">Dirección Domicilio:</label>
+                    <textarea name="dir_dom" id="dir_dom" cols="30" rows="2" class="form-control">{{ $p->dir_dom }}</textarea>
+                </div>
+                <div class="form-group">
                     <label for="exampleInputEmail1">Cargo *:</label>
                     <select class="form-control" name="car" id="car" required>
                         @foreach ($cargo as $ke => $c)

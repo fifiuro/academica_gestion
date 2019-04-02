@@ -26,7 +26,7 @@
 @endif
 <br>
 <div class="col-md-1"></div>
-<div class="col-md-10 col-sm-12 col-12">
+<div class="">
     <div class="box box-primary">
         <!-- /.box-header -->
         <!-- form start -->
@@ -132,15 +132,15 @@
                         </table>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="form-group col-md-3" id="ventanaDis" name="ventanaDis">
+                    <div class="form-group">
                         <label for="dis">Disponibilidad:</label>
                         <input class="form-control" name="dis" id="dis" placeholder="Disponibilidad" type="text" autocomplete="off" value="{{ $c->disponibilidad }}">
                     </div>
                     @if($c->estado == 2)
-                        <div class="form-group  col-md-3 col-sm-6">
+                        <div class="form-group">
                             <label for="aula">Aula:</label>
                             <select name="aula" id="aula" class="form-control">
+                                <option></option>
                                 @foreach ($aula as $key => $a)
                                     @if($c->id_aul == $a->id_aul)
                                         <option value="{{ $a->id_aul }}" selected>Aula: {{ $a->numero }} - Cap.: {{ $a->num_pc }}</option>
@@ -151,25 +151,24 @@
                             </select>
                         </div>
                         @foreach($instructor as $key => $i)
-                            <div class="form-group col-md-3">
+                            <div class="form-group">
                                 <label for="ins">Instructor:</label>
                                 <input type="text" name="nomIns" id="nomIns" class="form-control" value="{{ $i->nombre }} {{ $i->apellidos }}" disabled>
                                 <input type="hidden" name="idIns" id="idIns" value="{{ $i->id_ins }}">
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group">
                                 <label for="ins">Pago por hora:</label>
                                 <input type="number" name="chora" id="chora" class="form-control" value="{{ $i->c_hora }}">
                             </div>
                         @endforeach
                     @endif
-                </div>
 
                 @if($c->estado == 2)
                 <!-- BUSQUEDA DE INSTRUCTOR -->
                 <div class="row alert-success" id="ventanaBuscar" name="ventanaBuscar">
                     <div class="form-group col-md-10 col-sm-10">
-                        <label for="nombre">Nombre Instructor *:</label>
-                        <input class="form-control" name="nombre" id="nombre" placeholder="Nombre" type="text" autocomplete="off" required>
+                        <label for="nombre">Nombre Instructor:</label>
+                        <input class="form-control" name="nombre" id="nombre" placeholder="Nombre" type="text" autocomplete="off">
                     </div>
                     <div class="form-group col-md-2 col-sm-2">
                         <a href="#" name="myajax" id="myajax" class="btn btn-danger"><i class="glyphicon glyphicon-search"></i></a>

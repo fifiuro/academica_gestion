@@ -130,9 +130,6 @@ class PersonalController extends Controller
      */
     public function update(Request $request)
     {
-        $p1 = Persona::find($request->id_pe);
-        $p2 = Personal::find($request->id_pe);
-
         $v = \Validator::make($request->all(), [
             'nom' => 'required',
             'ape' => 'required',
@@ -145,6 +142,7 @@ class PersonalController extends Controller
             return redirect()->back()->withInput()->withErrors($v->errors());
         }
 
+        $p1 = Persona::find($request->id_pe);
         $p1->nombre = $request->nom;
         $p1->apellidos = $request->ape;
         $p1->ci = $request->ci;
@@ -152,11 +150,11 @@ class PersonalController extends Controller
         $p1->tel_dom = $request->td;
         $p1->celular = $request->cel;
         $p1->email = $request->email;
+        $p1->dir_dom = $request->dir_dom;
         $p1->save();
 
-        $p2->id_ca = $request->car;
-        $p2->estado = 1;
-        $p2->save();
+        $p2 = Personal::where('id_pe','=',$request->id_pe)
+                      ->update(['id_ca' => $request->car],['estado' => true]);
 
         Notification::success("La modificación se realizó correctamente.");
         return redirect('findPersonal');
