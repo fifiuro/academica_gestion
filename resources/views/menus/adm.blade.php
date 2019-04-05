@@ -105,12 +105,16 @@
     </a>
     <ul class="treeview-menu">
         <li>
-            <a href="{{ url('#') }}">
+            <a href="{{ url('mallaLunesViernes') }}">
                 <i class="fa fa-circle-o"></i> Lunes a viernes</a>
         </li>
         <li>
             <a href="{{ url('#') }}">
                 <i class="fa fa-circle-o"></i> Sábado</a>
+        </li>
+        <li>
+            <a href="{{ url('#') }}">
+                <i class="fa fa-circle-o"></i> Sitio</a>
         </li>
     </ul>
 </li>
