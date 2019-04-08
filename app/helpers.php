@@ -25,7 +25,7 @@ function formatoFechaReporte($fo){
 }
 /* Mostrar días de la semana */
 function dias($d){
-    $dias = array("","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo");
+    $dias = array("","Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado");
     $d = explode(",",$d);
     $j = 0;
     $m = "";
@@ -274,116 +274,60 @@ function listadoCursos($curso){
 }
 
 /** MALLA DE CURSOS */
-function mallaCurso($malla){
-    $hora = array('',
-                '07:00','07:30',
-                '08:00','08:30',
-                '09:00','09:30',
-                '10:00','10:30',
-                '11:00','11:30',
-                '12:00','12:30',
-                '13:00','13:30',
-                '14:00','14:30',
-                '15:00','15:30',
-                '16:00','16:30',
-                '17:00','17:30',
-                '18:00','18:30',
-                '19:00','19:30',
-                '20:00','20:30',
-                '21:00','21:30',
-                '22:00','22:30',
-                '23:00','23:30',
-                '07:00','00:00');
-    /*$inicio = '<table class="table table-striped table-border">
-    <tbody>
-        <th>
-            <td>Aula 1</td>
-            <td>Aula 2</td>
-            <td>Aula 3</td>
-            <td>Aula 4</td>
-            <td>Aula 5</td>
-            <td>Aula 6</td>
-            <td>Aula 7</td>
-            <td>Aula 8</td>
-            <td>Aula 9</td>
-        </th>';
-    echo $inicio;*/
+function mallaCurso($malla,$iniciar){
+    $hora = array('','07:00','07:30','08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30','20:00','20:30','21:00','21:30','22:00','22:30','23:00','23:30','07:00','00:00');
 
-    /** MOSTRANDO CURSOS */
-    /*$j = 1; // Indice del Vector $horas
-    $k = 1; // Indica la fila actual que se llena
-    
-    foreach($malla as $key => $m){
-        echo "<tr>";
-        for($j=1; $j<=10; $j++){
-            if($m->horario_i == $hora[$j] and $m->numero == $j){
-                echo '<td>'.$hora[$j].'</td>';
-                echo '<td>'.$m->codigo.'</td>';
-            }else{
-                if($j == 1){
-                    echo '<td>'.$hora[$j].'</td>';
-                }else{
-                    echo '<td>holas</td>';
-                }
-            }
-        }
-        echo '</tr>';
-    }
-    
-    $fin = '</tbody>
-    </table>';
-    echo $fin;*/
-
-    $inicio = '<table class="table table-striped table-border">
-    <tbody>
-        <th>
-            <td>Aula 1</td>
-            <td>Aula 2</td>
-            <td>Aula 3</td>
-            <td>Aula 4</td>
-            <td>Aula 5</td>
-            <td>Aula 6</td>
-            <td>Aula 7</td>
-            <td>Aula 8</td>
-            <td>Aula 9</td>
-        </th>';
+    $inicio = '<table class="table table-striped table-bordered">
+                <tbody>
+                    <th>
+                        <td>Aula 1</td>
+                        <td>Aula 2</td>
+                        <td>Aula 3</td>
+                        <td>Aula 4</td>
+                        <td>Aula 5</td>
+                        <td>Aula 6</td>
+                        <td>Aula 7</td>
+                        <td>Aula 8</td>
+                        <td>Aula 9</td>
+                    </th>';
     echo $inicio;
 
     for($i=1; $i<37; $i++){
         echo '<tr>';
         for($j=0; $j<=9; $j++){
-            if($j == 0){
-                echo '<td>'.$hora[$i].'</td>'; // Se muestra la hora correlativa
-            }else{
-                //echo '<td>'.buscar($malla,$hora[$i]).'</td>';
-                switch ($j) {
-                    case '1':
-                        echo '<td>'.buscar($malla,$hora[$i],$j).'</td>';
-                        break;
-                    case '2':
-                        echo '<td>'.buscar($malla,$hora[$i],$j).'</td>';
-                        break;
-                    case '3':
-                        echo '<td>'.buscar($malla,$hora[$i],$j).'</td>';
-                        break;
-                    case '4':
-                        echo '<td>'.buscar($malla,$hora[$i],$j).'</td>';
-                        break;
-                    case '5':
-                        echo '<td>'.buscar($malla,$hora[$i],$j).'</td>';
-                        break;
-                    case '6':
-                        echo '<td>'.buscar($malla,$hora[$i],$j).'</td>';
-                        break;
-                    case '7':
-                        echo '<td>'.buscar($malla,$hora[$i],$j).'</td>';
-                        break;
-                    case '8':
-                        echo '<td>'.buscar($malla,$hora[$i],$j).'</td>';
-                        break;
-                    case '9':
-                        echo '<td>'.buscar($malla,$hora[$i],$j).'</td>';
-                        break;
+            if($hora[$i] >=$iniciar->hora){
+                if($j == 0){
+                    echo '<td>'.$hora[$i].'</td>'; // Se muestra la hora correlativa
+                }else{
+                    switch ($j) {
+                        case '1':
+                            echo buscar($malla,$hora[$i],$j);
+                            break;
+                        case '2':
+                            echo buscar($malla,$hora[$i],$j);
+                            break;
+                        case '3':
+                            echo buscar($malla,$hora[$i],$j);
+                            break;
+                        case '4':
+                            echo buscar($malla,$hora[$i],$j);
+                            break;
+                        case '5':
+                            echo buscar($malla,$hora[$i],$j);
+                            break;
+                        case '6':
+                            echo buscar($malla,$hora[$i],$j);
+                            break;
+                        case '7':
+                            echo buscar($malla,$hora[$i],$j);
+                            break;
+                        case '8':
+                            echo buscar($malla,$hora[$i],$j);
+                            break;
+                        case '9':
+                            echo buscar($malla,$hora[$i],$j);
+                            break;
+                    }
                 }
             }
         }
@@ -392,12 +336,26 @@ function mallaCurso($malla){
 
     $fin = '</tbody>
     </table>';
+    echo $fin;
 }
 
 function buscar($malla,$hora,$j){
+    $curso = '';
+    $vacio = '<td></td>';
     foreach($malla as $key => $m){
         if($hora == $m->horario_i and $j == $m->numero){
-            return $m->codigo;
+            $curso = '<td rowspan="'.((numeroHorasDia(array($m->horario_i."-".$m->horario_f),0) * 2) + 1).'" style="background: #357dbb; color: white;"><strong>'.$m->nom_corto.'</strong><br>'.$m->horario_i.' '.$m->horario_f.'<br>'.formatoFechaReporte($m->f_inicio).' - '.formatoFechaReporte($m->f_fin).'<br>'.dias($m->dias).'<br>'.$m->instructor.' '.$m->duracion.'<td>';
+        }else{
+            if($m->horario_i <= $hora and $m->horario_f >= $hora){
+                $vacio = '';
+            }else{
+                $vacio = '<td></td>';
+            }
         }
+    }
+    if($curso != ''){
+        return $curso;
+    }else{
+        return $vacio;
     }
 }

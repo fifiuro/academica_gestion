@@ -263,13 +263,13 @@
                     <div class="col-xs-12">
                         <label for="dias">Dias</label>
                         <select name="dias[]" id="dias" class="form-control select2" multiple data-placeholder="Seleccione Días" style="width:100%" required>
-                            <option value="1">Lunes</option>
-                            <option value="2">Martes</option>
-                            <option value="3">Miércoles</option>
-                            <option value="4">Jueves</option>
-                            <option value="5">Viernes</option>
-                            <option value="6">Sábado</option>
-                            <option value="7">Domingo</option>
+                            <option value="2">Lunes<option>
+                            <option value="3">Martes</option>
+                            <option value="4">Miércoles</option>
+                            <option value="5">Jueves</option>
+                            <option value="6">Viernes</option>
+                            <option value="7">Sábado</option>
+                            <option value="1">Domingo</option>
                         </select>
                     </div>
                 </div>

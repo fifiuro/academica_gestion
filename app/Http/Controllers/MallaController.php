@@ -15,23 +15,30 @@ class MallaController extends Controller
      */
     public function mallaLunesViernes()
     {
-        $hoy = "2019-04-05";
+        $hoy = "2019-04-08";
         
         $malla = Cronograma::join('curso','curso.id_cu','=','cronograma.id_cu')
                            ->join('horario','horario.id_cr','=','cronograma.id_cr')
                            ->join('inicio_aula','inicio_aula.id_cr','=','cronograma.id_cr')
                            ->join('aula','aula.id_aul','=','inicio_aula.id_aul')
+                           ->join('inicio_instructor','cronograma.id_cr','=','inicio_instructor.id_cr')
+                           ->join('instructor','inicio_instructor.id_ins','=','instructor.id_ins')
+                           ->join('persona','instructor.id_pe','=','persona.id_pe')
                            ->where('cronograma.estado','=','2')
                            ->where('horario.f_fin','>=',$hoy)
                            ->where('horario.estado','=',true)
-                           ->whereRaw('(find_in_set(dayofweek(?), horario.dias)) > 0',[$hoy])
+                           ->whereRaw('dayofweek(?) in (2,3,4,5,6)',$hoy)
                            ->select('cronograma.id_cr',
                                     'curso.id_cu',
                                     'curso.codigo',
                                     'curso.nombre',
+                                    'curso.nom_corto',
                                     'aula.numero',
                                     'f_inicio',
-                                    'f_fin')
+                                    'f_fin',
+                                    'horario.dias',
+                                    DB::raw('concat(persona.nombre," ",persona.apellidos) as instructor'),
+                                    DB::raw('if(cronograma.duracion <> 0, cronograma.duracion, curso.duracion) as duracion'))
                             ->selectRaw('substring(horario.horarios,
                                             case (find_in_set(dayofweek(?), horario.dias))
                                                 when 1 then 1
@@ -57,8 +64,17 @@ class MallaController extends Controller
                             ->orderBy('horario_i','asc')
                             ->orderBy('aula.numero','asc')
                             ->get();
+
+        $iniciar = Cronograma::join('horario','cronograma.id_cr','=','horario.id_cr')
+                             ->where('cronograma.estado','=','2')
+                             ->where('horario.estado','=',true)
+                             ->where('horario.f_fin','>=',$hoy)
+                             ->whereRaw('(find_in_set(dayofweek(?), horario.dias)) > 0',[$hoy])
+                             ->selectRaw('substring(horarios,1,5) as hora')
+                             ->orderBy('hora','asc')
+                             ->first();
         
-        return view('malla.lun-vie', array('malla' => $malla));
+        return view('malla.lun-vie', array('malla' => $malla, 'iniciar' => $iniciar));
     }
 
     /**
