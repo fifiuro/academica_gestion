@@ -350,7 +350,7 @@ Route::group(['middleware' => 'auth'], function() {
     // Malla de cursos Lunes a Viernes
     Route::get('mallaLunesViernes','MallaController@mallaLunesViernes');
     // Malla de cursos Sábados
-    Route::post('mallaSabados','MallaController@mallaSabados');
+    Route::get('mallaSabados','MallaController@mallaSabados');
     // Malla de cursos Sitio
     Route::get('mallaSitio','MallaController@mallaSitio');
     /** ACCIONES  */

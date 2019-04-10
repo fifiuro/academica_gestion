@@ -109,11 +109,11 @@
                 <i class="fa fa-circle-o"></i> Lunes a viernes</a>
         </li>
         <li>
-            <a href="{{ url('#') }}">
+            <a href="{{ url('mallaSabados') }}">
                 <i class="fa fa-circle-o"></i> Sábado</a>
         </li>
         <li>
-            <a href="{{ url('#') }}">
+            <a href="{{ url('mallaSitio') }}">
                 <i class="fa fa-circle-o"></i> Sitio</a>
         </li>
     </ul>

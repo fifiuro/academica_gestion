@@ -5,7 +5,7 @@
 @endsection 
 
 @section('tituloPag') 
-  MALLA DE LUNES A VIERNES
+  MALLA {{ $titulo }}
 @endsection
 
 @section('subtituloPag')
@@ -14,7 +14,11 @@
 
 @section('contenido')
 
-{{ mallaCurso($malla, $iniciar) }}
+@if (isset($malla) and isset($iniciar))
+  {{ mallaCurso($malla, $iniciar) }}
+@else
+  <h3 style="color:tomato">No se tiene tiene resultado de Cursos en {{ $titulo }}</h3>
+@endif
 
 @endsection
 
