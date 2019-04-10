@@ -32,23 +32,24 @@ class InscripcionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request)
-    {
-        $ins = DB::select(" select i.id_insc, concat(p.nombre, ' ', p.apellidos) as alumno, concat(cu.codigo, ' ', cu.nombre) as curso, i.estado 
-                            from inscripcion as i
-                                inner join persona as p on (i.id_pe = p.id_pe)
-                                inner join cronograma as c on (i.id_cr = c.id_cr)
-                                inner join curso as cu on (c.id_cu = cu.id_cu)
-                            where
-                                concat(p.nombre,' ',p.apellidos) like '%".$request->nom."%' and
-                                concat(cu.codigo,' ',cu.nombre) like '%".$request->curso."%';");
+    {                       
+        $ins = Inscripcion::join('persona','persona.id_pe','=','inscripcion.id_pe')
+                          ->join('cronograma','cronograma.id_cr','=','inscripcion.id_cr')
+                          ->join('curso','curso.id_cu','=','cronograma.id_cu')
+                          ->select('inscripcion.id_insc','inscripcion.created_at','inscripcion.estado')
+                          ->selectRaw('concat(persona.nombre," ",persona.apellidos) as alumno')
+                          ->selectRaw('concat(curso.codigo," ",curso.nombre) as curso')
+                          ->whereRaw('concat(persona.nombre," ",persona.apellidos) like "%'.$request->nom.'%"')
+                          ->whereRaw('concat(curso.codigo," ",curso.nombre) like "%'.$request->curso.'%"')
+                          ->get();
         
         if(count($ins) > 0){
             return view('inscripcion.findInscripcion', array('ins' => $ins,
-                                                 'estado' => true));
+                                                             'estado' => true));
         }else{
             return view('inscripcion.findInscripcion', array('ins' => '',
-                                                 'estado' => false,
-                                                 'mensaje' => 'No se tuvieron coincidencias con : '.$request->nom.' o '.$request->curso));
+                                                             'estado' => false,
+                                                             'mensaje' => 'No se tuvieron coincidencias con : '.$request->nom.' o '.$request->curso));
         }
     }
 
