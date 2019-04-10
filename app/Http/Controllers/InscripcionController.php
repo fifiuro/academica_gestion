@@ -32,11 +32,12 @@ class InscripcionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request)
-    {                       
-        $ins = Inscripcion::join('persona','persona.id_pe','=','inscripcion.id_pe')
-                          ->join('cronograma','cronograma.id_cr','=','inscripcion.id_cr')
+    {
+        $ins = Inscripcion::join('cronograma','cronograma.id_cr','=','inscripcion.id_cr')
                           ->join('curso','curso.id_cu','=','cronograma.id_cu')
-                          ->select('inscripcion.id_insc','inscripcion.created_at','inscripcion.estado')
+                          ->join('alumno','alumno.id_alu','=','inscripcion.id_alu')
+                          ->join('persona','persona.id_pe','=','alumno.id_pe')
+                          ->select('inscripcion.id_insc','inscripcion.estado','inscripcion.created_at')
                           ->selectRaw('concat(persona.nombre," ",persona.apellidos) as alumno')
                           ->selectRaw('concat(curso.codigo," ",curso.nombre) as curso')
                           ->whereRaw('concat(persona.nombre," ",persona.apellidos) like "%'.$request->nom.'%"')
@@ -95,7 +96,6 @@ class InscripcionController extends Controller
         return view('inscripcion.createInscripcion', array("cronograma" => $crono, 
                                                            'horario' => $horario, 
                                                            'mes' => mes(), 
-                                                           'anio' => anio(), 
                                                            'aula' => $aula, 
                                                            'ins' => $ins));
     }
@@ -119,7 +119,7 @@ class InscripcionController extends Controller
             'id_cr.required' => 'Selecione un Curso para la inscripción.',
             'idAlu.required' => 'Seleccione una Persona para inscribir.',
             'precio.required' => 'Se necesita le precio para el curso',
-            'pago' => 'Seleccione un tipo de pago.'
+            'pago.required' => 'Seleccione un tipo de pago.'
         );
 
         $v = \Validator::make($request->all(), $rules, $messages);
@@ -128,9 +128,20 @@ class InscripcionController extends Controller
             return redirect()->back()->withInput()->withErrors($v->errors());
         }
 
+        $alumno = Alumno::where('id_pe','=',$request->idAlu)->get();
+
+        if(count($alumno) > 0){
+            $idAlumno = $alumno[0]->id_alu;
+        }else{
+            $Nalumno = new Alumno;
+            $Nalumno->id_pe = $request->idAlu;
+            $Nalumno->save();
+            $idAlumno = $Nalumno->id_alu;
+        }
+
         $ins = new Inscripcion;
         $ins->id_cr = $request->id_cr;
-        $ins->id_pe = $request->idAlu;
+        $ins->id_alu = $idAlumno;
         $ins->precio = $request->precio;
         $ins->tipo_pago = $request->pago;
         if($request->cuota != 1){
@@ -160,10 +171,6 @@ class InscripcionController extends Controller
         }
         $ins->obs = $request->obs;
         $ins->save();
-
-        $alumno = new Alumno;
-        $alumno->id_pe = $request->idAlu;
-        $alumno->save();
 
         $this->estadoInteres($request->idAlu,$request->id_cr);
         
@@ -224,11 +231,12 @@ class InscripcionController extends Controller
                             ->where('inicio_instructor.id_cr','=',$ins->id_cr)
                             ->select('nombre','apellidos')
                             ->get();
-        
-        $persona = Inscripcion::join('persona','persona.id_pe','=','inscripcion.id_pe')
+
+        $persona = Inscripcion::join('alumno','alumno.id_alu','=','inscripcion.id_alu')
+                              ->join('persona','persona.id_pe','=','alumno.id_pe')
                               ->where('inscripcion.id_cr','=',$ins->id_cr)
-                              ->where('inscripcion.id_pe','=',$ins->id_pe)
-                              ->select('persona.nombre','persona.apellidos')
+                              ->where('alumno.id_alu','=',$ins->id_alu)
+                              ->select('nombre','apellidos')
                               ->get();
         
         
@@ -325,27 +333,38 @@ class InscripcionController extends Controller
     public function destroy(Request $request)
     {
         $ins = Inscripcion::find($request->id);
-        $persona = $ins->id_pe;
+        $alumno = $ins->id_alu;
         $crono = $ins->id_cr;
         $ins->delete();
 
-        $this->agregar($persona, $crono);
+        $this->agregar($alumno, $crono);
     }
 
     /**
      * Agrega al inscrito como un interesado em el curso que se borró
      */
-    public function agregar($persona, $crono)
+    public function agregar($alumno, $crono)
     {
         $curso = Cronograma::find($crono);
+        $persona = Alumno::find($alumno);
 
-        $interes = new Interes;
-        $interes->id_pe = $persona;
-        $interes->id_cu = $curso->id_cu;
-        $interes->estado = 1;
-        $interes->save();
+        $buscarInteres = Interes::where('id_pe','=',$persona->id_pe)
+                                ->where('id_cu','=',$curso->id_cu)
+                                ->get();
 
-        Notitication::success('Se eliminó la Inscripción.');
+        if(count($buscarInteres) > 0){
+            $interes = Interes::find($buscarInteres->id_int);
+            $interes->estado = 1;
+            $interes->save();
+        }else{
+            $interes = new Interes;
+            $interes->id_pe = $persona->id_pe;
+            $interes->id_cu = $curso->id_cu;
+            $interes->estado = 1;
+            $interes->save();
+        }
+
+        Notification::success('Se eliminó la Inscripción.');
         return redirect('findInscripcion');
     }
 

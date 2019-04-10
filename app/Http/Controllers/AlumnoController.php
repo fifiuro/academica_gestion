@@ -291,13 +291,8 @@ class AlumnoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function findAluInt(Request $request)
-    {        
-        $todo = DB::select('select distinct * 
-                            from persona
-                            where 
-                                (id_pe in (select id_pe from alumno) or
-                                id_pe in (select id_pe from interes)) and
-                                concat(nombre," ",apellidos) like "%'.$request->nom.'%"');
+    {
+        $todo = Persona::whereRaw('concat(nombre," ",apellidos) like "%'.$request->nom.'%"')->limit(5)->get();
 
         if(count($todo) == 0){
             echo 'No se tuvieron coincidencias con: '.$request->nom;

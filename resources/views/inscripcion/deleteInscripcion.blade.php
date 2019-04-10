@@ -30,7 +30,7 @@
             {{ csrf_field() }}
             <div class="box-body">
                 <div class="text-center">
-                    <h2>¿Está seguro de eleminar esta Insctipción?</h2>
+                    <h2>¿Está seguro de eleminar esta Inscripción?</h2>
                     <input type="hidden" class="form-control" name="id" id="id" value="{{ $id }}">
                 </div>
             </div>

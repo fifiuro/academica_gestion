@@ -117,12 +117,12 @@
                         <a href="#" name="myajax" id="myajax" class="btn btn-danger"><i class="glyphicon glyphicon-search"></i></a>
                     </div>
                 </div>
-                <div class="row" id="ventanaResul" name="ventanaResul" style="display:none">
+                <div class="row" id="ventanaResul" name="ventanaResul" style="display:none; background-color: #def6fb">
                     <div class="col-md-12">
-                        <table class="table table-hover table-bordered table-striped">
+                        <table class="table table-hover table-striped">
                             <thead>
-                                <tr>
-                                    <td><strong>Nombre</strong></td>
+                                <tr style="background-color: #ffffff">
+                                    <td><strong>Nombre Alumno</strong></td>
                                     <td></td>
                                 </tr>
                             </thead>
