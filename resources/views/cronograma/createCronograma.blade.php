@@ -110,7 +110,7 @@
                         <input class="form-control" name="pre" id="pre" placeholder="Precio" type="text" disabled>
                     </div>
                     <div class="form-group col-md-3 col-sm-3">
-                        <label for="fechaInicio">Fecha Inicio</label>
+                        <label for="fechaInicio">Fecha Inicio:</label>
                         <div class="input-group date">
                             <div class="input-group-addon">
                                 <i class="fa fa-calendar"></i>

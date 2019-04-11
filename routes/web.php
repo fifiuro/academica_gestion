@@ -355,6 +355,30 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('mallaSitio','MallaController@mallaSitio');
     /** ACCIONES  */
 
+    /** ACCIONES A ASISTENCIA */
+    // Formulario de busqueda de Asistencia
+    Route::get('findAsistencia','AsistenciaController@index');
+    // Resultado de la busqueda de Asistencia
+    Route::post('findAsistencia','AsistenciaController@show');
+    
+    // Formulario de Nuevo Asistencia
+    Route::get('createAsistencia/{id}','AsistenciaController@create');
+    // Datos del Formulario con los datos del Nuevo Asistencia
+    Route::post('storeAsistencia','AsistenciaController@store');
+    // Formulario con los Datos a Modificar
+    Route::get('editAsistencia/{id}','AsistenciaController@edit');
+    // Pregunta de eliminacion del registro del Asistencia
+    Route::post('updateAsistencia','AsistenciaController@update');
+    // Pregunta de eliminacion del registro del Asistencia
+    Route::get('confirmAsistencia/{id}','AsistenciaController@confirmation');
+    // Eliminar los datos del Asistencia
+    Route::post('destroyAsistencia','AsistenciaController@destroy');
+    // Agregar un Asistencia de Curso a una persona existente
+    Route::post('addAsistencia','AsistenciaController@addAsistencia');
+    // Eliminar todos los Asistencia de curso de una persona
+    Route::get('allDestroyAsistencia/{id}','AsistenciaController@allDestroyAsistencia');
+    /** ACCIONES */
+
 });
 
 Auth::routes();

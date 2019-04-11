@@ -108,6 +108,12 @@
                     <i class="fa fa-child"></i>
                   </a>
                 @endif
+                {{-- Boton Llamar Asistencia --}}
+                @if ($c->estado == 2)
+                  <a href="{{ url('createAsistencia/'.$c->id_cr) }}" class="btn btn-primary">
+                    <i class="fa fa-spinner"></i>
+                  </a>
+                @endif
               </td>
             </tr>
             @endforeach
